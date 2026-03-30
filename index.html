@@ -4,532 +4,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MBLB - Sistem Informasi Pajak Mineral Bukan Logam dan Batuan</title>
+    <title>MBLB Portal - Sistem Informasi Pajak Galian C</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="shared.css">
 </head>
 
-<body class="bg-white overflow-x-hidden">
-    <!-- Animated Background -->
-    <div class="fixed inset-0 -z-10 overflow-hidden">
+<body class="min-h-screen bg-gray-950 text-white overflow-x-hidden">
+
+    <!-- Animated Gradient Background -->
+    <div class="fixed inset-0 -z-10">
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-950 via-indigo-950 to-purple-950"></div>
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse-slow"></div>
         <div
-            class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob">
+            class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse-slow animation-delay-3000">
         </div>
         <div
-            class="absolute top-0 -right-4 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000">
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-3xl animate-breathe">
         </div>
-        <div
-            class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000">
+        <!-- Grid pattern overlay -->
+        <div class="absolute inset-0 opacity-[0.03]"
+            style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 40px 40px;">
         </div>
     </div>
 
-    <!-- Navbar -->
-    <nav class="fixed w-full bg-white/80 backdrop-blur-xl shadow-sm z-50 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center gap-3 cursor-pointer"
-                    onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                    <div
-                        class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center transform hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-mountain text-xl text-white"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-black text-gray-900">MBLB</h1>
-                        <p class="text-xs text-gray-500">Pajak Galian C Digital</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-6">
-                    <a href="#features"
-                        class="hidden md:block text-gray-700 hover:text-indigo-600 font-semibold transition-colors smooth-scroll">Fitur</a>
-                    <a href="#roles"
-                        class="hidden md:block text-gray-700 hover:text-indigo-600 font-semibold transition-colors smooth-scroll">Role</a>
-                    <a href="#stats"
-                        class="hidden md:block text-gray-700 hover:text-indigo-600 font-semibold transition-colors smooth-scroll">Statistik</a>
-                    <button onclick="window.location.href='login.html'"
-                        class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-bold hover:shadow-lg transform hover:scale-105 transition-all">
-                        <i class="fa-solid fa-right-to-bracket mr-2"></i>Login
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="pt-32 pb-20 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="animate-fade-in-up">
-                    <div
-                        class="inline-block px-4 py-2 bg-indigo-100 rounded-full text-sm font-bold text-indigo-700 mb-6 animate-bounce-slow">
-                        🏔️ Platform Pajak MBLB Terintegrasi
-                    </div>
-                    <h1 class="text-5xl md:text-6xl font-black mb-6 leading-tight">
-                        Kelola Pajak Galian C
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
-                            Jadi Mudah
-                        </span>
-                    </h1>
-                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
-                        Platform digital end-to-end untuk pengelolaan pajak Mineral Bukan Logam dan Batuan. 
-                        Dari laporan harian hingga pembayaran, semua dalam satu sistem yang efisien dan transparan.
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <button onclick="window.location.href='login.html'"
-                            class="group px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition-all">
-                            <i class="fa-solid fa-rocket mr-2 group-hover:animate-bounce"></i>Mulai Sekarang
-                        </button>
-                        <button onclick="window.location.href='SRS-mblb.html'"
-                            class="px-8 py-4 bg-white border-2 border-indigo-600 text-indigo-600 rounded-xl font-bold text-lg hover:bg-indigo-50 transition-all">
-                            <i class="fa-solid fa-book mr-2"></i>Lihat SRS
-                        </button>
-                    </div>
-
-                    <!-- Key Stats Mini -->
-                    <div class="grid grid-cols-3 gap-4 mt-12">
-                        <div class="text-center">
-                            <p class="text-3xl font-black text-indigo-600 counter" data-target="5">0</p>
-                            <p class="text-sm text-gray-600 font-semibold">Jenis Mineral</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-3xl font-black text-purple-600 counter" data-target="3">0</p>
-                            <p class="text-sm text-gray-600 font-semibold">Wajib Pajak</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-3xl font-black text-green-600">24/7</p>
-                            <p class="text-sm text-gray-600 font-semibold">Online</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Floating Dashboard Preview -->
-                <div class="relative animate-fade-in-right">
-                    <div
-                        class="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full blur-3xl opacity-20 animate-pulse">
-                    </div>
-                    <div
-                        class="relative bg-white/90 backdrop-blur-xl rounded-3xl p-8 border border-gray-200 shadow-2xl transform hover:scale-105 transition-transform duration-500">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div
-                                class="stat-card bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 text-white transform hover:scale-110 transition-transform cursor-pointer">
-                                <i class="fa-solid fa-chart-line text-3xl mb-2"></i>
-                                <p class="text-3xl font-black">Rp 1.2M</p>
-                                <p class="text-sm text-green-100">PAD/Bulan</p>
-                            </div>
-                            <div
-                                class="stat-card bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl p-6 text-white transform hover:scale-110 transition-transform cursor-pointer">
-                                <i class="fa-solid fa-mountain text-3xl mb-2"></i>
-                                <p class="text-3xl font-black">250m³</p>
-                                <p class="text-sm text-indigo-100">Volume</p>
-                            </div>
-                            <div
-                                class="stat-card bg-gradient-to-br from-orange-500 to-red-600 rounded-xl p-6 text-white transform hover:scale-110 transition-transform cursor-pointer">
-                                <i class="fa-solid fa-file-invoice text-3xl mb-2"></i>
-                                <p class="text-3xl font-black">12</p>
-                                <p class="text-sm text-orange-100">SKPD</p>
-                            </div>
-                            <div
-                                class="stat-card bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl p-6 text-white transform hover:scale-110 transition-transform cursor-pointer">
-                                <i class="fa-solid fa-bolt text-3xl mb-2"></i>
-                                <p class="text-3xl font-black">99%</p>
-                                <p class="text-sm text-blue-100">Uptime</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="py-20 bg-gray-50/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 animate-fade-in">
-                <span class="text-indigo-600 font-bold text-sm uppercase tracking-wide">Fitur Unggulan</span>
-                <h2 class="text-4xl font-black text-gray-900 mb-4 mt-2">Solusi Lengkap untuk Pajak MBLB</h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Digitalisasi penuh dari laporan harian hingga pembayaran
-                </p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div
-                    class="feature-card group bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-indigo-200 transition-all transform hover:-translate-y-2 cursor-pointer">
-                    <div
-                        class="w-16 h-16 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-calculator text-3xl text-indigo-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Kalkulator Otomatis</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        Perhitungan pajak otomatis berdasarkan volume dan jenis mineral. Akurat & real-time.
-                    </p>
-                </div>
-
-                <div
-                    class="feature-card group bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-green-200 transition-all transform hover:-translate-y-2 cursor-pointer">
-                    <div
-                        class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-mobile-screen-button text-3xl text-green-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Mobile Field App</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        Aplikasi lapangan untuk staff checker dengan foto dokumentasi dan GPS tracking.
-                    </p>
-                </div>
-
-                <div
-                    class="feature-card group bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-purple-200 transition-all transform hover:-translate-y-2 cursor-pointer">
-                    <div
-                        class="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-file-invoice-dollar text-3xl text-purple-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Auto-Generate Dokumen</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        Sistem otomatis membuat Nota Perhitungan, SKPD, dan SSPD sesuai format resmi.
-                    </p>
-                </div>
-
-                <div
-                    class="feature-card group bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-orange-200 transition-all transform hover:-translate-y-2 cursor-pointer">
-                    <div
-                        class="w-16 h-16 bg-gradient-to-br from-orange-100 to-red-100 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-clipboard-check text-3xl text-orange-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Approval Workflow</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        Alur persetujuan terstruktur dari Admin hingga Kabid Penetapan.
-                    </p>
-                </div>
-
-                <div
-                    class="feature-card group bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-red-200 transition-all transform hover:-translate-y-2 cursor-pointer">
-                    <div
-                        class="w-16 h-16 bg-gradient-to-br from-red-100 to-pink-100 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-qrcode text-3xl text-red-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">QR Code Validation</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        Semua dokumen dilengkapi QR Code untuk mencegah pemalsuan.
-                    </p>
-                </div>
-
-                <div
-                    class="feature-card group bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-2xl hover:border-cyan-200 transition-all transform hover:-translate-y-2 cursor-pointer">
-                    <div
-                        class="w-16 h-16 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-chart-pie text-3xl text-cyan-600"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Dashboard Analitik</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        Monitoring PAD, trend volume, dan performa sistem real-time.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Roles Section -->
-    <section id="roles" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 animate-fade-in">
-                <span class="text-purple-600 font-bold text-sm uppercase tracking-wide">Multi-Role System</span>
-                <h2 class="text-4xl font-black text-gray-900 mb-4 mt-2">4 Role, 1 Platform</h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Setiap role memiliki dashboard dan fitur yang
-                    disesuaikan</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div
-                    class="role-card group bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-6 text-white hover:shadow-2xl transform hover:scale-105 transition-all cursor-pointer">
-                    <div
-                        class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform">
-                        <i class="fa-solid fa-user-tie text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Staff Lapangan</h3>
-                    <p class="text-sm text-indigo-100 mb-4">Input laporan harian & foto</p>
-                    <div class="flex items-center text-xs font-semibold">
-                        <span>3 Pages</span>
-                        <i class="fa-solid fa-arrow-right ml-auto group-hover:translate-x-2 transition-transform"></i>
-                    </div>
-                </div>
-
-                <div
-                    class="role-card group bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white hover:shadow-2xl transform hover:scale-105 transition-all cursor-pointer">
-                    <div
-                        class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform">
-                        <i class="fa-solid fa-building text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Admin Penetapan</h3>
-                    <p class="text-sm text-green-100 mb-4">Rekap & generate dokumen</p>
-                    <div class="flex items-center text-xs font-semibold">
-                        <span>4 Pages</span>
-                        <i class="fa-solid fa-arrow-right ml-auto group-hover:translate-x-2 transition-transform"></i>
-                    </div>
-                </div>
-
-                <div
-                    class="role-card group bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 text-white hover:shadow-2xl transform hover:scale-105 transition-all cursor-pointer">
-                    <div
-                        class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform">
-                        <i class="fa-solid fa-user-shield text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Kabid Penetapan</h3>
-                    <p class="text-sm text-orange-100 mb-4">Approval & monitoring</p>
-                    <div class="flex items-center text-xs font-semibold">
-                        <span>3 Pages</span>
-                        <i class="fa-solid fa-arrow-right ml-auto group-hover:translate-x-2 transition-transform"></i>
-                    </div>
-                </div>
-
-                <div
-                    class="role-card group bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl p-6 text-white hover:shadow-2xl transform hover:scale-105 transition-all cursor-pointer">
-                    <div
-                        class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform">
-                        <i class="fa-solid fa-user text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Wajib Pajak</h3>
-                    <p class="text-sm text-blue-100 mb-4">Lihat tagihan & bayar</p>
-                    <div class="flex items-center text-xs font-semibold">
-                        <span>3 Pages</span>
-                        <i class="fa-solid fa-arrow-right ml-auto group-hover:translate-x-2 transition-transform"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section id="stats"
-        class="py-20 bg-gradient-to-r from-indigo-600 to-purple-600 text-white relative overflow-hidden">
-        <div class="absolute inset-0 bg-pattern opacity-10"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-black mb-4">Performa & Efisiensi</h2>
-                <p class="text-xl text-indigo-100">Sistem yang terbukti meningkatkan produktivitas</p>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div class="text-center">
-                    <div class="text-5xl font-black mb-2 counter-large" data-target="20">0</div>
-                    <p class="text-lg font-semibold text-indigo-100">Pages Siap Pakai</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-5xl font-black mb-2">99%</div>
-                    <p class="text-lg font-semibold text-indigo-100">Uptime Sistem</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-5xl font-black mb-2">100%</div>
-                    <p class="text-lg font-semibold text-indigo-100">Paperless</p>
-                </div>
-                <div class="text-center">
-                    <div class="text-5xl font-black mb-2">24/7</div>
-                    <p class="text-lg font-semibold text-indigo-100">Support</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-20 bg-gray-50">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <!-- Header -->
+    <header class="relative z-10 pt-10 pb-6 text-center">
+        <div class="inline-flex items-center gap-3 mb-4 cursor-pointer" onclick="window.location.reload()">
             <div
-                class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-12 text-white shadow-2xl transform hover:scale-105 transition-transform">
-                <h2 class="text-4xl font-black mb-6">Siap Memulai?</h2>
-                <p class="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">
-                    Bergabunglah dengan sistem MBLB dan rasakan kemudahan pengelolaan pajak galian C yang modern dan efisien
-                </p>
-                <button onclick="window.location.href='login.html'"
-                    class="px-12 py-4 bg-white text-indigo-600 rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-110 transition-all">
-                    <i class="fa-solid fa-rocket mr-2"></i>Login Sekarang
-                </button>
+                class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/30 hover:scale-110 transition-transform">
+                <i class="fa-solid fa-mountain text-2xl text-white"></i>
+            </div>
+            <div class="text-left">
+                <h1 class="text-3xl font-black tracking-tight text-white">MBLB</h1>
+                <p class="text-xs text-indigo-300 font-medium tracking-wider uppercase">Pajak Mineral Bukan Logam & Batuan</p>
             </div>
         </div>
-    </section>
+        <div class="mt-6">
+            <div
+                class="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-sm text-indigo-300 font-semibold mb-4">
+                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                Digital Portal — Akses Cepat
+            </div>
+            <h2 class="text-4xl md:text-5xl font-black mt-3 leading-tight text-white">
+                Pilih Role &
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">Langsung
+                    Masuk</span>
+            </h2>
+            <p class="text-gray-400 mt-3 text-lg max-w-xl mx-auto">Selamat datang! Silakan pilih role di bawah untuk memulai pengelolaan pajak MBLB.</p>
+        </div>
+    </header>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <div
-                            class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
-                            <i class="fa-solid fa-mountain text-xl text-white"></i>
+    <!-- Portal Cards Grid -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-6">
+
+            <!-- Wajib Pajak -->
+            <div class="portal-card group cursor-pointer" onclick="portalLogin('Wajib Pajak')">
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/20 to-purple-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative bg-gray-900/60 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-indigo-500/50 transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-indigo-500/10 group-hover:-translate-y-1">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                            <i class="fa-solid fa-user text-xl text-white"></i>
                         </div>
-                        <div>
-                            <h3 class="text-xl font-black">MBLB</h3>
-                            <p class="text-xs text-gray-400">Pajak Galian C Digital</p>
+                        <span class="px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-full text-xs font-bold text-indigo-300">Eksternal</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Wajib Pajak</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-5">Lihat tagihan SPTPD, bayar pajak MBLB, dan pantau status pembayaran secara real-time.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800/50 text-indigo-400">
+                        <span class="text-sm font-bold group-hover:text-indigo-300 transition-colors">Masuk Sekarang</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bidang Pendaftaran -->
+            <div class="portal-card group cursor-pointer" onclick="portalLogin('Bidang Pendaftaran')">
+                <div class="absolute inset-0 bg-gradient-to-br from-pink-600/20 to-rose-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative bg-gray-900/60 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-pink-500/50 transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-pink-500/10 group-hover:-translate-y-1">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-14 h-14 bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg shadow-pink-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                            <i class="fa-solid fa-desktop text-xl text-white"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/20 rounded-full text-xs font-bold text-pink-300">Front Office</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Bidang Pendaftaran</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-5">Registrasi Wajib Pajak baru, verifikasi dokumen legalitas, dan pendaftaran objek MBLB.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800/50 text-pink-400">
+                        <span class="text-sm font-bold group-hover:text-pink-300 transition-colors">Masuk Sekarang</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Staff Lapangan -->
+            <div class="portal-card group cursor-pointer" onclick="portalLogin('Staff Lapangan')">
+                <div class="absolute inset-0 bg-gradient-to-br from-emerald-600/20 to-green-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative bg-gray-900/60 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-emerald-500/50 transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-emerald-500/10 group-hover:-translate-y-1">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                            <i class="fa-solid fa-clipboard-user text-xl text-white"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs font-bold text-emerald-300">Field Staff</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Staff Lapangan</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-5">Input laporan harian produksi, foto dokumentasi lokasi galian, dan penugasan survey.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800/50 text-emerald-400">
+                        <span class="text-sm font-bold group-hover:text-emerald-300 transition-colors">Masuk Sekarang</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Penetapan -->
+            <div class="portal-card group cursor-pointer" onclick="portalLogin('Admin Penetapan')">
+                <div class="absolute inset-0 bg-gradient-to-br from-orange-600/20 to-red-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative bg-gray-900/60 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-orange-500/50 transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-orange-500/10 group-hover:-translate-y-1">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                            <i class="fa-solid fa-building-columns text-xl text-white"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-orange-500/10 border border-orange-500/20 rounded-full text-xs font-bold text-orange-300">Internal</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Admin Penetapan</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-5">Rekap bulanan produksi, pendataan draft SPTPD, dan verifikasi volume material.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800/50 text-orange-400">
+                        <span class="text-sm font-bold group-hover:text-orange-300 transition-colors">Masuk Sekarang</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kabid Penetapan -->
+            <div class="portal-card group cursor-pointer" onclick="portalLogin('Kabid Penetapan')">
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative bg-gray-900/60 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-purple-500/50 transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-purple-500/10 group-hover:-translate-y-1">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                            <i class="fa-solid fa-user-tie text-xl text-white"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-purple-500/10 border border-purple-500/20 rounded-full text-xs font-bold text-purple-300">Pimpinan</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Kabid Penetapan</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-5">Approval SPTPD akhir, penandatanganan TTE digital, dan monitoring realisasi pajak.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800/50 text-purple-400">
+                        <span class="text-sm font-bold group-hover:text-purple-300 transition-colors">Masuk Sekarang</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bidang Penagihan -->
+            <div class="portal-card group cursor-pointer" onclick="portalLogin('Bidang Penagihan')">
+                <div class="absolute inset-0 bg-gradient-to-br from-teal-600/20 to-green-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative bg-gray-900/60 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-teal-500/50 transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-teal-500/10 group-hover:-translate-y-1">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-14 h-14 bg-gradient-to-br from-teal-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                            <i class="fa-solid fa-file-invoice-dollar text-xl text-white"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs font-bold text-teal-300">Internal</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Bidang Penagihan</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-5">Rekonsiliasi pembayaran dengan Bank, monitoring tagihan piutang, dan cetak SSPD.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800/50 text-teal-400">
+                        <span class="text-sm font-bold group-hover:text-teal-300 transition-colors">Masuk Sekarang</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kepala Dinas -->
+            <div class="portal-card group cursor-pointer" onclick="portalLogin('Kepala Dinas')">
+                <div class="absolute inset-0 bg-gradient-to-br from-rose-600/20 to-pink-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative bg-gray-900/60 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-rose-500/50 transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-rose-500/10 group-hover:-translate-y-1">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-14 h-14 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                            <i class="fa-solid fa-landmark text-xl text-white"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-rose-500/10 border border-rose-500/20 rounded-full text-xs font-bold text-rose-300">Executive</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Kepala Dinas</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-5">Dashboard eksekutif, statistik pendapatan daerah MBLB, trend revenue, dan realisasi.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800/50 text-rose-400">
+                        <span class="text-sm font-bold group-hover:text-rose-300 transition-colors">Masuk Sekarang</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Sistem -->
+            <div class="portal-card group cursor-pointer" onclick="portalLogin('Admin Sistem')">
+                <div class="absolute inset-0 bg-gradient-to-br from-amber-600/20 to-orange-600/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative bg-gray-900/60 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-amber-500/50 transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-amber-500/10 group-hover:-translate-y-1">
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-amber-500/25 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                            <i class="fa-solid fa-cogs text-xl text-white"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-xs font-bold text-amber-300">Superadmin</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Admin Sistem</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed mb-5">Kelola master data, tarif mineral per m3/ton, user management, dan audit log sistem.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-800/50 text-amber-400">
+                        <span class="text-sm font-bold group-hover:text-amber-300 transition-colors">Masuk Sekarang</span>
+                        <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Registration CTA -->
+        <div class="mt-8 mx-auto max-w-2xl">
+            <div class="relative bg-gradient-to-r from-indigo-600/20 to-purple-600/20 border border-indigo-500/20 rounded-2xl p-6 text-center group hover:border-indigo-500/40 transition-all cursor-pointer"
+                onclick="window.location.href='index.html#registrasi'">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                        <i class="fa-solid fa-user-plus text-white text-lg"></i>
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <h3 class="text-lg font-bold text-white">Registrasi Wajib Pajak Baru</h3>
+                        <p class="text-sm text-gray-400">Daftar sebagai Wajib Pajak dan ajukan perizinan galian MBLB baru</p>
+                    </div>
+                    <div class="sm:ml-auto">
+                        <div
+                            class="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl text-sm font-bold text-white hover:shadow-lg hover:shadow-indigo-500/20 transition-all group-hover:scale-105">
+                            Daftar Sekarang <i class="fa-solid fa-arrow-right ml-1.5"></i>
                         </div>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Platform terintegrasi untuk pengelolaan pajak Mineral Bukan Logam dan Batuan yang efisien dan transparan.
-                    </p>
                 </div>
-                <div>
-                    <h4 class="font-bold text-lg mb-4">Quick Links</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#features" class="hover:text-white transition-colors smooth-scroll">Fitur</a></li>
-                        <li><a href="#roles" class="hover:text-white transition-colors smooth-scroll">Role</a></li>
-                        <li><a href="login.html" class="hover:text-white transition-colors">Login</a></li>
-                        <li><a href="SRS-mblb.html" class="hover:text-white transition-colors">SRS</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-lg mb-4">Kontak</h4>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li><i class="fa-solid fa-phone mr-2 text-indigo-400"></i>+62 xxx xxxx xxxx</li>
-                        <li><i class="fa-solid fa-envelope mr-2 text-indigo-400"></i>info@mblb.go.id</li>
-                        <li><i class="fa-solid fa-location-dot mr-2 text-indigo-400"></i>Kabupaten Seluma, Bengkulu</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-400">
-                <p>&copy; 2026 MBLB. All rights reserved. Built with ❤️ for better governance.</p>
             </div>
         </div>
-    </footer>
+
+        <!-- Footer Info -->
+        <div class="mt-8 text-center">
+            <div class="inline-flex items-center gap-6 text-sm text-gray-500">
+                <a href="SRS-mblb.html" class="hover:text-indigo-400 transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-book"></i> SRS Dokumen Sistem
+                </a>
+            </div>
+            <p class="text-gray-600 text-xs mt-4">&copy; 2026 MBLB. Prototype Portal — Klik card untuk auto-login.</p>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loginOverlay"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-950/90 backdrop-blur-xl opacity-0 pointer-events-none transition-all duration-500">
+        <div class="text-center">
+            <div class="relative w-20 h-20 mx-auto mb-6">
+                <div class="absolute inset-0 border-4 border-indigo-500/20 rounded-full"></div>
+                <div class="absolute inset-0 border-4 border-transparent border-t-indigo-500 rounded-full animate-spin">
+                </div>
+                <div class="absolute inset-2 border-4 border-transparent border-t-purple-500 rounded-full animate-spin"
+                    style="animation-direction: reverse; animation-duration: 0.8s;"></div>
+            </div>
+            <p id="loginMessage" class="text-xl font-bold text-white mb-2">Logging in...</p>
+            <p id="loginSubMessage" class="text-sm text-gray-400">Mengarahkan ke dashboard</p>
+        </div>
+    </div>
 
     <script src="seed-data.js"></script>
+    <script src="shared.js"></script>
     <script>
-        // Smooth Scroll
-        document.querySelectorAll('.smooth-scroll').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
+        // Role configuration — matches quickLogin logic
+        const roles = {
+            'Wajib Pajak': { dashboard: 'Wajib Pajak/dashboard.html', username: 'wp.demo', name: 'PT. Minerba Makmur' },
+            'Bidang Pendaftaran': { dashboard: 'Bidang Pendaftaran/dashboard.html', username: 'fo.demo', name: 'Dewi Sartika' },
+            'Staff Lapangan': { dashboard: 'Staff Lapangan/dashboard.html', username: 'staff.demo', name: 'Budi Santoso' },
+            'Admin Penetapan': { dashboard: 'Admin Penetapan/dashboard.html', username: 'admin.demo', name: 'Siti Aminah' },
+            'Kabid Penetapan': { dashboard: 'Kabid Penetapan/dashboard.html', username: 'kabid.demo', name: 'Drs. H. Ahmad Yani' },
+            'Bidang Penagihan': { dashboard: 'Bidang Penagihan/dashboard.html', username: 'penagihan.demo', name: 'Rian Hidayat' },
+            'Kepala Dinas': { dashboard: 'Kepala Dinas/dashboard.html', username: 'kadis.demo', name: 'Ir. H. Syamsul Bahri, M.Si' },
+            'Admin Sistem': { dashboard: 'Admin Sistem/dashboard.html', username: 'sysadmin', name: 'Administrator' }
+        };
 
-        // Counter Animation
-        function animateCounter(element) {
-            const target = parseInt(element.getAttribute('data-target'));
-            const duration = 2000;
-            const step = target / (duration / 16);
-            let current = 0;
+        function portalLogin(role) {
+            const config = roles[role];
+            if (!config) return;
 
-            const timer = setInterval(() => {
-                current += step;
-                if (current >= target) {
-                    element.textContent = target + (element.classList.contains('counter-large') ? '+' : '');
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(current);
-                }
-            }, 16);
+            const overlay = document.getElementById('loginOverlay');
+            const msg = document.getElementById('loginMessage');
+            const subMsg = document.getElementById('loginSubMessage');
+
+            // Show overlay
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.classList.add('opacity-100');
+
+            msg.textContent = `Login sebagai ${role}`;
+            subMsg.textContent = `Mengarahkan ke dashboard ${role}...`;
+
+            // Save to localStorage
+            localStorage.setItem('mblb_current_user', JSON.stringify({
+                username: config.username,
+                name: config.name,
+                role: role,
+                loginTime: new Date().toISOString()
+            }));
+
+            // Initialize seed data
+            if (typeof initializeSeedData === 'function') { initializeSeedData(); }
+
+            // Redirect
+            setTimeout(() => { window.location.href = config.dashboard; }, 800);
         }
 
-        // Intersection Observer for animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    if (entry.target.classList.contains('counter') || entry.target.classList.contains('counter-large')) {
-                        animateCounter(entry.target);
-                        observer.unobserve(entry.target);
-                    }
-                }
+        // Entrance animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.portal-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 + (index * 80));
             });
-        }, { threshold: 0.5 });
-
-        document.querySelectorAll('.counter, .counter-large').forEach(counter => {
-            observer.observe(counter);
-        });
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('shadow-lg');
-            } else {
-                navbar.classList.remove('shadow-lg');
-            }
         });
     </script>
 
     <style>
-        @keyframes blob {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            33% {
-                transform: translate(30px, -50px) scale(1.1);
-            }
-
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
-            }
-        }
-
-        @keyframes fade-in-up {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fade-in-right {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes bounce-slow {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .animate-blob {
-            animation: blob 7s infinite;
-        }
-
-        .animation-delay-2000 {
-            animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-            animation-delay: 4s;
-        }
-
-        .animate-fade-in-up {
-            animation: fade-in-up 0.8s ease-out;
-        }
-
-        .animate-fade-in-right {
-            animation: fade-in-right 0.8s ease-out;
-        }
-
-        .animate-bounce-slow {
-            animation: bounce-slow 3s ease-in-out infinite;
-        }
-
-        .bg-pattern {
-            background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255, 255, 255, .05) 35px, rgba(255, 255, 255, .05) 70px);
-        }
-
-        .feature-card,
-        .role-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .stat-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        @keyframes pulse-slow { 0%, 100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 0.25; transform: scale(1.05); } }
+        @keyframes breathe { 0%, 100% { opacity: 0.08; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.15; transform: translate(-50%, -50%) scale(1.1); } }
+        .animate-pulse-slow { animation: pulse-slow 6s ease-in-out infinite; }
+        .animate-breathe { animation: breathe 8s ease-in-out infinite; }
+        .animation-delay-3000 { animation-delay: 3s; }
+        .portal-card { position: relative; }
     </style>
 </body>
 

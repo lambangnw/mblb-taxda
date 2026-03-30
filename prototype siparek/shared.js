@@ -260,7 +260,7 @@ function confirmAction(message, callback) {
 function logout() {
     if (confirm('Apakah Anda yakin ingin keluar?')) {
         localStorage.clear();
-        window.location.href = '../portal.html';
+        window.location.href = '../index.html';
     }
 }
 

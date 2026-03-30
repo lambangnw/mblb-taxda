@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -511,12 +511,12 @@
                     : '<span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold"><i class="fa-solid fa-circle-play mr-1"></i>Active</span>';
 
                 const closedInfo = isClosed
-                    ? `<div><p class="font-medium text-gray-800 text-xs">${r.closedBy}</p><p class="text-[10px] text-gray-400">${r.closedRole} Â· ${r.closedDate}</p></div>`
+                    ? `<div><p class="font-medium text-gray-800 text-xs">${r.closedBy}</p><p class="text-[10px] text-gray-400">${r.closedRole} · ${r.closedDate}</p></div>`
                     : '<span class="text-gray-400 text-xs">-</span>';
 
                 const actionBtn = !isClosed
                     ? `<button onclick="openTutupBuku(${r.tahun})" class="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-xs font-bold transition-colors"><i class="fa-solid fa-lock mr-1"></i>Tutup Buku</button>`
-                    : '<span class="text-gray-300 text-xs">â€”</span>';
+                    : '<span class="text-gray-300 text-xs">—</span>';
 
                 const progressColor = persen >= 100 ? 'bg-green-500' : persen >= 70 ? 'bg-amber-500' : 'bg-red-500';
 

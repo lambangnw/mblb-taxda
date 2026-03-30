@@ -367,7 +367,7 @@ function hitungBunga(pokok, jatuhTempoDesc, paymentDateStr = null) {
 function logout() {
     if (confirm('Apakah Anda yakin ingin keluar?')) {
         localStorage.removeItem('mblb_current_user');
-        window.location.href = '../login.html';
+        window.location.href = '../index.html';
     }
 }
 
@@ -389,11 +389,11 @@ function resetPrototypeData() {
 function checkAuth() {
     const path = window.location.pathname.replace(/\\/g, '/');
     // Skip auth check for login page, index, Wajib Pajak portal, documents, and static pages
-    if (path.includes('login.html') || path.endsWith('index.html') || path.includes('Wajib%20Pajak') || path.includes('Wajib Pajak') || path.includes('documents')) return;
+    if (path.includes('index.html') || path.endsWith('index.html') || path.includes('Wajib%20Pajak') || path.includes('Wajib Pajak') || path.includes('documents')) return;
 
     const user = getCurrentUser();
     if (!user.role) {
-        window.location.href = '../login.html';
+        window.location.href = '../index.html';
         return;
     }
 
@@ -413,7 +413,7 @@ function checkAuth() {
             showToast('Anda tidak memiliki akses ke halaman tersebut', 'error');
             window.location.href = '../' + firstMenu.url;
         } else {
-            window.location.href = '../login.html';
+            window.location.href = '../index.html';
         }
     }
 }

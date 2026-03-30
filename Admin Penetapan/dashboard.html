@@ -285,7 +285,7 @@
         // Check auth
         const currentUser = JSON.parse(localStorage.getItem('mblb_current_user') || '{}');
         if (!currentUser.role || currentUser.role !== 'Admin Penetapan') {
-            window.location.href = '../login.html';
+            window.location.href = '../index.html';
         }
         document.getElementById('userName').textContent = currentUser.nama || 'Admin';
         document.getElementById('userGreeting').textContent = currentUser.nama || 'Petugas Penetapan';

@@ -153,7 +153,7 @@
     <script>
         const currentUser = JSON.parse(localStorage.getItem('mblb_current_user') || '{}');
         if (!currentUser.role || currentUser.role !== 'Kabid Penetapan') {
-            window.location.href = '../login.html';
+            window.location.href = '../index.html';
         }
         if (document.getElementById('userName')) {
             document.getElementById('userName').textContent = currentUser.nama || currentUser.name || 'Kabid';
