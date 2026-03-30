@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tagihan Aktif - Wajib Pajak</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50 flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-mountain text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">MBLB</h2>
+                        <p class="text-xs text-indigo-200">Wajib Pajak</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <a href="dashboard.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Layanan Utama</p>
+                </div>
+                <a href="lapor-sptpd.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-file-pen w-5 text-center"></i>
+                    <span class="font-medium">Lapor SPTPD</span>
+                </a>
+                <a href="tagihan-aktif.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-file-invoice-dollar w-5 text-center"></i>
+                    <span class="font-medium">Tagihan Aktif</span>
+                </a>
+                <a href="riwayat-pembayaran.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-clock-rotate-left w-5 text-center"></i>
+                    <span class="font-medium">Riwayat</span>
+                </a>
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Akun</p>
+                </div>
+                <button onclick="logout()"
+                    class="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-red-600/20 text-red-200 hover:text-red-100 transition-smooth">
+                    <i class="fa-solid fa-right-from-bracket w-5 text-center"></i>
+                    <span class="font-medium">Keluar</span>
+                </button>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="flex-1 flex flex-col min-w-0 overflow-hidden lg:ml-64 transition-smooth h-screen">
+        <header class="bg-white shadow-sm z-10 sticky top-0">
+            <div class="flex items-center justify-between px-6 py-4">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Tagihan Aktif</h1>
+                        <p class="text-sm text-gray-500">Daftar Kewajiban Pembayaran</p>
+                    </div>
+                </div>
+                <!-- Profile -->
+                <div class="relative">
+                    <button onclick="toggleDropdown('profileDropdown')"
+                        class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                        <div
+                            class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">
+                            WP</div>
+                    </button>
+                    <div id="profileDropdown"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
+                        <button onclick="logout()"
+                            class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6">
+            <div id="billList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal"
+        class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity modal">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl transform scale-100 transition-transform">
+            <button onclick="closeModal('paymentModal')"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div
+                    class="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-indigo-100">
+                    <i class="fa-solid fa-wallet text-3xl text-indigo-600"></i>
+                </div>
+                <h3 class="text-2xl font-black text-gray-900 mb-2">Konfirmasi Pembayaran</h3>
+                <p class="text-gray-500 text-sm">Pilih metode pembayaran untuk menyelesaikan tagihan</p>
+            </div>
+
+            <div class="bg-gray-50 p-5 rounded-xl border border-gray-100 mb-6 space-y-3">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500">Nomor SPTPD</span>
+                    <span class="font-bold text-gray-900 font-mono" id="modalNomor">Loading...</span>
+                </div>
+                <div class="border-t border-gray-200"></div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600 font-medium">Total Tagihan</span>
+                    <span class="font-black text-indigo-700 text-xl" id="modalTotal">Rp 0</span>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <button onclick="processPayment('QRIS')"
+                    class="w-full group bg-white border border-gray-200 hover:border-indigo-500 hover:shadow-md p-4 rounded-xl transition-all flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-indigo-50">
+                            <i class="fa-solid fa-qrcode text-gray-600 group-hover:text-indigo-600"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold text-gray-900">QRIS</p>
+                            <p class="text-xs text-gray-500">Scan code instant</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 group-hover:text-indigo-500"></i>
+                </button>
+
+                <button onclick="processPayment('VA')"
+                    class="w-full group bg-white border border-gray-200 hover:border-indigo-500 hover:shadow-md p-4 rounded-xl transition-all flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center group-hover:bg-indigo-50">
+                            <i class="fa-solid fa-building-columns text-gray-600 group-hover:text-indigo-600"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold text-gray-900">Virtual Account</p>
+                            <p class="text-xs text-gray-500">Transfer Bank</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gray-300 group-hover:text-indigo-500"></i>
+                </button>
+            </div>
+
+            <div class="mt-6 text-center">
+                <p class="text-xs text-gray-400"><i class="fa-solid fa-lock mr-1"></i>Pembayaran aman & terverifikasi
+                    sistem</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('mblb_current_user') || '{}');
+        if (!currentUser.role || currentUser.role !== 'Wajib Pajak') {
+            window.location.href = '../login.html';
+        }
+
+        let currentWpId = 'WP001';
+        const wps = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]');
+        const matchedWp = wps.find(w => w.nama === currentUser.nama);
+        if (matchedWp) currentWpId = matchedWp.id;
+
+        let selectedSptpdId = null;
+
+        function loadBills() {
+            const sptpds = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]');
+            const unpaid = sptpds.filter(s => s.wpId === currentWpId && s.status === 'approved');
+            const container = document.getElementById('billList');
+
+            if (unpaid.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full flex flex-col items-center justify-center py-20 text-center">
+                        <div class="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 animate-pulse">
+                            <i class="fa-solid fa-check text-5xl text-green-500"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-gray-800 mb-2">Tidak Ada Tagihan</h3>
+                        <p class="text-gray-500 max-w-md">Hebat! Anda tidak memiliki tunggakan pajak saat ini. Terima kasih telah menjadi wajib pajak yang taat.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = unpaid.map(s => `
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg hover:border-indigo-100 transition-all card-hover flex flex-col h-full relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-red-50 rounded-bl-full -mr-4 -mt-4 z-0"></div>
+                    
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <span class="bg-indigo-50 text-indigo-700 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider mb-1 inline-block">SPTPD</span>
+                                <h4 class="font-black text-lg text-gray-900">${s.nomor}</h4>
+                            </div>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-red-50 text-red-600 text-xs font-bold rounded-full border border-red-100">
+                                <i class="fa-solid fa-circle-exclamation text-[10px]"></i> Belum Bayar
+                            </span>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6 flex-1">
+                             <div class="flex justify-between text-sm py-2 border-b border-gray-50">
+                                <span class="text-gray-500">Masa Pajak</span>
+                                <span class="font-semibold text-gray-700">${s.masaPajak.split(' ')[0]}</span>
+                            </div>
+                            <div class="flex justify-between text-sm py-2 border-b border-gray-50">
+                                <span class="text-gray-500">Tenggat Waktu</span>
+                                <span class="font-semibold text-red-500 flex items-center gap-1">
+                                    <i class="fa-regular fa-calendar"></i>
+                                    ${formatDate(s.jatuhTempo)}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-xl p-4 mb-4">
+                             <div class="flex justify-between items-center text-sm mb-1">
+                                <span class="text-gray-500">Total Tagihan</span>
+                            </div>
+                            <div class="text-2xl font-black text-indigo-700 tracking-tight">${formatCurrency(s.total)}</div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 mt-auto">
+                            <button onclick="window.open('../documents/draft-sptpd.html?id=${s.id}', '_blank')" 
+                                class="w-full py-2.5 px-4 rounded-xl border border-gray-200 text-gray-600 font-bold text-sm hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                                Lihat Dokumen
+                            </button>
+                            <button onclick="openPaymentModal('${s.id}')" 
+                                class="w-full py-2.5 px-4 rounded-xl bg-indigo-600 text-white font-bold text-sm hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5">
+                                Bayar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openPaymentModal(sptpdId) {
+            selectedSptpdId = sptpdId;
+            const sptpd = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]').find(s => s.id === sptpdId);
+
+            document.getElementById('modalNomor').textContent = sptpd.nomor;
+            document.getElementById('modalTotal').textContent = formatCurrency(sptpd.total);
+            openModal('paymentModal');
+        }
+
+        function processPayment(method) {
+            if (!selectedSptpdId) return;
+
+            showLoading();
+
+            setTimeout(() => {
+                const sptpds = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]');
+                const index = sptpds.findIndex(s => s.id === selectedSptpdId);
+
+                if (index !== -1) {
+                    sptpds[index].status = 'paid';
+                    localStorage.setItem('mblb_draft_sptpd', JSON.stringify(sptpds));
+
+                    // Create SSPD
+                    const sspdList = JSON.parse(localStorage.getItem('mblb_sspd') || '[]');
+                    sspdList.push({
+                        id: 'SSPD' + Date.now(),
+                        nomor: generateDocNumber('SSPD', '04'),
+                        tanggal: new Date().toISOString().split('T')[0],
+                        wpId: currentWpId,
+                        sptpdId: selectedSptpdId,
+                        jumlah: sptpds[index].total,
+                        caraBayar: method,
+                        bankPenerima: 'Bank Bengkulu',
+                        status: 'verified'
+                    });
+                    localStorage.setItem('mblb_sspd', JSON.stringify(sspdList));
+                }
+
+                hideLoading();
+                closeModal('paymentModal');
+                showToast('Pembayaran Berhasil!', 'success');
+                loadBills();
+            }, 2000);
+        }
+
+        loadBills();
+    </script>
+</body>
+
+</html>

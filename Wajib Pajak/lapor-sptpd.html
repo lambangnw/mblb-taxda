@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lapor SPTPD - Wajib Pajak</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-mountain text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">MBLB</h2>
+                        <p class="text-xs text-indigo-200">Wajib Pajak</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <a href="dashboard.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Layanan Utama</p>
+                </div>
+                <a href="lapor-sptpd.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-file-pen w-5 text-center"></i>
+                    <span class="font-medium">Lapor SPTPD</span>
+                </a>
+                <a href="tagihan-aktif.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-file-invoice-dollar w-5 text-center"></i>
+                    <span class="font-medium">Tagihan Aktif</span>
+                </a>
+                <a href="riwayat-pembayaran.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-clock-rotate-left w-5 text-center"></i>
+                    <span class="font-medium">Riwayat</span>
+                </a>
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Akun</p>
+                </div>
+                <button onclick="logout()"
+                    class="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-red-600/20 text-red-200 hover:text-red-100 transition-smooth">
+                    <i class="fa-solid fa-right-from-bracket w-5 text-center"></i>
+                    <span class="font-medium">Keluar</span>
+                </button>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+        <!-- Top Navbar -->
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Lapor SPTPD</h1>
+                        <p class="text-sm text-gray-500">Input Data Pajak Mandiri</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <button onclick="toggleDropdown('profileDropdown')"
+                            class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                            <div
+                                class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">
+                                WP</div>
+                            <div class="hidden md:block text-left">
+                                <p class="text-sm font-semibold text-gray-900" id="userName">User</p>
+                                <p class="text-xs text-gray-500">Wajib Pajak</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-sm text-gray-600"></i>
+                        </button>
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
+                            <button onclick="logout()"
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <i class="fa-solid fa-right-from-bracket w-4 text-center mr-2"></i>Keluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <main class="p-6">
+            <div class="max-w-4xl mx-auto">
+                <!-- Info Alert -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg flex items-start gap-3">
+                    <i class="fa-solid fa-circle-info text-blue-500 mt-0.5"></i>
+                    <div>
+                        <h4 class="font-bold text-blue-900 text-sm">Self Assessment</h4>
+                        <p class="text-sm text-blue-700">
+                            Anda sedang mengisi Surat Pemberitahuan Pajak Daerah (SPTPD).
+                            Pastikan data volume dan jenis mineral sesuai dengan kondisi riil di lapangan.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6 border-b border-gray-100 bg-gray-50/50">
+                        <h3 class="font-bold text-lg text-gray-900 flex items-center gap-2">
+                            <i class="fa-solid fa-file-pen text-indigo-600"></i>
+                            Formulir SPTPD
+                        </h3>
+                    </div>
+
+                    <form id="sptpdForm" onsubmit="handleSubmit(event)" class="p-6 space-y-6">
+                        <!-- Masa Pajak Section -->
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <h4 class="font-bold text-gray-700 mb-4 text-sm uppercase tracking-wide">Masa Pajak</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Bulan</label>
+                                    <div class="relative">
+                                        <select name="bulan" required
+                                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-white transition-shadow">
+                                            <option value="01">Januari</option>
+                                            <option value="02">Februari</option>
+                                            <option value="03">Maret</option>
+                                            <option value="04">April</option>
+                                            <option value="05">Mei</option>
+                                            <option value="06">Juni</option>
+                                            <option value="07">Juli</option>
+                                            <option value="08">Agustus</option>
+                                            <option value="09">September</option>
+                                            <option value="10">Oktober</option>
+                                            <option value="11">November</option>
+                                            <option value="12">Desember</option>
+                                        </select>
+                                        <div
+                                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fa-regular fa-calendar text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Tahun</label>
+                                    <div class="relative">
+                                        <select name="tahun" required
+                                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-white transition-shadow">
+                                            <option value="2026">2026</option>
+                                            <option value="2025">2025</option>
+                                        </select>
+                                        <div
+                                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fa-solid fa-calendar-days text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data Objek Section -->
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <h4 class="font-bold text-gray-700 mb-4 text-sm uppercase tracking-wide">Data Objek Pajak
+                            </h4>
+                            <div class="grid grid-cols-1 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Mineral</label>
+                                    <div class="relative">
+                                        <select id="jenisMineral" name="jenisMineral" required
+                                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none bg-white transition-shadow">
+                                            <!-- Populated by JS -->
+                                        </select>
+                                        <div
+                                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fa-solid fa-mountain text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Volume Pengambilan
+                                        (m³)</label>
+                                    <div class="relative">
+                                        <input type="number" name="volume" required min="1" placeholder="0"
+                                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow text-lg font-semibold">
+                                        <div
+                                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <i class="fa-solid fa-cube text-gray-400"></i>
+                                        </div>
+                                        <div
+                                            class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <span class="text-gray-500 text-sm font-bold">m³</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Summary Calculation -->
+                        <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100">
+                            <h4
+                                class="font-bold text-indigo-900 mb-4 text-sm uppercase tracking-wide flex items-center gap-2">
+                                <i class="fa-solid fa-calculator"></i> Simulasi Perhitungan
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-600">Harga Dasar (NSR)</span>
+                                    <span class="font-bold text-gray-900" id="previewNSR">Rp 0/m³</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-gray-600">Nilai Jual (Omzet)</span>
+                                    <span class="font-bold text-gray-900" id="previewNilaiJual">Rp 0</span>
+                                </div>
+                                <div class="border-t border-indigo-200 my-2"></div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-900 font-bold">Estimasi Pajak</span>
+                                    <span class="text-2xl font-black text-indigo-700" id="previewPajak">Rp 0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit"
+                            class="w-full bg-indigo-600 text-white font-bold py-4 rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            Kirim Laporan SPTPD
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('mblb_current_user') || '{}');
+        if (!currentUser.role || currentUser.role !== 'Wajib Pajak') {
+            window.location.href = '../login.html';
+        }
+        document.getElementById('userName').textContent = currentUser.namaUsaha || currentUser.nama;
+
+        // Identify WP
+        const wps = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]');
+        const currentWP = wps.find(w => w.nama === currentUser.nama) || wps[0];
+
+        // Load Minerals
+        const mineralList = JSON.parse(localStorage.getItem('mblb_jenis_mineral') || '[]');
+        const mineralSelect = document.getElementById('jenisMineral');
+        mineralList.forEach(m => {
+            const opt = document.createElement('option');
+            opt.value = m.id;
+            opt.textContent = m.nama;
+            opt.dataset.tarif = m.tarif;
+            mineralSelect.appendChild(opt);
+        });
+
+        // Live Calc
+        const form = document.getElementById('sptpdForm');
+        form.addEventListener('input', calculate);
+
+        function calculate() {
+            const mineralId = form.jenisMineral.value;
+            const volume = parseFloat(form.volume.value) || 0;
+            const mineral = mineralList.find(m => m.id === mineralId);
+
+            if (mineral) {
+                const config = JSON.parse(localStorage.getItem('mblb_konfigurasi') || JSON.stringify(KONFIGURASI_SISTEM));
+                const tarifPajak = (config.tarifPajakPersen || 20) / 100;
+                const nilaiJual = volume * mineral.tarif;
+                const pajak = nilaiJual * tarifPajak;
+
+                document.getElementById('previewNSR').textContent = formatCurrency(mineral.tarif) + '/m³';
+                document.getElementById('previewNilaiJual').textContent = formatCurrency(nilaiJual);
+                document.getElementById('previewPajak').textContent = formatCurrency(pajak);
+            }
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+
+            const periode = `${fd.get('tahun')}-${fd.get('bulan')}`;
+            const mineralId = fd.get('jenisMineral');
+            const volume = parseFloat(fd.get('volume'));
+            const mineral = mineralList.find(m => m.id === mineralId);
+            const config = JSON.parse(localStorage.getItem('mblb_konfigurasi') || JSON.stringify(KONFIGURASI_SISTEM));
+            const tarifPajak = (config.tarifPajakPersen || 20) / 100;
+            const nilaiJual = volume * mineral.tarif;
+            const pajak = nilaiJual * tarifPajak;
+
+            // Save as Rekap Bulanan (Source for Nota)
+            const rekapList = JSON.parse(localStorage.getItem('mblb_rekap_bulanan') || '[]');
+
+            const newRekap = {
+                id: 'RB' + Date.now(),
+                periode: periode,
+                wpId: currentWP.id,
+                jenisMineral: mineralId,
+                totalVolume: volume,
+                tarif: mineral.tarif,
+                nilaiJual: nilaiJual,
+                pajak: pajak,
+                status: 'pending_verification'
+            };
+
+            rekapList.push(newRekap);
+            localStorage.setItem('mblb_rekap_bulanan', JSON.stringify(rekapList));
+
+            showToast('SPTPD Berhasil Dikirim!', 'success');
+
+            // Redirect to view the generated document
+            setTimeout(() => {
+                // Open the document view (Assuming path relative to current page)
+                window.open(`../documents/sptpd.html?id=${newRekap.id}`, '_blank');
+                window.location.href = 'dashboard.html';
+            }, 1000);
+        }
+
+        // Set default Date
+        const today = new Date();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        form.bulan.value = month;
+
+        // Trigger calc initially
+        calculate();
+    </script>
+</body>
+
+</html>

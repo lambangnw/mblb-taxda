@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRS MBLB untuk Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .gradient-text { background: linear-gradient(135deg, #10b981, #0ea5e9); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .section-anchor:target { scroll-margin-top: 100px; }
+        
+        /* Official Doc Render Styles */
+        .paper-doc { background: #fff; border: 1px solid #000; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin: 2rem auto; font-family: Arial, sans-serif; font-size: 11px; color: #000; line-height: 1.3; }
+        .paper-doc table { border: 1px solid #000; width: 100%; margin: 5px 0; font-size: 11px; border-collapse: collapse; }
+        .paper-doc th, .paper-doc td { border: 1px solid #000; padding: 4px 8px; }
+        .paper-doc th { text-align: center; font-weight: bold; }
+        .doc-header-grid { display: grid; grid-template-columns: 80px 1fr 200px; gap: 10px; border-bottom: 1px solid #000; padding-bottom: 10px; margin-bottom: 10px; align-items: center; }
+        .doc-logo { width: 60px; height: 70px; background: #ddd; display: flex; align-items: center; justify-content: center; }
+        .doc-info-grid { display: grid; grid-template-columns: 150px 10px 1fr; gap: 2px; margin-bottom: 5px; }
+        .signature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; text-align: center; }
+    </style>
+</head>
+<body class="antialiased pb-20">
+
+    <!-- Sticky Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-emerald-600 text-white p-2 rounded-lg"><i class="fa-solid fa-code text-lg"></i></div>
+                <span class="font-bold text-xl tracking-tight">SRS Developer: MBLB</span>
+            </div>
+            <div class="text-sm font-semibold text-slate-500 bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-200 text-emerald-700">v4.1 Final (Assisted Self-Assessment)</div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="max-w-6xl mx-auto px-6 pt-16 pb-10">
+        <div class="text-center max-w-4xl mx-auto">
+            <p class="text-sm font-bold text-emerald-600 uppercase tracking-widest mb-3"><i class="fas fa-hammer mr-1"></i> Technical Requirements & Logic</p>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-5 leading-tight">
+                Blueprint Sistem <span class="gradient-text">Pajak MBLB</span>
+            </h1>
+            <p class="text-lg text-slate-500 leading-relaxed mb-6">
+                Dokumen teknis komprehensif bagi Software Engineer. Berisi aturan tabel, algoritma perhitungan pajak, mekanisme RBAC terpadu, detail <strong>input & output dari setiap fase bisnis</strong>, serta edge case handling untuk Pajak MBLB dengan sistem <b>Assisted Self-Assessment</b>.
+            </p>
+        </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="max-w-6xl mx-auto px-6 mb-12">
+        <div class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
+            <h2 class="text-lg font-extrabold text-slate-800 mb-5"><i class="fas fa-list-ol mr-2 text-emerald-600"></i>Daftar Isi Modul</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
+                <a href="#srs-1" class="flex items-center gap-3 p-3 rounded-xl hover:bg-emerald-50 transition group"><span class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-xs shrink-0">01</span><span class="font-semibold text-slate-700 group-hover:text-emerald-600">Arsitektur RBAC & Security</span></a>
+                <a href="#srs-2" class="flex items-center gap-3 p-3 rounded-xl hover:bg-emerald-50 transition group"><span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-black text-xs shrink-0">02</span><span class="font-semibold text-slate-700 group-hover:text-emerald-600">Siklus Bisnis, Input & Output</span></a>
+                <a href="#srs-3" class="flex items-center gap-3 p-3 rounded-xl hover:bg-emerald-50 transition group"><span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center font-black text-xs shrink-0">03</span><span class="font-semibold text-slate-700 group-hover:text-emerald-600">Algoritma Kalkulasi Pajak & Sanksi</span></a>
+                <a href="#srs-4" class="flex items-center gap-3 p-3 rounded-xl hover:bg-emerald-50 transition group"><span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center font-black text-xs shrink-0">04</span><span class="font-semibold text-slate-700 group-hover:text-emerald-600">Surat Teguran & Laporan Analitik</span></a>
+                <a href="#srs-5" class="flex items-center gap-3 p-3 rounded-xl hover:bg-emerald-50 transition group lg:col-span-2"><span class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center font-black text-xs shrink-0">05</span><span class="font-semibold text-slate-700 group-hover:text-emerald-600">Output Printer Resmi (Draft Perda)</span></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SRS #1: RBAC -->
+    <!-- ============================================================ -->
+    <div id="srs-1" class="section-anchor max-w-6xl mx-auto px-6 mb-16">
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-indigo-50 border-b border-indigo-100 p-6 flex items-center gap-4">
+                <div class="w-12 h-12 bg-indigo-600 text-white rounded-xl flex items-center justify-center font-black text-lg shadow-md">01</div>
+                <div>
+                    <h2 class="text-xl font-extrabold text-slate-900">Arsitektur RBAC & Security (Role-Based Access)</h2>
+                    <p class="text-sm text-slate-500">8 Entitas Actor, Dynamic Sidebar Render, Route Guards `checkAuth()`</p>
+                </div>
+            </div>
+            <div class="p-6 space-y-6">
+                <!-- Data Model -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Definisi Aktor (Hierarchy)</h3>
+                    <div class="grid md:grid-cols-2 gap-3 text-sm">
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg"><strong class="text-indigo-700">1. Admin Sistem</strong> — Superuser. Mengelola CRUD Master Harga Mineral, Kode Rekening, Tutup Buku Tahunan, dan Konfigurasi Menu Sidebar (Custom RBAC).</div>
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg"><strong class="text-blue-700">2. Kepala Dinas</strong> — Eksekutif (Read-Only). Memiliki akses ke Dashboard Laporan Realisasi Granular (Harian/Bulanan).</div>
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg"><strong class="text-emerald-700">3. Kabid Penetapan</strong> — Managerial. Melakukan ACC (Approval) terhadap Draft SPTPD sebelum sah diterbitkan dan disetujui untuk menjadi piutang.</div>
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg"><strong class="text-amber-700">4. Admin Penetapan</strong> — Operator Bapenda. Menerima laporan harian lapangan, me-generate Draft SPTPD Wajib Pajak (Assisting WP), dan menerbitkan Surat Teguran.</div>
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg"><strong class="text-purple-700">5. Staff Lapangan</strong> — Mobile Data Entry. Datang ke lokasi tambang (quarry) mencatat volume (ritase/tonase) ekskavasi material MBLB per hari.</div>
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg"><strong class="text-cyan-700">6. Bidang Pendaftaran dan Pendataan</strong> — Loket Pelayanan. Mendaftarkan NPWPD baru, pendaftaran berkas objek pajak MBLB.</div>
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg"><strong class="text-green-700">7. Bidang Penagihan</strong> — Keuangan. Verifikasi Setoran (BKP/Kas Daerah). Mencetak SSPD Lunas, memonitor piutang / aging tunggakan.</div>
+                        <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg"><strong class="text-orange-700">8. Wajib Pajak</strong> — Publik. Pemilik tambang. Dapat login untuk melihat Tagihan (SPTPD Rampung yang divalidasi dinas), riwayat setor, dan SSPD.</div>
+                    </div>
+                </div>
+
+                <!-- CRITICAL WARNING -->
+                <div class="bg-red-50 border-2 border-red-200 rounded-xl p-5">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 bg-red-600 text-white rounded-lg flex items-center justify-center shrink-0"><i class="fas fa-triangle-exclamation text-lg"></i></div>
+                        <h3 class="text-base font-extrabold text-red-800">⚠️ IMPLEMENTASI ROUTE GUARDS & SIDEBAR</h3>
+                    </div>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-start gap-3 bg-white p-3 rounded border border-red-100"><span class="bg-red-100 text-red-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase mt-0.5 shrink-0">DEV-1.1</span><p class="text-slate-700">Backend/Sistem harus memakai **Single Source of Truth** untuk session: `localStorage.getItem('mblb_current_user')` melalui fungsi helper `getCurrentUser()`. Jangan ada hardcode variabel `mblb_user`.</p></div>
+                        <div class="flex items-start gap-3 bg-white p-3 rounded border border-red-100"><span class="bg-red-100 text-red-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase mt-0.5 shrink-0">DEV-1.2</span><p class="text-slate-700"><strong>Dynamic Sidebar:</strong> Sidebar menu TIDAK BOLEH di-hardcode di HTML. Semua element `.sidebar-menu` harus dikosongkan secara statis dan dirender otomatis via `renderDynamicSidebar()` di `shared.js` menggunakan relasi `MBLB_MENU_MASTER` dan `MBLB_DEFAULT_RBAC`.</p></div>
+                        <div class="flex items-start gap-3 bg-white p-3 rounded border border-red-100"><span class="bg-red-100 text-red-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase mt-0.5 shrink-0">DEV-1.3</span><p class="text-slate-700">Seluruh folder internal (/Admin Sistem, /Kepala Dinas, dll) WAJIB dilindungi oleh pemanggilan `checkAuth()` di fase `DOMContentLoaded`. User dengan Role A yang nekat mengakses index HTML milik Role B harus otomatis ter-kick / dialihkan ke halamannya sendiri.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SRS #2: SIKLUS ASSISTED SELF-ASSESSMENT & HASIL (INPUT/OUTPUT) -->
+    <!-- ============================================================ -->
+    <div id="srs-2" class="section-anchor max-w-6xl mx-auto px-6 mb-16">
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-blue-50 border-b border-blue-100 p-6 flex items-center gap-4">
+                <div class="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center font-black text-lg shadow-md">02</div>
+                <div>
+                    <h2 class="text-xl font-extrabold text-slate-900">Siklus Bisnis Inti (Input & Output Tiap Fase)</h2>
+                    <p class="text-sm text-slate-500">Menganut "Self-Assessment Berbantu (Assisted)". SPTPD dibuatkan oleh dinas berdasarkan validasi riil harian, lalu disetujui WP.</p>
+                </div>
+            </div>
+            <div class="p-6 space-y-8">
+                
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 flex justify-center overflow-x-auto">
+                    <div class="mermaid">
+graph TD
+  Mulai([Mulai]) --> Reg[Bidang Pendaftaran: Registrasi WP Baru]
+  Reg --> SPTPDBerkala[WP: Deklarasi Rencana Awal]
+  SPTPDBerkala --> Lapangan[Staff Lapangan: Pencatatan Produksi Harian]
+  Lapangan --> SistemRekap[Sistem: Rekapitulasi Otomatis Harian]
+  SistemRekap --> RekapBln[Sistem: Rekapitulasi Bulanan per WP]
+  RekapBln --> Cutoff{Tutup Buku Bulanan}
+  Cutoff --> Nota[Admin Penetapan: Buat Draft SPTPD]
+  Nota --> Acc[Kabid Penetapan: Approval Draft SPTPD]
+  Acc --> SKPD[Rilis SPTPD Rampung sbg Tagihan]
+  SKPD --> BayarBank[WP: Transfer Tagihan SPTPD]
+  BayarBank --> Verif[Bidang Penagihan: Verifikasi Lunas]
+  Verif --> SSPD[Cetak SSPD Kwitansi Lunas]
+  SSPD --> UpdatePAD[Dashboard Kadis: Realisasi PAD Bertambah]
+  UpdatePAD --> Selesai([Selesai])
+                    </div>
+                </div>
+
+                <!-- Step by step Input Output -->
+                <div class="space-y-6">
+                    <!-- FASE 1 -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-slate-100 border-b border-slate-200 px-4 py-3 font-bold text-slate-800 flex items-center gap-3">
+                            <span class="bg-emerald-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+                            Fase: Registrasi Wajib Pajak Baru
+                        </div>
+                        <div class="p-4 grid md:grid-cols-2 gap-4 text-sm bg-white">
+                            <div>
+                                <h4 class="font-bold text-slate-500 uppercase tracking-wider text-[10px] mb-2">Aksi / Input</h4>
+                                <ul class="list-disc pl-4 text-slate-700 space-y-1">
+                                    <li>WP datang ke <span class="font-semibold text-cyan-600">Bidang Pendaftaran dan Pendataan</span> membawa KTP & Izin Tambang.</li>
+                                    <li>Petugas meng-input form pendaftaran WP di sistem (Data Diri, Alamat Tambang, Titik Koordinat).</li>
+                                </ul>
+                            </div>
+                            <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+                                <h4 class="font-bold text-emerald-800 uppercase tracking-wider text-[10px] mb-2">HASIL / OUTPUT</h4>
+                                <ul class="list-disc pl-4 text-emerald-700 space-y-1">
+                                    <li><strong>NPWPD</strong> (Nomor Pokok Wajib Pajak Daerah) unik per WP di-generate otomatis.</li>
+                                    <li><strong>Akun Login Web WP:</strong> Sistem mengirimkan password acak / standard ke email/SMS WP untuk akses portal `Wajib Pajak`.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FASE 2 -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-slate-100 border-b border-slate-200 px-4 py-3 font-bold text-slate-800 flex items-center gap-3">
+                            <span class="bg-emerald-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
+                            Fase: Deklarasi Awal SPTPD
+                        </div>
+                        <div class="p-4 grid md:grid-cols-2 gap-4 text-sm bg-white">
+                            <div>
+                                <h4 class="font-bold text-slate-500 uppercase tracking-wider text-[10px] mb-2">Aksi / Input</h4>
+                                <ul class="list-disc pl-4 text-slate-700 space-y-1">
+                                    <li>WP mendeklarasikan "Rencana Produksi" (contoh: akan menambang Pasir Sungai sebanyak 10.000m3 bulan ini).</li>
+                                </ul>
+                            </div>
+                            <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+                                <h4 class="font-bold text-emerald-800 uppercase tracking-wider text-[10px] mb-2">HASIL / OUTPUT</h4>
+                                <ul class="list-disc pl-4 text-emerald-700 space-y-1">
+                                    <li>Database menetapkan <b>Target Kuota / Rencana</b> untuk quarry WP tersebut yang akan diawasi secara harian.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FASE 3 -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-slate-100 border-b border-slate-200 px-4 py-3 font-bold text-slate-800 flex items-center gap-3">
+                            <span class="bg-emerald-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span>
+                            Fase: Pencatatan Produksi Aktual (Harian)
+                        </div>
+                        <div class="p-4 grid md:grid-cols-2 gap-4 text-sm bg-white">
+                            <div>
+                                <h4 class="font-bold text-slate-500 uppercase tracking-wider text-[10px] mb-2">Aksi / Input</h4>
+                                <ul class="list-disc pl-4 text-slate-700 space-y-1">
+                                    <li><span class="font-semibold text-purple-600">Staff Lapangan</span> menerima penugasan langsung dari Kabid.</li>
+                                    <li>Melakukan inspeksi ke lokasi galian C WP dan mencatat volume (ritase/tonase) ekskavasi material MBLB.</li>
+                                    <li>Input data via Mobile UI yang telah dimodernisasi (Glassmorphism Indigo) untuk efisiensi tinggi.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+                                <h4 class="font-bold text-emerald-800 uppercase tracking-wider text-[10px] mb-2">HASIL / OUTPUT</h4>
+                                <ul class="list-disc pl-4 text-emerald-700 space-y-1">
+                                    <li><strong>Data Transaksi Laporan Harian</strong> tersimpan di database dengan status `DRAFT_LAPORAN`.</li>
+                                    <li>Update Real-time pada <strong>Dashboard Eksekutif Kepala Dinas</strong> (Grafik Agregat Volume Tambang Kabupaten).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FASE 4 -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-slate-100 border-b border-slate-200 px-4 py-3 font-bold text-slate-800 flex items-center gap-3">
+                            <span class="bg-emerald-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">4</span>
+                            Fase: Rekapitulasi Bulanan
+                        </div>
+                        <div class="p-4 grid md:grid-cols-2 gap-4 text-sm bg-white">
+                            <div>
+                                <h4 class="font-bold text-slate-500 uppercase tracking-wider text-[10px] mb-2">Aksi / Input</h4>
+                                <ul class="list-disc pl-4 text-slate-700 space-y-1">
+                                    <li>Sistem secara otomatis mengumpulkan seluruh Laporan Harian (Ritase/Volume) dari Staff Lapangan selama 1 bulan penuh per WP.</li>
+                                    <li>Sistem menghitung total akumulasi gross material yang digali di lapangan (m3 / tonase).</li>
+                                </ul>
+                            </div>
+                            <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+                                <h4 class="font-bold text-emerald-800 uppercase tracking-wider text-[10px] mb-2">HASIL / OUTPUT</h4>
+                                <ul class="list-disc pl-4 text-emerald-700 space-y-1">
+                                    <li><strong>Draft Rekapitulasi Bulanan:</strong> Tabel akumulatif riwayat produksi harian sebulan penuh. Inilah pondasi data mentah yang jadi rujukan pembuatan Draft SPTPD bulanan ke depannya.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FASE 5 -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-slate-100 border-b border-slate-200 px-4 py-3 font-bold text-slate-800 flex items-center gap-3">
+                            <span class="bg-emerald-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">5</span>
+                            Fase: Verifikasi & Penerbitan SPTPD (Cut-off)
+                        </div>
+                        <div class="p-4 grid md:grid-cols-2 gap-4 text-sm bg-white">
+                            <div>
+                                <h4 class="font-bold text-slate-500 uppercase tracking-wider text-[10px] mb-2">Aksi / Input</h4>
+                                <ul class="list-disc pl-4 text-slate-700 space-y-1">
+                                    <li><span class="font-semibold text-blue-600">Admin Penetapan</span> di kantor Bapenda melakukan generate/tutup buku bulanan pada tanggal 28-31 tiap bulan.</li>
+                                    <li>Admin me-review kompilasi laporan harian Aktual Laporan Lapangan.</li>
+                                    <li><span class="font-semibold text-blue-600">Admin Penetapan</span> me-generate Draft SPTPD sebagai bentuk fasilitasi (Assisted) kepada WP.</li>
+                                    <li><span class="font-semibold text-emerald-600">Kabid Penetapan</span> me-review dan klik "<strong>Setujui SPTPD</strong>".</li>
+                                </ul>
+                            </div>
+                            <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+                                <h4 class="font-bold text-emerald-800 uppercase tracking-wider text-[10px] mb-2">HASIL / OUTPUT</h4>
+                                <ul class="list-disc pl-4 text-emerald-700 space-y-1">
+                                    <li><strong>Draft SPTPD (Internal):</strong> Kalkulasi kotor pajak MBLB. Status naik ke `VERIFIKASI_NOTA`.</li>
+                                    <li><strong>Dokumen SPTPD Rampung:</strong> Surat yang disahkan. Status naik ke `UNPAID_SPTPD` (Sah menjadi Tagihan Terbuka bagi WP).</li>
+                                    <li><strong>Notifikasi / Tagihan Tampil:</strong> SPTPD langsung tampil di portal Wajib Pajak untuk dibayar. Jatuh tempo dihitung +30 hari sejak rilis.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FASE 6 -->
+                    <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-slate-100 border-b border-slate-200 px-4 py-3 font-bold text-slate-800 flex items-center gap-3">
+                            <span class="bg-emerald-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">6</span>
+                            Fase: Pembayaran & Pelunasan
+                        </div>
+                        <div class="p-4 grid md:grid-cols-2 gap-4 text-sm bg-white">
+                            <div>
+                                <h4 class="font-bold text-slate-500 uppercase tracking-wider text-[10px] mb-2">Aksi / Input</h4>
+                                <ul class="list-disc pl-4 text-slate-700 space-y-1">
+                                    <li><strong>WP</strong> (via sistem bank/portal) membayar tagihan SPTPD melalui Transfer VA / Kas Daerah.</li>
+                                    <li>Jika uang sudah masuk via Bank, <span class="font-semibold text-green-600">Bidang Penagihan</span> mencocokkan mutasi bank dengan nominal tagihan, lalu klik "<strong>Verifikasi Lunas</strong>".</li>
+                                </ul>
+                            </div>
+                            <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+                                <h4 class="font-bold text-emerald-800 uppercase tracking-wider text-[10px] mb-2">HASIL / OUTPUT</h4>
+                                <ul class="list-disc pl-4 text-emerald-700 space-y-1">
+                                    <li>Status Tagihan berubah dari <code>UNPAID_SPTPD</code> menjadi <code>PAID_SSPD</code>.</li>
+                                    <li><strong>Dokumen SSPD (Setoran):</strong> Kwitansi Bukti Lunas tercetak. Ini adalah bukti bayar mutlak (resmi) yang bisa di-download oleh WP.</li>
+                                    <li><strong>Realisasi PAD Naik:</strong> Pendapatan Asli Daerah (PAD) di Dashboard Kepala Dinas resmi diakui sebagai Realisasi.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SRS #3: ALGORITMA KALKULASI PAJAK -->
+    <!-- ============================================================ -->
+    <div id="srs-3" class="section-anchor max-w-6xl mx-auto px-6 mb-16">
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-amber-50 border-b border-amber-100 p-6 flex items-center gap-4">
+                <div class="w-12 h-12 bg-amber-500 text-white rounded-xl flex items-center justify-center font-black text-lg shadow-md">03</div>
+                <div>
+                    <h2 class="text-xl font-extrabold text-slate-900">Algoritma Kalkulasi Pajak, Opsen & Sanksi</h2>
+                    <p class="text-sm text-slate-500">Formulasi Matematika sesuai UU HKPD (Opsen MBLB 25%)</p>
+                </div>
+            </div>
+            <div class="p-6 space-y-6">
+                <!-- Rumus Utama -->
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div class="border border-slate-200 rounded-xl p-5">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">1. Dasar Pengenaan Pajak (DPP)</h3>
+                        <p class="text-sm text-slate-600 mb-2">Nilai Jual Hasil Tambang. Dihitung per material.</p>
+                        <div class="bg-slate-100 p-3 rounded font-mono text-sm border-l-4 border-indigo-500">
+                            DPP = Volume_Material × Harga_Dasar_Pasar
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">*Harga Pasar bersifat dinamis, diambil (di-snapshot) berdasarkan Master Harga per <b>tanggal ditetapkannya SPTPD</b>.</p>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-5">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">2. Perhitungan Pokok & Opsen</h3>
+                        <p class="text-sm text-slate-600 mb-2">Pajak MBLB secara default adalah 20% menurut Perda. Dari nominal tersebut (Opsional), dikenakan Opsen Provinsi sebesar 25% dari Pokok.</p>
+                        <div class="bg-slate-100 p-3 rounded font-mono text-xs space-y-1 border-l-4 border-emerald-500">
+                            Pajak_Kabupaten = DPP × Tarif_Dasar (20%)<br>
+                            Opsen_Provinsi = Pajak_Kabupaten × Tarif_Opsen_Provinsi (contoh: 25%)<br>
+                            Total_Tagihan_Pajak = Pajak_Kabupaten + Opsen_Provinsi
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edge Cases Denada -->
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-5">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-amber-600 text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase">EC-3.1 SANKSI 2% PER BULAN</span>
+                    </div>
+                    <p class="text-sm text-slate-700 mb-3">Jika Wajib Pajak membayar melewati Tanggal Jatuh Tempo SPTPD (biasanya 30 hari sejak terbit), sistem WAJIB menghitung denda keterlambatan secara progresif otomatis.</p>
+                    <div class="bg-white rounded-lg border border-amber-100 p-4 font-mono text-sm">
+                        <p class="text-slate-500">// Pseudocode untuk Billing Generation (SSPD Input)</p>
+                        <p>Bulan_Telat = <span class="text-blue-600">CEIL(DateDiff_Months(Tgl_Bayar, Tgl_Jatuh_Tempo))</span></p>
+                        <p>IF Bulan_Telat < 0 THEN Bulan_Telat = 0</p>
+                        <p>IF Bulan_Telat > 24 THEN Bulan_Telat = 24  <span class="text-slate-400">// Max denda 24 bln</span></p>
+                        <p class="mt-2 text-red-600">Nilai_Denda = Total_Tagihan_Pajak × (2%) × Bulan_Telat</p>
+                        <p class="font-bold text-amber-700 mt-2">Tagihan_Final_Dibayar = Total_Tagihan_Pajak + Nilai_Denda</p>
+                    </div>
+                    <p class="text-xs text-red-600 mt-3 font-bold">⚠️ Sistem pembayaran (Bidang Penagihan) TIDAK BOLEH menerima setoran SSPD yang nominalnya kurang dari Tagihan_Final_Dibayar (termasuk dendanya).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SRS #4: SURAT TEGURAN & LAPORAN -->
+    <!-- ============================================================ -->
+    <div id="srs-4" class="section-anchor max-w-6xl mx-auto px-6 mb-16">
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-purple-50 border-b border-purple-100 p-6 flex items-center gap-4">
+                <div class="w-12 h-12 bg-purple-600 text-white rounded-xl flex items-center justify-center font-black text-lg shadow-md">04</div>
+                <div>
+                    <h2 class="text-xl font-extrabold text-slate-900">Modul Surat Teguran & Report Analitik</h2>
+                    <p class="text-sm text-slate-500">Mekanisme punishment & laporan Eksekutif (Kadis)</p>
+                </div>
+            </div>
+            <div class="p-6 space-y-6">
+                <!-- Teguran -->
+                <div class="flex items-start gap-4 p-5 border border-slate-200 rounded-xl bg-white shadow-sm">
+                    <div class="w-10 h-10 bg-red-100 text-red-600 rounded-lg flex items-center justify-center shrink-0"><i class="fas fa-envelopes-bulk"></i></div>
+                    <div>
+                        <h4 class="font-bold text-slate-800">Surat Teguran WP (SP 1, SP 2, SP 3)</h4>
+                        <p class="text-sm text-slate-600 mt-1 mb-3">Admin Penetapan berhak mendaftar WP yang melewati batas jatuh tempo (piutang SPTPD). Status surat teguran dapat di-track dan dicetak fisik.</p>
+                        <div class="text-xs space-y-2 bg-slate-50 p-3 rounded border border-slate-100">
+                            <p><strong class="text-red-700">DEV-4.1:</strong> Tabel `Teguran` berelasi 1-to-M dengan `Wajib Pajak`. Kolom `tingkat_teguran` = ENUM('SP 1', 'SP 2', 'SP 3').</p>
+                            <p><strong class="text-red-700">DEV-4.2:</strong> Auto-suspend WP yang mendapati SP 3 (Pencabutan Izin sementara) — flag `is_active` WP menjadi `false` sampai denda dibayar.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Laporan Realisasi -->
+                <div class="flex items-start gap-4 p-5 border border-slate-200 rounded-xl bg-white shadow-sm">
+                    <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center shrink-0"><i class="fas fa-chart-line"></i></div>
+                    <div>
+                        <h4 class="font-bold text-slate-800">Laporan Realisasi & Tutup Buku Tahunan</h4>
+                        <p class="text-sm text-slate-600 mt-1 mb-3">Dashboard Utama Kepala Dinas memfilter Penerimaan Pokok dan Sanksi Denda. Jika tahun anggaran habis, dilakukan "Tutup Buku Baru".</p>
+                        <div class="text-xs space-y-2 bg-slate-50 p-3 rounded border border-slate-100">
+                            <p><strong class="text-indigo-700">DEV-4.3:</strong> <b>Aggregation Rule:</b> <code>SELECT SUM(pokok), SUM(denda) WHERE status = 'PAID_SSPD'</code>. Jika tagihan masih `UNPAID_SPTPD`, nilai itu disebut PIUTANG, DILARANG masuk ke grafik REALISASI PENDAPATAN.</p>
+                            <p><strong class="text-indigo-700">DEV-4.4:</strong> <b>Tutup Buku:</b> Freeze/Kunci seluruh database (SSPD & SPTPD) pada tanggal 31 Desember. Mencegah modifikasi/delete SSPD setelah di-audit oleh BPK.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ============================================================ -->
+    <!-- SRS #5: OUTPUT PRINTER PERDA -->
+    <!-- ============================================================ -->
+    <div id="srs-5" class="section-anchor max-w-6xl mx-auto px-6 mb-16">
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-slate-900 border-b border-slate-800 p-6 flex items-center gap-4">
+                <div class="w-12 h-12 bg-slate-700 text-white border border-slate-600 rounded-xl flex items-center justify-center font-black text-lg shadow-md">05</div>
+                <div>
+                    <h2 class="text-xl font-extrabold text-white">Document Output: Cetak Resmi Format Perda</h2>
+                    <p class="text-sm text-slate-400">Layout HTML ke PDF untuk Draft SPTPD, SPTPD Rampung, dan SSPD.</p>
+                </div>
+            </div>
+            <div class="p-6 bg-slate-100">
+                <p class="text-sm text-slate-700 mb-6 font-semibold"><i class="fas fa-print mr-2"></i>Spesifikasi CSS Cetak A4: Margin keliling 1cm, font utama Arial 11px hitam pekat, tabel grid garis tegas (bukan border-collapse abu-abu). Komponen wajib: Kop Bapenda, Nomor Register Transaksi, Detail Material Pajak, dan TTD Pejabat Berwenang.</p>
+                
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Nota Mockup -->
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-800 mb-2">1. DRAFT SPTPD (Internal Office)</h3>
+                        <div class="paper-doc m-0 transform scale-90 origin-top-left flex-shrink-0">
+                            <div class="doc-header-grid">
+                                <div class="doc-logo">[LOGO]</div>
+                                <div class="doc-title-center">
+                                    <h4>PEMERINTAH DAERAH</h4>
+                                    <h3>BADAN PENDAPATAN DAERAH</h3>
+                                    <p>Jln. Perkantoran Pusat No. 20</p>
+                                </div>
+                                <div style="text-align: right; font-weight: bold; border: 1px solid #000; padding: 5px; font-size:10px;">DRAFT SPTPD</div>
+                            </div>
+                            <div style="text-align: center; font-weight: bold; margin-bottom: 15px; text-decoration: underline;">PERHITUNGAN SPTPD MBLB</div>
+                            
+                            <div class="doc-info-grid">
+                                <div>Nomor</div><div>:</div><div>000645/SPTPD/04/1/2026</div>
+                                <div>NPWPD WP</div><div>:</div><div>P.1.0002818.13.16 - PT BUMI MAKMUR</div>
+                            </div>
+                            <table class="mt-4">
+                                <thead><tr><th>Obyek Pajak</th><th>Tarif Dasar 20%</th><th>Nominal Ketetapan</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Tanah Urug (1000 ritase)</td><td class="text-center">Rp 30.000 x 20%</td><td class="text-right">6.000.000</td></tr>
+                                    <tr><td colspan="2" class="text-right font-bold">TOTAL TAGIHAN PAJAK SPTPD</td><td class="text-right font-bold">6.000.000</td></tr>
+                                </tbody>
+                            </table>
+                            <div class="signature-grid mt-10">
+                                <div>Dibuat Oleh,<br>ADMIN PENETAPAN<br><br><br><u>Fulan, S.Kom</u></div>
+                                <div>Menyetujui,<br>KABID PENETAPAN<br><br><br><u>Parlyndungan, SE</u></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SSPD Mockup -->
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-800 mb-2">2. SSPD (Surat Tanda Setoran / Lunas)</h3>
+                        <div class="paper-doc m-0 transform scale-90 origin-top-left flex-shrink-0">
+                            <div class="doc-header-grid">
+                                <div class="doc-logo">[LOGO]</div>
+                                <div class="doc-title-center">
+                                    <h4>PEMERINTAH DAERAH</h4>
+                                    <h3>BADAN PENDAPATAN DAERAH</h3>
+                                </div>
+                                <div style="text-align: right; font-weight: bold; font-size:10px;">SSPD / KUITANSI SAH</div>
+                            </div>
+                            
+                            <div class="doc-info-grid mt-4">
+                                <div>Diterima Dari</div><div>:</div><div>PT BUMI MAKMUR</div>
+                                <div>Bank Kas Daerah</div><div>:</div><div>BANK BENGKULU</div>
+                                <div>Tanggal Lunas</div><div>:</div><div>15 Feb 2026</div>
+                            </div>
+                            <table class="mt-4">
+                                <thead><tr><th>Rekening Tujuan</th><th>Rincian Setoran</th><th>Nilai Bayar (Rp)</th></tr></thead>
+                                <tbody>
+                                    <tr><td>4.1.1.06.01.01</td><td>Pajak Pokok MBLB</td><td class="text-right">6.000.000</td></tr>
+                                    <tr><td>4.1.1.06.99.99</td><td>Sanksi Denda Keterlambatan (0 Bln)</td><td class="text-right">0</td></tr>
+                                    <tr><td colspan="2" class="text-right font-bold">TOTAL DITERIMA KAS DAERAH</td><td class="text-right font-bold">6.000.000</td></tr>
+                                </tbody>
+                            </table>
+                            <div class="border border-black p-4 mt-6 text-center text-xs italic">TERAAN KASIR BANK / COP BAPENDA<br><br><b>LUNAS DIVERIFIKASI BIDANG PENAGIHAN</b></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Initialize Mermaid -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+        });
+    </script>
+</body>
+</html>

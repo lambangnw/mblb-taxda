@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfigurasi Sistem - Admin SIPAREK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50">
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-gear text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">SIPAREK</h2>
+                        <p class="text-xs text-indigo-200">Admin Sistem</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <a href="dashboard.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-home w-5 text-center"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Master Data</p>
+                </div>
+                <a href="master-tarif.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-table w-5 text-center"></i>
+                    <span class="font-medium">Master Tarif</span>
+                </a>
+                <!-- Optional: Master Lokasi if exists -->
+                <!-- <a href="master-lokasi.html" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-map-location-dot w-5 text-center"></i>
+                    <span class="font-medium">Master Lokasi</span>
+                </a> -->
+                <a href="user-management.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-users w-5 text-center"></i>
+                    <span class="font-medium">User Management</span>
+                </a>
+
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Pengaturan</p>
+                </div>
+                <a href="konfigurasi.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-sliders w-5 text-center"></i>
+                    <span class="font-medium">Konfigurasi Sistem</span>
+                </a>
+                <a href="audit-log.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-list w-5 text-center"></i>
+                    <span class="font-medium">Audit Log</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Konfigurasi Sistem</h1>
+                        <p class="text-sm text-gray-500">Pengaturan Parameter Utama Aplikasi</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <button onclick="toggleDropdown('profileDropdown')"
+                            class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                            <div
+                                class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">
+                                SP</div>
+                            <div class="hidden md:block text-left">
+                                <p class="text-sm font-semibold text-gray-900">Siti Purnama</p>
+                                <p class="text-xs text-gray-500">Admin Sistem</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-sm text-gray-600"></i>
+                        </button>
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
+                            <button onclick="logout()"
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <i class="fa-solid fa-right-from-bracket w-4 text-center mr-2"></i>Keluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- 1. Parameter Pajak & Sanksi -->
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6">
+                    <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                        <div
+                            class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600">
+                            <i class="fa-solid fa-calculator text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">Parameter Pajak & Sanksi</h3>
+                            <p class="text-xs text-gray-500">Persentase tarif dan denda</p>
+                        </div>
+                    </div>
+
+                    <form id="formPajak" class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Tarif Pajak Reklame
+                                    (%)</label>
+                                <div class="relative">
+                                    <input type="number" id="tarifPajak" value="25" min="0" max="100"
+                                        class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                                    <span class="absolute right-3 top-2 text-gray-500">%</span>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">Sesuai UU HKPD (Max 25%)</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Surcharge Rokok
+                                    (%)</label>
+                                <div class="relative">
+                                    <input type="number" id="tarifRokok" value="25" min="0" max="100"
+                                        class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                                    <span class="absolute right-3 top-2 text-gray-500">%</span>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">Tambahan Khusus</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Denda Keterlambatan
+                                    (%)</label>
+                                <div class="relative">
+                                    <input type="number" id="tarifDenda" value="2" min="0" max="50"
+                                        class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                                    <span class="absolute right-3 top-2 text-gray-500 text-xs">/bln</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Max Bulan Denda</label>
+                                <input type="number" id="maxDenda" value="24"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                            </div>
+                        </div>
+
+                        <div class="pt-4 text-right">
+                            <button type="button" onclick="saveConfig('Pajak')"
+                                class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all text-sm font-semibold">
+                                <i class="fa-solid fa-save mr-2"></i>Simpan Perubahan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 2. Pejabat Penandatangan -->
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6">
+                    <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600">
+                            <i class="fa-solid fa-user-pen text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">Pejabat Penandatangan</h3>
+                            <p class="text-xs text-gray-500">Data untuk cetak SKPD & Dokumen</p>
+                        </div>
+                    </div>
+
+                    <form id="formPejabat" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Kepala Badan
+                                (Kaban)</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <input type="text" id="namaKaban" placeholder="Nama Lengkap & Gelar"
+                                    value="Dr. H. Hadi Wibowo, M.Si"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50">
+                                <input type="text" id="nipKaban" placeholder="NIP" value="19750101 200003 1 001"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Kepala Bidang
+                                (Kabid)</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <input type="text" id="namaKabid" placeholder="Nama Lengkap & Gelar"
+                                    value="Fajar Nugraha, S.E."
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50">
+                                <input type="text" id="nipKabid" placeholder="NIP" value="19820512 201001 1 005"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Bendahara
+                                Penerimaan</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <input type="text" id="namaBendahara" placeholder="Nama Lengkap & Gelar"
+                                    value="Sari Wulandari, A.Md"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50">
+                                <input type="text" id="nipBendahara" placeholder="NIP" value="19900817 201903 2 008"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50">
+                            </div>
+                        </div>
+
+                        <div class="pt-4 text-right">
+                            <button type="button" onclick="saveConfig('Pejabat')"
+                                class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all text-sm font-semibold">
+                                <i class="fa-solid fa-save mr-2"></i>Update Data Pejabat
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 3. Pengaturan Operasional -->
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6">
+                    <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                        <div
+                            class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600">
+                            <i class="fa-solid fa-server text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900">Operasional Sistem</h3>
+                            <p class="text-xs text-gray-500">Mode maintenance & batas waktu</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200">
+                            <div>
+                                <h4 class="font-bold text-gray-800">Maintenance Mode</h4>
+                                <p class="text-xs text-gray-500">Sistem hanya bisa diakses Admin</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" class="sr-only peer">
+                                <div
+                                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-600">
+                                </div>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Templat Jatuh Tempo
+                                (Hari)</label>
+                            <div class="flex gap-2">
+                                <input type="number" value="30"
+                                    class="flex-1 px-3 py-2 border border-gray-300 rounded-lg outline-none">
+                                <button
+                                    class="px-4 py-2 bg-orange-100 text-orange-600 rounded-lg hover:bg-orange-200 font-semibold text-sm">Set
+                                    Default</button>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Lama waktu pembayaran sejak SKPD terbit</p>
+                        </div>
+
+                        <div class="pt-2">
+                            <h4 class="font-bold text-gray-800 mb-2">Database Tools</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button onclick="backupData()"
+                                    class="px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-semibold flex items-center justify-center gap-2 group">
+                                    <i class="fa-solid fa-download text-gray-400 group-hover:text-gray-600"></i> Backup
+                                    JSON
+                                </button>
+                                <button onclick="resetData()"
+                                    class="px-4 py-3 border border-red-200 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 text-sm font-semibold flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-trash-can"></i> Reset Demo
+                                </button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+
+                    <!-- 3.5. Pengaturan Perhitungan NSR (NEW) -->
+                    <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                            <div
+                                class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600">
+                                <i class="fa-solid fa-calculator text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900">Perhitungan Nilai Sewa (NSR)</h3>
+                                <p class="text-xs text-gray-500">Faktor pengali & bobot variabel</p>
+                            </div>
+                        </div>
+
+                        <form id="formNSR" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Faktor Pengali
+                                    Sisi</label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="relative">
+                                        <input type="number" id="faktorSisi" value="1.0" step="0.1" min="0"
+                                            class="w-full pl-3 pr-10 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-purple-500 transition-all">
+                                        <span class="absolute right-3 top-2 text-gray-500 text-xs">x</span>
+                                    </div>
+                                    <div class="text-xs text-gray-500 flex items-center">
+                                        <i class="fa-solid fa-circle-info mr-1"></i>
+                                        <span>1.0 = Sisi ke-2 bayar Full (100%)<br>0.5 = Sisi ke-2 bayar 50%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pt-2">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="hitungJalanProtokolDouble"
+                                        class="w-4 h-4 text-purple-600 rounded focus:ring-purple-500">
+                                    <span class="text-sm text-gray-600">Otomatis tambah 10% untuk Jalan Negara</span>
+                                </label>
+                            </div>
+
+                            <div class="pt-4 text-right">
+                                <button type="button" onclick="saveConfig('NSR')"
+                                    class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all text-sm font-semibold">
+                                    <i class="fa-solid fa-save mr-2"></i>Simpan Rule
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- 3.5. Periode Pajak & Masa Tayang (NEW) -->
+                    <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                            <div
+                                class="w-10 h-10 bg-pink-100 rounded-lg flex items-center justify-center text-pink-600">
+                                <i class="fa-solid fa-calendar-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900">Periode Pajak & Masa Tayang</h3>
+                                <p class="text-xs text-gray-500">Pengaturan tahun anggaran aktif</p>
+                            </div>
+                        </div>
+
+                        <form id="formPeriode" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Tahun Anggaran
+                                    Aktif</label>
+                                <select id="tahunAnggaran"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                                    <option value="2026" selected>2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                </select>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Tanggal Mulai</label>
+                                    <input type="date" id="tglMulai" value="2026-01-01"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">Tanggal
+                                        Berakhir</label>
+                                    <input type="date" id="tglAkhir" value="2026-12-31"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-pink-500 transition-all">
+                                </div>
+                            </div>
+
+                            <div class="pt-2">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" checked
+                                        class="w-4 h-4 text-pink-600 rounded focus:ring-pink-500">
+                                    <span class="text-sm text-gray-600">Batasi input reklame hanya dalam periode
+                                        ini</span>
+                                </label>
+                            </div>
+
+                            <div class="pt-4 text-right">
+                                <button type="button" onclick="saveConfig('Periode')"
+                                    class="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-all text-sm font-semibold">
+                                    <i class="fa-solid fa-save mr-2"></i>Simpan Periode
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- 4. System Info -->
+                    <div class="bg-white rounded-xl shadow-md border border-gray-100 p-6">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                            <div
+                                class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                                <i class="fa-solid fa-circle-info text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900">Informasi Server</h3>
+                                <p class="text-xs text-gray-500">Status & Versi Aplikasi</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex justify-between py-2 border-b border-gray-50">
+                                <span class="text-sm text-gray-600">App Version</span>
+                                <span class="text-sm font-mono font-bold">v2.7.0 (Beta)</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-50">
+                                <span class="text-sm text-gray-600">Build Date</span>
+                                <span class="text-sm font-mono">12 Feb 2026</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-50">
+                                <span class="text-sm text-gray-600">Database Driver</span>
+                                <span class="text-sm font-mono text-green-600">Local Storage (Emulated)</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-gray-50">
+                                <span class="text-sm text-gray-600">PHP Version (Server)</span>
+                                <span class="text-sm font-mono">8.2.14</span>
+                            </div>
+                            <div class="flex justify-between py-2">
+                                <span class="text-sm text-gray-600">Memory Usage</span>
+                                <span class="text-sm font-mono text-orange-500">45 MB / 512 MB</span>
+                            </div>
+
+                            <div class="mt-6 bg-blue-50 p-4 rounded-lg flex items-start gap-3">
+                                <i class="fa-solid fa-shield-halved text-blue-500 mt-1"></i>
+                                <div>
+                                    <h5 class="text-xs font-bold text-blue-800 uppercase">License Status</h5>
+                                    <p class="text-sm text-blue-700">Enterprise License Active</p>
+                                    <p class="text-xs text-blue-600 mt-1">Valid until: Dec 2030</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-4 right-4 transform translate-y-full transition-transform duration-300 z-50">
+        <div class="bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3">
+            <i class="fa-solid fa-circle-check text-green-400"></i>
+            <span id="toastMessage">Pengaturan berhasil disimpan</span>
+        </div>
+    </div>
+
+    <script src="../shared.js"></script>
+    <script>
+        // Load Config from LocalStorage (Simulation)
+        document.addEventListener('DOMContentLoaded', () => {
+            const config = JSON.parse(localStorage.getItem('siparek_config')) || {};
+
+            if (config.pajak) {
+                document.getElementById('tarifPajak').value = config.pajak.tarif || 25;
+                document.getElementById('tarifRokok').value = config.pajak.rokok || 25;
+                document.getElementById('tarifDenda').value = config.pajak.denda || 2;
+                document.getElementById('maxDenda').value = config.pajak.maxDenda || 24;
+            }
+
+            if (config.pejabat) {
+                document.getElementById('namaKaban').value = config.pejabat.kaban?.nama || "Dr. H. Hadi Wibowo, M.Si";
+                document.getElementById('nipKaban').value = config.pejabat.kaban?.nip || "19750101 200003 1 001";
+                document.getElementById('namaKabid').value = config.pejabat.kabid?.nama || "Fajar Nugraha, S.E.";
+                document.getElementById('nipKabid').value = config.pejabat.kabid?.nip || "19820512 201001 1 005";
+                document.getElementById('namaBendahara').value = config.pejabat.bendahara?.nama || "Sari Wulandari, A.Md";
+                document.getElementById('nipBendahara').value = config.pejabat.bendahara?.nip || "19900817 201903 2 008";
+            }
+
+            if (config.periode) {
+                document.getElementById('tahunAnggaran').value = config.periode.tahun || "2026";
+                document.getElementById('tglMulai').value = config.periode.mulai || "2026-01-01";
+                document.getElementById('tglAkhir').value = config.periode.akhir || "2026-12-31";
+            }
+
+            if (config.nsr) {
+                document.getElementById('faktorSisi').value = config.nsr.faktorSisi || 1.0;
+                document.getElementById('hitungJalanProtokolDouble').checked = config.nsr.protokolPlus || false;
+            }
+        });
+
+        function saveConfig(type) {
+            let config = JSON.parse(localStorage.getItem('siparek_config')) || {};
+
+            if (type === 'Pajak') {
+                config.pajak = {
+                    tarif: document.getElementById('tarifPajak').value,
+                    rokok: document.getElementById('tarifRokok').value,
+                    denda: document.getElementById('tarifDenda').value,
+                    maxDenda: document.getElementById('maxDenda').value
+                };
+            } else if (type === 'Pejabat') {
+                config.pejabat = {
+                    kaban: { nama: document.getElementById('namaKaban').value, nip: document.getElementById('nipKaban').value },
+                    kabid: { nama: document.getElementById('namaKabid').value, nip: document.getElementById('nipKabid').value },
+                    bendahara: { nama: document.getElementById('namaBendahara').value, nip: document.getElementById('nipBendahara').value }
+                };
+            } else if (type === 'Periode') {
+                config.periode = {
+                    tahun: document.getElementById('tahunAnggaran').value,
+                    mulai: document.getElementById('tglMulai').value,
+                    akhir: document.getElementById('tglAkhir').value
+                };
+            } else if (type === 'NSR') {
+                config.nsr = {
+                    faktorSisi: document.getElementById('faktorSisi').value,
+                    protokolPlus: document.getElementById('hitungJalanProtokolDouble').checked
+                };
+            }
+
+
+            localStorage.setItem('siparek_config', JSON.stringify(config));
+            showToast(`Konfigurasi ${type} berhasil diperbarui!`);
+        }
+
+        function backupData() {
+            const data = JSON.stringify(localStorage);
+            const blob = new Blob([data], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `siparek_backup_${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            showToast('Backup data berhasil didownload');
+        }
+
+        function resetData() {
+            if (confirm('Apakah Anda yakin ingin mereset semua data demo?')) {
+                // Call seedData if available or manual clear
+                localStorage.removeItem('siparek_config'); // Clear config too
+                window.location.href = '../seed-data.html'; // Redirect to seeder
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.remove('translate-y-full');
+            setTimeout(() => {
+                toast.classList.add('translate-y-full');
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

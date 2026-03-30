@@ -1,0 +1,343 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Data Tarif - Admin Sistem MBLB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-gear text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">MBLB</h2>
+                        <p class="text-xs text-indigo-200">Admin Sistem</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu space-y-2">
+                <!-- Dynamic sidebar populated by shared.js renderDynamicSidebar() -->
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+        <!-- Top Navbar -->
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Master Data Tarif Mineral</h1>
+                        <p class="text-sm text-gray-500">Kelola jenis mineral, harga pasar & kode rekening</p>
+                    </div>
+                </div>
+                <button onclick="openModal()"
+                    class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-bold text-sm hover:shadow-lg transform hover:scale-105 transition-all">
+                    <i class="fa-solid fa-plus mr-2"></i>Tambah Mineral
+                </button>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <main class="p-6">
+            <!-- Info Alert -->
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-lg flex items-start gap-3">
+                <i class="fa-solid fa-circle-info text-blue-500 mt-0.5"></i>
+                <div>
+                    <p class="font-bold text-blue-900 text-sm">Tentang Master Tarif</p>
+                    <p class="text-blue-700 text-sm">Data ini digunakan sebagai acuan perhitungan pajak di seluruh
+                        modul. Perubahan tarif akan berlaku pada transaksi baru berikutnya.</p>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-gray-50 border-b border-gray-200">
+                                <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">No
+                                </th>
+                                <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Nama
+                                    Mineral</th>
+                                <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Satuan</th>
+                                <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Harga
+                                    Pasar</th>
+                                <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Tarif
+                                    Pajak</th>
+                                <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Kode
+                                    Rekening</th>
+                                <th
+                                    class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">
+                                    Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mineralTableBody" class="divide-y divide-gray-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Formula Info -->
+            <div class="mt-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-100">
+                <h4 class="font-bold text-indigo-900 mb-2"><i class="fa-solid fa-calculator mr-2"></i>Rumus Perhitungan
+                    Pajak</h4>
+                <div class="bg-white rounded-lg p-4 border border-indigo-200 space-y-2">
+                    <p class="font-mono text-sm text-gray-700">
+                        <strong>Pajak Kabupaten</strong> = Volume (m³) × Harga Pasar (Rp/m³) × Tarif Pajak (%)
+                    </p>
+                    <p class="font-mono text-sm text-purple-700" id="formulaOpsen">
+                        <strong>Opsen Provinsi</strong> = Pajak Kabupaten × <span id="formulaOpsenPersen">25</span>%
+                    </p>
+                    <p class="font-mono text-sm text-green-700">
+                        <strong>Total Bayar</strong> = Pajak Kabupaten + Opsen Provinsi
+                    </p>
+                    <hr class="my-2 border-gray-200">
+                    <p class="text-xs text-gray-500" id="formulaExample">
+                        Contoh: 100 m³ × Rp 20.000 × 20% = <strong>Rp 400.000</strong> + Opsen 25% (<strong>Rp 100.000</strong>) = <strong class="text-green-700">Total Rp 500.000</strong>
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Add/Edit -->
+    <div id="mineralModal"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 animate-fade-in-up">
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                <h3 class="font-bold text-lg text-gray-900" id="modalTitle">Tambah Jenis Mineral</h3>
+                <button onclick="closeModal()" class="p-2 rounded-lg hover:bg-gray-100">
+                    <i class="fa-solid fa-xmark text-gray-500"></i>
+                </button>
+            </div>
+            <form id="mineralForm" onsubmit="handleSave(event)" class="p-6 space-y-4">
+                <input type="hidden" id="editId">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Mineral</label>
+                    <input type="text" id="formNama" required
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="contoh: Pasir Sungai">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Satuan</label>
+                        <select id="formSatuan"
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <option value="m³">m³ (Meter Kubik)</option>
+                            <option value="ton">ton</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Tarif Pajak (%)</label>
+                        <input type="number" id="formTarifPajak" required min="1" max="100" value="20"
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Harga Pasar (Rp)</label>
+                        <input type="number" id="formTarif" required min="0"
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            placeholder="15000">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Kode Rekening</label>
+                        <input type="text" id="formKodeRek" required
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            placeholder="4.1.1.06.xx.xx">
+                    </div>
+                </div>
+
+                <!-- Preview -->
+                <div class="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                    <p class="text-xs text-gray-500 mb-1">Preview perhitungan (100 m³):</p>
+                    <p class="font-mono text-sm font-bold text-indigo-700" id="previewCalc">-</p>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="closeModal()"
+                        class="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        class="flex-1 px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-bold hover:shadow-lg transition-all">
+                        <i class="fa-solid fa-check mr-2"></i>Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        let minerals = JSON.parse(localStorage.getItem('mblb_jenis_mineral') || '[]');
+
+        function renderTable() {
+            const tbody = document.getElementById('mineralTableBody');
+            tbody.innerHTML = '';
+            minerals.forEach((m, i) => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 text-sm text-gray-500">${i + 1}</td>
+                        <td class="px-6 py-4">
+                            <p class="font-semibold text-gray-900">${m.nama}</p>
+                            <p class="text-xs text-gray-400">${m.id}</p>
+                        </td>
+                        <td class="px-6 py-4 text-sm">${m.satuan}</td>
+                        <td class="px-6 py-4">
+                            <span class="font-bold text-indigo-600">Rp ${m.tarif.toLocaleString('id-ID')}</span>
+                            <span class="text-xs text-gray-400">/${m.satuan}</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">${m.tarifPajak || 20}%</span>
+                        </td>
+                        <td class="px-6 py-4 font-mono text-sm text-gray-600">${m.kodeRekening || '-'}</td>
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex items-center justify-center gap-2">
+                                <button onclick="editMineral('${m.id}')"
+                                    class="p-2 rounded-lg hover:bg-indigo-100 text-indigo-600 transition-colors" title="Edit">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button onclick="deleteMineral('${m.id}')"
+                                    class="p-2 rounded-lg hover:bg-red-100 text-red-600 transition-colors" title="Hapus">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function openModal(editData = null) {
+            document.getElementById('mineralModal').classList.remove('hidden');
+            document.getElementById('modalTitle').textContent = editData ? 'Edit Jenis Mineral' : 'Tambah Jenis Mineral';
+            if (editData) {
+                document.getElementById('editId').value = editData.id;
+                document.getElementById('formNama').value = editData.nama;
+                document.getElementById('formSatuan').value = editData.satuan;
+                document.getElementById('formTarif').value = editData.tarif;
+                document.getElementById('formTarifPajak').value = editData.tarifPajak || 20;
+                document.getElementById('formKodeRek').value = editData.kodeRekening || '';
+            } else {
+                document.getElementById('mineralForm').reset();
+                document.getElementById('editId').value = '';
+                document.getElementById('formTarifPajak').value = 20;
+            }
+            updatePreview();
+        }
+
+        function closeModal() {
+            document.getElementById('mineralModal').classList.add('hidden');
+        }
+
+        function editMineral(id) {
+            const m = minerals.find(m => m.id === id);
+            if (m) openModal(m);
+        }
+
+        function deleteMineral(id) {
+            if (!confirm('Hapus jenis mineral ini?')) return;
+            minerals = minerals.filter(m => m.id !== id);
+            localStorage.setItem('mblb_jenis_mineral', JSON.stringify(minerals));
+            renderTable();
+            showToast('Mineral berhasil dihapus', 'success');
+        }
+
+        function handleSave(e) {
+            e.preventDefault();
+            const editId = document.getElementById('editId').value;
+            const data = {
+                id: editId || document.getElementById('formNama').value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+                nama: document.getElementById('formNama').value,
+                satuan: document.getElementById('formSatuan').value,
+                tarif: parseInt(document.getElementById('formTarif').value),
+                tarifPajak: parseInt(document.getElementById('formTarifPajak').value),
+                kodeRekening: document.getElementById('formKodeRek').value
+            };
+
+            if (editId) {
+                const idx = minerals.findIndex(m => m.id === editId);
+                if (idx !== -1) minerals[idx] = data;
+            } else {
+                if (minerals.find(m => m.id === data.id)) {
+                    showToast('ID mineral sudah ada!', 'error');
+                    return;
+                }
+                minerals.push(data);
+            }
+
+            localStorage.setItem('mblb_jenis_mineral', JSON.stringify(minerals));
+            closeModal();
+            renderTable();
+            showToast(editId ? 'Mineral berhasil diupdate' : 'Mineral berhasil ditambahkan', 'success');
+        }
+
+        function updatePreview() {
+            const tarif = parseInt(document.getElementById('formTarif')?.value || 0);
+            const persen = parseInt(document.getElementById('formTarifPajak')?.value || 20);
+            const pajakKab = 100 * tarif * (persen / 100);
+            // Opsen
+            const config = JSON.parse(localStorage.getItem('mblb_konfigurasi') || '{}');
+            const opsenAktif = config.opsenAktif !== false;
+            const opsenPersen = opsenAktif ? (config.opsenProvinsi || 0) : 0;
+            const opsenNom = Math.floor(pajakKab * (opsenPersen / 100));
+            const total = pajakKab + opsenNom;
+            let text = `100 × Rp ${tarif.toLocaleString('id-ID')} × ${persen}% = Rp ${pajakKab.toLocaleString('id-ID')}`;
+            if (opsenPersen > 0) {
+                text += ` + Opsen ${opsenPersen}% (Rp ${opsenNom.toLocaleString('id-ID')}) = Total Rp ${total.toLocaleString('id-ID')}`;
+            }
+            document.getElementById('previewCalc').textContent = text;
+            // Update formula section
+            const formulaOpsen = document.getElementById('formulaOpsen');
+            const formulaPersen = document.getElementById('formulaOpsenPersen');
+            if (formulaOpsen) formulaOpsen.style.display = opsenPersen > 0 ? '' : 'none';
+            if (formulaPersen) formulaPersen.textContent = opsenPersen;
+        }
+
+        // Listen to input changes for live preview
+        document.getElementById('formTarif')?.addEventListener('input', updatePreview);
+        document.getElementById('formTarifPajak')?.addEventListener('input', updatePreview);
+
+        // Initial render
+        renderTable();
+    </script>
+
+    <style>
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fade-in-up 0.3s ease-out;
+        }
+    </style>
+</body>
+
+</html>

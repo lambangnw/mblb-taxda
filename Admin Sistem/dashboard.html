@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Admin Sistem MBLB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-gear text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">MBLB</h2>
+                        <p class="text-xs text-indigo-200">Admin Sistem</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu space-y-2">
+                <!-- Dynamic sidebar populated by shared.js renderDynamicSidebar() -->
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+        <!-- Top Navbar -->
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Dashboard Admin Sistem</h1>
+                        <p class="text-sm text-gray-500">Konfigurasi & Master Data</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <button onclick="toggleDropdown('profileDropdown')"
+                            class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                            <div
+                                class="w-9 h-9 bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                SA</div>
+                            <span class="text-sm font-medium text-gray-700 hidden md:block"
+                                id="currentUser">Admin</span>
+                        </button>
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2">
+                            <button onclick="logout()"
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <i class="fa-solid fa-right-from-bracket w-4 text-center mr-2"></i>Keluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard Content -->
+        <main class="p-6">
+            <!-- KPI Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-mountain text-indigo-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-3xl font-bold text-gray-900" id="totalMineral">0</p>
+                    <p class="text-gray-500 text-sm mt-1">Jenis Mineral Terdaftar</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-users text-green-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-3xl font-bold text-gray-900" id="totalUsers">0</p>
+                    <p class="text-gray-500 text-sm mt-1">User Accounts</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-bullseye text-amber-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-2xl font-bold text-gray-900" id="targetPAD">Rp 0</p>
+                    <p class="text-gray-500 text-sm mt-1">Target PAD <span id="tahunAnggaran">2026</span></p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-user-group text-blue-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-3xl font-bold text-gray-900" id="totalWP">0</p>
+                    <p class="text-gray-500 text-sm mt-1">Wajib Pajak Terdaftar</p>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">
+                        <i class="fa-solid fa-bolt text-amber-500 mr-2"></i>Aksi Cepat
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <a href="master-tarif.html"
+                            class="flex items-center gap-3 p-4 bg-indigo-50 hover:bg-indigo-100 rounded-xl transition-colors group">
+                            <div
+                                class="w-10 h-10 bg-indigo-200 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-database text-indigo-700"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900 text-sm">Master Tarif</p>
+                                <p class="text-xs text-gray-500">Kelola jenis mineral & tarif</p>
+                            </div>
+                        </a>
+                                        <a href="user-management.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-users-gear w-5 text-center"></i>
+                    <span class="font-medium">Manajemen User</span>
+                </a>
+                <a href="konfigurasi.html"
+                            class="flex items-center gap-3 p-4 bg-green-50 hover:bg-green-100 rounded-xl transition-colors group">
+                            <div
+                                class="w-10 h-10 bg-green-200 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-sliders text-green-700"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900 text-sm">Konfigurasi</p>
+                                <p class="text-xs text-gray-500">Target PAD & info rekening</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mineral List Preview -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">
+                        <i class="fa-solid fa-mountain text-indigo-500 mr-2"></i>Daftar Mineral & Tarif
+                    </h3>
+                    <div class="space-y-3" id="mineralList"></div>
+                </div>
+            </div>
+
+            <!-- System Info -->
+            <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">
+                    <i class="fa-solid fa-circle-info text-blue-500 mr-2"></i>Informasi Sistem
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Bank Penerima</p>
+                        <p class="font-medium text-gray-900" id="bankPenerima">-</p>
+                        <p class="text-sm text-gray-600" id="noRekening">-</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Instansi</p>
+                        <p class="font-medium text-gray-900" id="namaDinas">-</p>
+                        <p class="text-sm text-gray-600" id="namaKab">-</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Versi Sistem</p>
+                        <p class="font-medium text-gray-900">MBLB v2.7</p>
+                        <p class="text-sm text-gray-600">Prototype Build</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        const user = getCurrentUser();
+        if (user.name) document.getElementById('currentUser').textContent = user.name;
+
+        // Load data
+        const minerals = JSON.parse(localStorage.getItem('mblb_jenis_mineral') || '[]');
+        const users = JSON.parse(localStorage.getItem('mblb_users') || '{}');
+        const wp = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]');
+        const config = JSON.parse(localStorage.getItem('mblb_konfigurasi') || '{}');
+        const riwayat = JSON.parse(localStorage.getItem('mblb_riwayat_pad') || '[]');
+        const activeYear = riwayat.find(r => r.status === 'active') || {};
+
+        // KPI Cards
+        document.getElementById('totalMineral').textContent = minerals.length;
+        document.getElementById('totalUsers').textContent = Object.keys(users).length;
+        document.getElementById('totalWP').textContent = wp.length;
+        document.getElementById('targetPAD').textContent = 'Rp ' + (activeYear.target || 0).toLocaleString('id-ID');
+        document.getElementById('tahunAnggaran').textContent = activeYear.tahun || '-';
+
+        // System Info
+        document.getElementById('bankPenerima').textContent = config.bankPenerima || '-';
+        document.getElementById('noRekening').textContent = 'No. Rek: ' + (config.noRekening || '-');
+        document.getElementById('namaDinas').textContent = config.namaDinas || '-';
+        document.getElementById('namaKab').textContent = config.namaKabupaten || '-';
+
+        // Mineral List
+        const mineralList = document.getElementById('mineralList');
+        minerals.forEach(m => {
+            mineralList.innerHTML += `
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div>
+                        <p class="font-medium text-gray-900">${m.nama}</p>
+                        <p class="text-xs text-gray-500">${m.kodeRekening || '-'}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-indigo-600">Rp ${m.tarif.toLocaleString('id-ID')}/${m.satuan}</p>
+                        <p class="text-xs text-gray-500">Pajak ${m.tarifPajak || 20}%</p>
+                    </div>
+                </div>`;
+        });
+    </script>
+</body>
+
+</html>

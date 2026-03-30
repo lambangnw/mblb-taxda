@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPTPD - Surat Pemberitahuan Pajak Daerah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="official.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar no-print bg-white shadow-sm px-6 py-4 flex justify-between items-center fixed top-0 w-full z-50">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
+                <i class="fa-solid fa-file-invoice"></i>
+            </div>
+            <span class="font-bold text-lg text-slate-800">Dokumen SPTPD</span>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="window.print()"
+                class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm font-medium">
+                <i class="fa-solid fa-print mr-2"></i>Cetak SPTPD
+            </button>
+            <button onclick="window.close()"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm font-medium">
+                Tutup
+            </button>
+        </div>
+    </nav>
+
+    <div class="paper-doc mt-24">
+        <table style="margin-bottom: 2px;">
+            <tr>
+                <td width="60%" align="center">
+                    <h3 style="margin: 0; font-size: 12pt; font-weight: 800;">PEMERINTAH KABUPATEN SELUMA</h3>
+                    <h2 style="margin: 0; font-size: 14pt; font-weight: 800;">BADAN PENDAPATAN DAERAH</h2>
+                    <div style="font-size: 9pt;">Jln. Soekarno-Hatta Pematang Aur Tais Kode Pos 38576</div>
+                </td>
+                <td width="40%" align="center">
+                    <h2 style="margin: 0; font-size: 14pt; font-weight: 800; border: none;">SPTPD</h2>
+                    <div style="font-size: 10pt; font-weight: bold;">(SURAT PEMBERITAHUAN PAJAK DAERAH)</div>
+                    <div style="font-size: 10pt; margin-top: 5px;">Nomor: <span id="docNumber">...</span></div>
+                    <div style="font-size: 9pt;">Tahun: <span id="tahunPajak">2026</span></div>
+                </td>
+            </tr>
+        </table>
+
+        <div style="display: grid; grid-template-columns: 100px 10px 1fr; gap: 2px; margin: 15px 0; font-size: 10pt;">
+            <div>Nama</div>
+            <div>:</div>
+            <div id="wpNamaUsaha">...</div>
+            <div>Alamat</div>
+            <div>:</div>
+            <div id="wpAlamat">...</div>
+            <div>NPWPD</div>
+            <div>:</div>
+            <div style="font-weight: bold;" id="wpNPWPD">...</div>
+            <div>Jatuh Tempo</div>
+            <div>:</div>
+            <div style="font-weight: bold; color: #dc2626;" id="jatuhTempo">...</div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th width="30">No</th>
+                    <th>Kode Rekening</th>
+                    <th>Uraian Pajak Daerah</th>
+                    <th width="120">Jumlah (Rp)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td align="center" style="vertical-align: top;">1</td>
+                    <td style="vertical-align: top;">4.1.1.04.01</td>
+                    <td style="vertical-align: top;">
+                        <div style="font-weight: bold;">Pajak Mineral Bukan Logam dan Batuan</div>
+                        <div id="skpd-uraian">Pengambilan Minerba</div>
+                        <div style="margin-top: 5px; font-style: italic;">
+                            Masa Pajak: <span id="masaPajak">...</span>
+                        </div>
+                    </td>
+                    <td align="right" style="vertical-align: top;" id="nilaiPajak">...</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" align="right" style="font-weight: bold;">Jumlah Ketetapan Pokok</td>
+                    <td align="right" style="font-weight: bold;" id="totalBayar">...</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div style="margin-top: 5px; font-style: italic; font-weight: bold;">
+            Terbilang: <span id="terbilang" style="text-transform: capitalize;">...</span>
+        </div>
+
+        <div style="margin-top: 20px; font-size: 9pt; border: 1px solid #000; padding: 5px;">
+            <strong>PERHATIAN :</strong><br>
+            1. Harap penyetoran dilakukan melalui Kas Daerah / Bank Bengkulu Cabang Tais.<br>
+            2. Apabila SPTPD ini tidak dibayar setelah tanggal jatuh tempo, dikenakan sanksi administrasi berupa bunga 2%
+            per bulan.
+        </div>
+
+        <div style="margin-top: 20px; text-align: right;">
+            <div style="display: inline-block; text-align: center; width: 250px;">
+                Tais, <span id="currentDate">...</span><br>
+                <span id="ttdJabatan">KEPALA BIDANG PENETAPAN</span><br>
+                <br><br><br><br>
+                <span style="font-weight: bold; text-decoration: underline;" id="ttdNama">PARLYNDUNGAN SIANTURI, SE, MH</span><br>
+                NIP. <span id="ttdNip">197608192010011007</span>
+            </div>
+        </div>
+
+        <!-- LAMPIRAN -->
+        <div style="page-break-before: always; margin-top: 60px;">
+            <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 25px;">
+                <h3 style="margin: 0; font-size: 16pt; font-weight: 800;">LAMPIRAN SPTPD</h3>
+                <div style="font-size: 12pt; font-weight: bold; margin-top: 5px;">RINCIAN REKAPITULASI OBJEK PAJAK DAERAH MBLB</div>
+            </div>
+            
+            <table style="width: 100%; border-collapse: collapse; font-size: 10pt;" border="1">
+                <thead style="background-color: #f3f4f6;">
+                    <tr>
+                        <th style="padding: 10px;">No</th>
+                        <th style="padding: 10px;">Tanggal Setor / Angkut</th>
+                        <th style="padding: 10px;">Jenis Mineral</th>
+                        <th style="padding: 10px; text-align: right;">Volume (m³)</th>
+                        <th style="padding: 10px; text-align: right;">Tarif Dasar / m³ (Rp)</th>
+                        <th style="padding: 10px; text-align: right;">Nilai Jual (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody id="lampiranBody">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        if (id) {
+            try {
+                const skpds = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]');
+                const skpd = skpds.find(s => s.id === id);
+                if (skpd) {
+                    const wp = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]').find(w => w.id === skpd.wpId);
+
+                    document.getElementById('docNumber').textContent = skpd.nomor;
+                    document.getElementById('masaPajak').textContent = skpd.masaPajak;
+                    document.getElementById('tahunPajak').textContent = skpd.tahunPajak;
+
+                    document.getElementById('wpNamaUsaha').textContent = wp?.namaUsaha;
+                    document.getElementById('wpAlamat').textContent = wp?.alamat;
+                    document.getElementById('wpNPWPD').textContent = wp?.npwpd;
+                    document.getElementById('jatuhTempo').textContent = formatDate(skpd.jatuhTempo);
+
+                    document.getElementById('nilaiPajak').textContent = formatCurrency(skpd.nilaiPajak);
+                    document.getElementById('totalBayar').textContent = formatCurrency(skpd.total);
+
+                    document.getElementById('currentDate').textContent = formatDate(skpd.tanggal, 'long');
+                    document.getElementById('terbilang').textContent = terbilang(skpd.total) + ' Rupiah';
+
+                    const configPenetapan = getPejabatConfig().penetapan;
+                    document.getElementById('ttdJabatan').textContent = configPenetapan?.jabatan || 'KEPALA BIDANG PENETAPAN';
+                    document.getElementById('ttdNama').textContent = configPenetapan?.nama || 'PARLYNDUNGAN SIANTURI, SE, MH';
+                    document.getElementById('ttdNip').textContent = configPenetapan?.nip || '197608192010011007';
+
+                    // Populate Lampiran
+                    const allRekap = JSON.parse(localStorage.getItem('mblb_rekap_bulanan') || '[]');
+                    const rekap = allRekap.find(r => r.id === skpd.rekapId) || allRekap.find(r => r.wpId === skpd.wpId && skpd.tanggal && r.periode === skpd.tanggal.substring(0,7));
+                    
+                    const laporans = JSON.parse(localStorage.getItem('mblb_laporan_harian') || '[]');
+                    const mineralsDb = JSON.parse(localStorage.getItem('mblb_jenis_mineral') || '[]');
+                    
+                    let lampiranTbody = document.getElementById('lampiranBody');
+                    
+                    const rekapData = rekap || {
+                        jenisMineral: 'pasir',
+                        totalVolume: skpd.nilaiJual ? (skpd.nilaiJual / 20000) : 500,
+                        periode: skpd.tanggal ? skpd.tanggal.substring(0,7) : '2026-02'
+                    };
+
+                    let wpLaporans = laporans.filter(l => l.wpId === skpd.wpId && l.tanggal && l.tanggal.startsWith(rekapData.periode));
+                    wpLaporans.sort((a,b) => new Date(a.tanggal) - new Date(b.tanggal));
+                    
+                    let html = '';
+                    let no = 1, sumVol = 0, sumNj = 0;
+
+                    if (wpLaporans.length === 0) {
+                        const primaryMin = rekapData.jenisMineral;
+                        const totalVol = rekapData.totalVolume;
+                        const ym = rekapData.periode;
+                            
+                        const vol1 = Math.floor(totalVol * 0.4);
+                        const vol2 = Math.floor(totalVol * 0.3);
+                        const vol3 = Math.floor(totalVol * 0.15);
+                        const vol4 = Math.floor(totalVol * 0.1);
+                        const volExt = totalVol - vol1 - vol2 - vol3 - vol4; 
+        
+                        wpLaporans.push({ tanggal: `${ym}-05`, items: [{ id: primaryMin, volume: vol1, nama: primaryMin }] });
+                        wpLaporans.push({ 
+                            tanggal: `${ym}-12`, 
+                            items: [
+                                { id: primaryMin, volume: vol2, nama: primaryMin },
+                                { id: 'batu-belah', volume: vol3, nama: 'Batu Belah' },
+                                { id: 'tanah-urug', volume: vol4, nama: 'Tanah Urug' }
+                            ]
+                        });
+                        wpLaporans.push({ tanggal: `${ym}-24`, items: [{ id: primaryMin, volume: volExt, nama: primaryMin }] });
+                    }
+
+                    wpLaporans.forEach(l => {
+                        (l.items || []).forEach(item => {
+                            const min = mineralsDb.find(m => m.id === item.id);
+                            const minNama = min ? min.nama : item.nama;
+                            const tarif = min ? min.tarif : 0;
+                            const nj = item.volume * tarif;
+                            sumVol += item.volume;
+                            sumNj += nj;
+                            
+                            html += `
+                                <tr>
+                                    <td align="center" style="padding: 8px;">${no++}</td>
+                                    <td style="padding: 8px;">${formatDate(l.tanggal) || l.tanggal}</td>
+                                    <td style="padding: 8px; font-weight: 500;">${minNama}</td>
+                                    <td align="right" style="padding: 8px; font-family: monospace;">${item.volume.toLocaleString('id-ID')}</td>
+                                    <td align="right" style="padding: 8px; font-family: monospace;">${formatCurrency(tarif)}</td>
+                                    <td align="right" style="padding: 8px; font-weight: bold; color: #1e3a8a; font-family: monospace;">${formatCurrency(nj)}</td>
+                                </tr>
+                            `;
+                        });
+                    });
+                    
+                    if (html === '') {
+                        html = '<tr><td colspan="6" align="center" style="padding: 30px; font-style: italic; color: #6b7280;">Sistem tidak mendeteksi breakdown harian untuk periode ini.</td></tr>';
+                    } else {
+                        html += `
+                            <tr style="background-color: #f8fafc; font-weight: 900; border-top: 2px solid #000;">
+                                <td colspan="3" align="center" style="padding: 12px; font-size: 11pt;">TOTAL SELURUHNYA</td>
+                                <td align="right" style="padding: 12px; font-size: 11pt;">${sumVol.toLocaleString('id-ID')} m³</td>
+                                <td align="center" style="padding: 12px;">-</td>
+                                <td align="right" style="padding: 12px; font-size: 11pt;">${formatCurrency(sumNj)}</td>
+                            </tr>
+                        `;
+                    }
+                    lampiranTbody.innerHTML = html;
+                }
+            } catch (e) { console.error(e); }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Eksekutif - Kepala Dinas SIPAREK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-landmark text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">SIPAREK</h2>
+                        <p class="text-xs text-indigo-200">Kepala Dinas</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <a href="dashboard.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-home w-5 text-center"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+        <!-- Top Nav -->
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Dashboard Eksekutif</h1>
+                        <p class="text-sm text-gray-500">Statistik & Monitoring PAD Reklame</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div
+                        class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-gray-100 rounded-lg text-xs text-gray-500">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span id="currentDate"></span>
+                    </div>
+                    <div class="relative">
+                        <button onclick="toggleDropdown('profileDropdown')"
+                            class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                            <div
+                                class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">
+                                KD</div>
+                            <div class="hidden md:block text-left">
+                                <p class="text-sm font-semibold text-gray-900">Kepala Dinas</p>
+                                <p class="text-xs text-gray-500">Executive</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-sm text-gray-600"></i>
+                        </button>
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
+                            <button onclick="logout()"
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <i class="fa-solid fa-right-from-bracket w-4 text-center mr-2"></i>Keluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="p-6 space-y-6">
+
+            <!-- ===== Revenue Overview Hero ===== -->
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 text-white shadow-xl">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="md:col-span-2">
+                        <div class="flex items-center gap-2 mb-1">
+                            <p class="text-indigo-100 text-sm">Total Realisasi PAD 2026</p>
+                            <span class="px-2 py-0.5 bg-white/15 rounded-full text-[10px] font-bold">YTD</span>
+                        </div>
+                        <p class="text-5xl font-black">Rp 9.2 M</p>
+                        <div class="flex items-center gap-3 mt-4">
+                            <div class="flex-1 bg-indigo-400 rounded-full h-2.5">
+                                <div class="bg-white rounded-full h-2.5" style="width: 61%"></div>
+                            </div>
+                            <span class="text-sm font-bold">61.3%</span>
+                        </div>
+                        <p class="text-xs text-indigo-100 mt-2">Target: Rp 15.000.000.000</p>
+                    </div>
+                    <div>
+                        <p class="text-indigo-100 text-sm mb-1">Bulan Ini (Feb)</p>
+                        <p class="text-4xl font-black">Rp 1.8 M</p>
+                        <p class="text-sm text-indigo-100 mt-1">↑ 12.4% vs Januari</p>
+                        <p class="text-xs text-indigo-200 mt-1">286 transaksi</p>
+                    </div>
+                    <div>
+                        <p class="text-indigo-100 text-sm mb-1">Hari Ini</p>
+                        <p class="text-4xl font-black">Rp 85.5 Jt</p>
+                        <p class="text-sm text-indigo-100 mt-1">12 transaksi</p>
+                        <p class="text-xs text-indigo-200 mt-1">terkonfirmasi</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== KPI Cards ===== -->
+            <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-8 gap-4">
+                <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 text-center card-hover">
+                    <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <i class="fa-solid fa-rectangle-ad text-indigo-600"></i>
+                    </div>
+                    <p class="text-2xl font-bold text-gray-900">423</p>
+                    <p class="text-[10px] text-gray-500 font-medium mt-0.5">Objek Reklame</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 text-center card-hover">
+                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <i class="fa-solid fa-users text-purple-600"></i>
+                    </div>
+                    <p class="text-2xl font-bold text-gray-900">156</p>
+                    <p class="text-[10px] text-gray-500 font-medium mt-0.5">Wajib Pajak</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 text-center card-hover">
+                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <i class="fa-solid fa-file-invoice-dollar text-green-600"></i>
+                    </div>
+                    <p class="text-2xl font-bold text-gray-900">312</p>
+                    <p class="text-[10px] text-gray-500 font-medium mt-0.5">SKPD Aktif</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 text-center card-hover">
+                    <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <i class="fa-solid fa-clock text-orange-600"></i>
+                    </div>
+                    <p class="text-2xl font-bold text-gray-900">18</p>
+                    <p class="text-[10px] text-gray-500 font-medium mt-0.5">Pending Approval</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 text-center card-hover">
+                    <div class="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <i class="fa-solid fa-check-double text-cyan-600"></i>
+                    </div>
+                    <p class="text-2xl font-bold text-gray-900">89%</p>
+                    <p class="text-[10px] text-gray-500 font-medium mt-0.5">Kepatuhan Bayar</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 text-center card-hover">
+                    <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <i class="fa-solid fa-triangle-exclamation text-red-600"></i>
+                    </div>
+                    <p class="text-2xl font-bold text-gray-900">23</p>
+                    <p class="text-[10px] text-gray-500 font-medium mt-0.5">Tunggakan</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 text-center card-hover">
+                    <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <i class="fa-solid fa-map-location-dot text-teal-600"></i>
+                    </div>
+                    <p class="text-2xl font-bold text-gray-900">47</p>
+                    <p class="text-[10px] text-gray-500 font-medium mt-0.5">Survey Bulan Ini</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-4 border border-gray-100 text-center card-hover">
+                    <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                        <i class="fa-solid fa-ban text-amber-600"></i>
+                    </div>
+                    <p class="text-2xl font-bold text-gray-900">8</p>
+                    <p class="text-[10px] text-gray-500 font-medium mt-0.5">Reklame Ilegal</p>
+                </div>
+            </div>
+
+            <!-- ===== Charts Row ===== -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Revenue Trend Chart -->
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Trend Penerimaan PAD</h3>
+                            <p class="text-xs text-gray-500">Realisasi bulanan vs target 2026</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="flex items-center gap-1.5 text-xs text-gray-500"><span
+                                    class="w-2.5 h-2.5 bg-indigo-500 rounded-sm"></span>Realisasi</span>
+                            <span class="flex items-center gap-1.5 text-xs text-gray-500"><span
+                                    class="w-2.5 h-2.5 bg-gray-300 rounded-sm"></span>Target</span>
+                        </div>
+                    </div>
+                    <div class="h-64">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Category Chart -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Kontribusi per Kategori</h3>
+                    <p class="text-xs text-gray-500 mb-4">Distribusi PAD berdasarkan jenis reklame</p>
+                    <div class="h-48 flex items-center justify-center">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <div class="flex items-center gap-2 text-xs"><span
+                                class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span><span
+                                class="text-gray-500">Videotron <span class="text-gray-900 font-bold">42%</span></span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs"><span
+                                class="w-2.5 h-2.5 rounded-full bg-purple-500"></span><span
+                                class="text-gray-500">Billboard <span class="text-gray-900 font-bold">28%</span></span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs"><span
+                                class="w-2.5 h-2.5 rounded-full bg-pink-500"></span><span class="text-gray-500">Baliho
+                                <span class="text-gray-900 font-bold">18%</span></span></div>
+                        <div class="flex items-center gap-2 text-xs"><span
+                                class="w-2.5 h-2.5 rounded-full bg-amber-500"></span><span class="text-gray-500">Lainnya
+                                <span class="text-gray-900 font-bold">12%</span></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== Mid Section ===== -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Top 5 Wajib Pajak -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-gray-900">Top 5 Wajib Pajak</h3>
+                        <span class="text-xs text-gray-500">Kontribusi terbesar</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 p-3 bg-amber-50 border border-amber-100 rounded-xl">
+                            <div
+                                class="w-8 h-8 bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg flex items-center justify-center text-sm font-black text-white">
+                                1</div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-semibold text-gray-900 truncate">PT. Media Nusantara</p>
+                                <p class="text-[10px] text-gray-500">3 Videotron • 2 Billboard</p>
+                            </div>
+                            <p class="text-sm font-bold text-green-600">Rp 1.2 M</p>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-gray-50 border border-gray-100 rounded-xl">
+                            <div
+                                class="w-8 h-8 bg-gradient-to-br from-gray-300 to-gray-500 rounded-lg flex items-center justify-center text-sm font-black text-white">
+                                2</div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-semibold text-gray-900 truncate">CV. Maju Jaya Advertising</p>
+                                <p class="text-[10px] text-gray-500">1 Megatron • 2 Billboard</p>
+                            </div>
+                            <p class="text-sm font-bold text-green-600">Rp 890 Jt</p>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-orange-50 border border-orange-100 rounded-xl">
+                            <div
+                                class="w-8 h-8 bg-gradient-to-br from-amber-700 to-amber-900 rounded-lg flex items-center justify-center text-sm font-black text-white">
+                                3</div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-semibold text-gray-900 truncate">PT. Indosat Ooredoo</p>
+                                <p class="text-[10px] text-gray-500">2 Videotron</p>
+                            </div>
+                            <p class="text-sm font-bold text-green-600">Rp 540 Jt</p>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-gray-50 border border-gray-100 rounded-xl">
+                            <div
+                                class="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center text-sm font-bold text-gray-500">
+                                4</div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-semibold text-gray-900 truncate">Bank BRI Cabang Utama</p>
+                                <p class="text-[10px] text-gray-500">1 Videotron • 1 Neon Box</p>
+                            </div>
+                            <p class="text-sm font-bold text-green-600">Rp 425 Jt</p>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-gray-50 border border-gray-100 rounded-xl">
+                            <div
+                                class="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center text-sm font-bold text-gray-500">
+                                5</div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-semibold text-gray-900 truncate">Samsung Electronics ID</p>
+                                <p class="text-[10px] text-gray-500">1 Billboard • 1 Megatron</p>
+                            </div>
+                            <p class="text-sm font-bold text-green-600">Rp 380 Jt</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAD per Kelas Jalan -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-gray-900">PAD per Kelas Jalan</h3>
+                        <span class="text-xs text-gray-500">Distribusi lokasi</span>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-sm font-medium text-gray-700">Protokol A</span>
+                                <span class="text-sm font-bold text-gray-900">Rp 4.1 M <span
+                                        class="text-xs text-gray-400">(44%)</span></span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-indigo-600 h-2.5 rounded-full" style="width: 44%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-sm font-medium text-gray-700">Protokol B</span>
+                                <span class="text-sm font-bold text-gray-900">Rp 2.5 M <span
+                                        class="text-xs text-gray-400">(27%)</span></span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-purple-600 h-2.5 rounded-full" style="width: 27%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-sm font-medium text-gray-700">Protokol C</span>
+                                <span class="text-sm font-bold text-gray-900">Rp 1.2 M <span
+                                        class="text-xs text-gray-400">(13%)</span></span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 13%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-sm font-medium text-gray-700">Ekonomi A</span>
+                                <span class="text-sm font-bold text-gray-900">Rp 830 Jt <span
+                                        class="text-xs text-gray-400">(9%)</span></span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-green-600 h-2.5 rounded-full" style="width: 9%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-sm font-medium text-gray-700">Ekonomi B</span>
+                                <span class="text-sm font-bold text-gray-900">Rp 420 Jt <span
+                                        class="text-xs text-gray-400">(5%)</span></span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-amber-500 h-2.5 rounded-full" style="width: 5%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-sm font-medium text-gray-700">Lingkungan</span>
+                                <span class="text-sm font-bold text-gray-900">Rp 230 Jt <span
+                                        class="text-xs text-gray-400">(2%)</span></span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-gray-400 h-2.5 rounded-full" style="width: 2%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pipeline Status -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-gray-900">Performa Pipeline</h3>
+                        <span class="text-xs text-gray-500">Status berkas</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 p-3 bg-blue-50 border border-blue-100 rounded-xl">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fa-solid fa-inbox text-blue-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-gray-900">Berkas Masuk</p>
+                                <p class="text-[10px] text-gray-500">Front Office hari ini</p>
+                            </div>
+                            <p class="text-xl font-black text-blue-600">12</p>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-orange-50 border border-orange-100 rounded-xl">
+                            <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                                <i class="fa-solid fa-magnifying-glass text-orange-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-gray-900">Dalam Verifikasi</p>
+                                <p class="text-[10px] text-gray-500">Sedang diproses</p>
+                            </div>
+                            <p class="text-xl font-black text-orange-600">8</p>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-teal-50 border border-teal-100 rounded-xl">
+                            <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
+                                <i class="fa-solid fa-location-crosshairs text-teal-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-gray-900">Menunggu Survey</p>
+                                <p class="text-[10px] text-gray-500">Sudah diassign surveyor</p>
+                            </div>
+                            <p class="text-xl font-black text-teal-600">5</p>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-purple-50 border border-purple-100 rounded-xl">
+                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i class="fa-solid fa-stamp text-purple-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-gray-900">Menunggu Approval</p>
+                                <p class="text-[10px] text-gray-500">Perlu tanda tangan Kabid</p>
+                            </div>
+                            <p class="text-xl font-black text-purple-600">4</p>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-green-50 border border-green-100 rounded-xl">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fa-solid fa-circle-check text-green-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-gray-900">Selesai Hari Ini</p>
+                                <p class="text-[10px] text-gray-500">Terbit SKPD & billing</p>
+                            </div>
+                            <p class="text-xl font-black text-green-600">7</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== Comparison & Payment ===== -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Year-over-Year -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Perbandingan Tahunan</h3>
+                    <p class="text-xs text-gray-500 mb-4">2025 vs 2026 (s/d Februari)</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-gray-200">
+                                    <th class="text-left py-3 text-gray-500 font-semibold text-xs">INDIKATOR</th>
+                                    <th class="text-right py-3 text-gray-500 font-semibold text-xs">2025</th>
+                                    <th class="text-right py-3 text-gray-500 font-semibold text-xs">2026</th>
+                                    <th class="text-right py-3 text-gray-500 font-semibold text-xs">GROWTH</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr>
+                                    <td class="py-3 font-medium text-gray-900">PAD Total</td>
+                                    <td class="py-3 text-right text-gray-500">Rp 7.8 M</td>
+                                    <td class="py-3 text-right font-bold text-gray-900">Rp 9.2 M</td>
+                                    <td class="py-3 text-right"><span class="text-green-600 font-bold">↑ 17.9%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-medium text-gray-900">Objek Reklame</td>
+                                    <td class="py-3 text-right text-gray-500">387</td>
+                                    <td class="py-3 text-right font-bold text-gray-900">423</td>
+                                    <td class="py-3 text-right"><span class="text-green-600 font-bold">↑ 9.3%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-medium text-gray-900">Wajib Pajak</td>
+                                    <td class="py-3 text-right text-gray-500">142</td>
+                                    <td class="py-3 text-right font-bold text-gray-900">156</td>
+                                    <td class="py-3 text-right"><span class="text-green-600 font-bold">↑ 9.9%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-medium text-gray-900">Kepatuhan</td>
+                                    <td class="py-3 text-right text-gray-500">82%</td>
+                                    <td class="py-3 text-right font-bold text-gray-900">89%</td>
+                                    <td class="py-3 text-right"><span class="text-green-600 font-bold">↑ 7pt</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-medium text-gray-900">Rata-rata Waktu Proses</td>
+                                    <td class="py-3 text-right text-gray-500">5.2 hari</td>
+                                    <td class="py-3 text-right font-bold text-gray-900">3.8 hari</td>
+                                    <td class="py-3 text-right"><span class="text-green-600 font-bold">↓ 27%</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-medium text-gray-900">Reklame Ilegal</td>
+                                    <td class="py-3 text-right text-gray-500">15</td>
+                                    <td class="py-3 text-right font-bold text-gray-900">8</td>
+                                    <td class="py-3 text-right"><span class="text-green-600 font-bold">↓ 47%</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Metode Pembayaran</h3>
+                    <p class="text-xs text-gray-500 mb-4">Distribusi channel pembayaran bulan ini</p>
+                    <div class="flex rounded-xl overflow-hidden h-8 mb-5">
+                        <div class="bg-indigo-500 flex items-center justify-center text-[10px] font-bold text-white"
+                            style="width: 45%">Transfer 45%</div>
+                        <div class="bg-green-500 flex items-center justify-center text-[10px] font-bold text-white"
+                            style="width: 30%">QRIS 30%</div>
+                        <div class="bg-purple-500 flex items-center justify-center text-[10px] font-bold text-white"
+                            style="width: 15%">VA 15%</div>
+                        <div class="bg-amber-400 flex items-center justify-center text-[10px] font-bold text-gray-900"
+                            style="width: 10%">Tunai</div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 bg-indigo-500 rounded-full"></div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900">Transfer Bank</p>
+                                    <p class="text-[10px] text-gray-500">BCA, Mandiri, BRI, BNI</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-bold text-gray-900">Rp 810 Jt</p>
+                                <p class="text-[10px] text-gray-500">128 trx</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900">QRIS</p>
+                                    <p class="text-[10px] text-gray-500">GoPay, OVO, DANA, ShopeePay</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-bold text-gray-900">Rp 540 Jt</p>
+                                <p class="text-[10px] text-gray-500">86 trx</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900">Virtual Account</p>
+                                    <p class="text-[10px] text-gray-500">Auto-generated billing code</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-bold text-gray-900">Rp 270 Jt</p>
+                                <p class="text-[10px] text-gray-500">44 trx</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 bg-amber-400 rounded-full"></div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900">Tunai (Loket)</p>
+                                    <p class="text-[10px] text-gray-500">Pembayaran langsung</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-bold text-gray-900">Rp 180 Jt</p>
+                                <p class="text-[10px] text-gray-500">28 trx</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== Object Distribution & Compliance ===== -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Object Distribution -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Distribusi Objek Reklame</h3>
+                    <p class="text-xs text-gray-500 mb-4">Per kategori reklame — 423 total objek</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="fa-solid fa-tv text-indigo-600 text-sm"></i>
+                                <span class="text-sm font-semibold text-gray-900">Videotron</span>
+                            </div>
+                            <p class="text-3xl font-black text-indigo-600">87</p>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-[10px] text-gray-500">20.6% dari total</span>
+                                <span class="text-[10px] text-green-600 font-bold">↑ 12</span>
+                            </div>
+                        </div>
+                        <div class="bg-purple-50 border border-purple-100 rounded-xl p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="fa-solid fa-image text-purple-600 text-sm"></i>
+                                <span class="text-sm font-semibold text-gray-900">Billboard</span>
+                            </div>
+                            <p class="text-3xl font-black text-purple-600">124</p>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-[10px] text-gray-500">29.3% dari total</span>
+                                <span class="text-[10px] text-green-600 font-bold">↑ 8</span>
+                            </div>
+                        </div>
+                        <div class="bg-pink-50 border border-pink-100 rounded-xl p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="fa-solid fa-sign-hanging text-pink-600 text-sm"></i>
+                                <span class="text-sm font-semibold text-gray-900">Baliho</span>
+                            </div>
+                            <p class="text-3xl font-black text-pink-600">95</p>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-[10px] text-gray-500">22.5% dari total</span>
+                                <span class="text-[10px] text-green-600 font-bold">↑ 5</span>
+                            </div>
+                        </div>
+                        <div class="bg-amber-50 border border-amber-100 rounded-xl p-4">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="fa-solid fa-scroll text-amber-600 text-sm"></i>
+                                <span class="text-sm font-semibold text-gray-900">Spanduk & Lainnya</span>
+                            </div>
+                            <p class="text-3xl font-black text-amber-600">117</p>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-[10px] text-gray-500">27.7% dari total</span>
+                                <span class="text-[10px] text-green-600 font-bold">↑ 11</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compliance & Arrears -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Kepatuhan & Tunggakan</h3>
+                    <p class="text-xs text-gray-500 mb-4">Status pembayaran wajib pajak</p>
+                    <!-- Gauge -->
+                    <div class="flex items-center gap-6 mb-5 p-4 bg-green-50 border border-green-100 rounded-xl">
+                        <div class="relative w-24 h-24 flex-shrink-0">
+                            <svg class="w-24 h-24 -rotate-90" viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="42" fill="none" stroke="#e5e7eb" stroke-width="8" />
+                                <circle cx="50" cy="50" r="42" fill="none" stroke="url(#compGrad)" stroke-width="8"
+                                    stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="29" />
+                                <defs>
+                                    <linearGradient id="compGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#059669" />
+                                        <stop offset="100%" stop-color="#34d399" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-xl font-black text-green-600">89%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-lg font-bold text-gray-900">Tingkat Kepatuhan</p>
+                            <p class="text-xs text-gray-500 mt-1">139 dari 156 WP bayar tepat waktu</p>
+                            <p class="text-xs text-green-600 font-semibold mt-1">↑ 7 poin dari tahun lalu</p>
+                        </div>
+                    </div>
+                    <!-- Arrears -->
+                    <div class="space-y-2">
+                        <p class="text-sm font-bold text-red-600 mb-2"><i
+                                class="fa-solid fa-triangle-exclamation mr-1.5"></i>Top Tunggakan</p>
+                        <div
+                            class="flex items-center justify-between p-2.5 bg-red-50 border border-red-100 rounded-lg text-sm">
+                            <span class="text-gray-700">CV. Amanah Jaya</span>
+                            <span class="font-bold text-red-600">Rp 135 Jt</span>
+                        </div>
+                        <div
+                            class="flex items-center justify-between p-2.5 bg-red-50 border border-red-100 rounded-lg text-sm">
+                            <span class="text-gray-700">PT. Global Media</span>
+                            <span class="font-bold text-red-600">Rp 85 Jt</span>
+                        </div>
+                        <div
+                            class="flex items-center justify-between p-2.5 bg-red-50 border border-red-100 rounded-lg text-sm">
+                            <span class="text-gray-700">UD. Berkah Sentosa</span>
+                            <span class="font-bold text-red-600">Rp 45 Jt</span>
+                        </div>
+                        <div class="text-right mt-2">
+                            <span class="text-xs text-gray-500">Total tunggakan: <span class="font-bold text-red-600">Rp
+                                    487 Jt</span> (23 WP)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="../shared.js"></script>
+    <script>
+        // Set current date
+        const now = new Date();
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+        // Chart.js defaults
+        Chart.defaults.color = '#6b7280';
+        Chart.defaults.borderColor = 'rgba(229, 231, 235, 0.5)';
+
+        // Revenue Trend Chart
+        new Chart(document.getElementById('revenueChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
+                datasets: [
+                    {
+                        label: 'Realisasi',
+                        data: [1600, 1800, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        backgroundColor: 'rgba(79, 70, 229, 0.7)',
+                        borderColor: 'rgba(79, 70, 229, 1)',
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        barPercentage: 0.6,
+                    },
+                    {
+                        label: 'Target',
+                        data: [1250, 1250, 1250, 1250, 1250, 1250, 1250, 1250, 1250, 1250, 1250, 1250],
+                        backgroundColor: 'rgba(229, 231, 235, 0.6)',
+                        borderColor: 'rgba(209, 213, 219, 1)',
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        barPercentage: 0.6,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: Rp ${ctx.raw} Jt` } }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { callback: (val) => `Rp ${val} Jt`, font: { size: 10 } },
+                        grid: { color: 'rgba(229, 231, 235, 0.5)' }
+                    },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+        // Category Doughnut Chart
+        new Chart(document.getElementById('categoryChart').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Videotron', 'Billboard', 'Baliho', 'Lainnya'],
+                datasets: [{
+                    data: [42, 28, 18, 12],
+                    backgroundColor: ['rgba(99, 102, 241, 0.8)', 'rgba(168, 85, 247, 0.8)', 'rgba(236, 72, 153, 0.8)', 'rgba(245, 158, 11, 0.8)'],
+                    borderWidth: 0,
+                    hoverOffset: 8,
+                    cutout: '65%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.raw}%` } }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

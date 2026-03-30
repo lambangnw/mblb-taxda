@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approval SPTPD - Kabid Penetapan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50 flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-mountain text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">MBLB</h2>
+                        <p class="text-xs text-indigo-200">Kabid Penetapan</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <!-- Dynamic sidebar populated by shared.js renderDynamicSidebar() -->
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="flex-1 flex flex-col min-w-0 overflow-hidden lg:ml-64 transition-smooth h-screen">
+        <!-- Top Header -->
+        <header class="bg-white shadow-sm z-10 sticky top-0">
+            <div class="flex items-center justify-between px-6 py-4">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Approval SPTPD</h1>
+                        <p class="text-sm text-gray-500">Persetujuan Draft SPTPD Wajib Pajak</p>
+                    </div>
+                </div>
+
+                <!-- Profile -->
+                <div class="relative">
+                    <button onclick="toggleDropdown('profileDropdown')"
+                        class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                        <div
+                            class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-semibold">
+                            K</div>
+                    </button>
+                    <div id="profileDropdown"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
+                        <button onclick="logout()"
+                            class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+                    <h3 class="font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fa-solid fa-inbox text-indigo-600"></i>
+                        Daftar Menunggu Persetujuan
+                    </h3>
+                    <div
+                        class="bg-yellow-50 px-3 py-1 rounded-lg border border-yellow-100 text-xs text-yellow-700 font-bold animate-pulse">
+                        <i class="fa-solid fa-clock mr-1"></i> Perlu Tindakan
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr
+                                class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider border-b border-gray-100">
+                                <th class="px-6 py-4 font-semibold">Tanggal</th>
+                                <th class="px-6 py-4 font-semibold">Wajib Pajak</th>
+                                <th class="px-6 py-4 font-semibold text-right">Masa Pajak</th>
+                                <th class="px-6 py-4 font-semibold text-right">Total Pajak</th>
+                                <th class="px-6 py-4 font-semibold text-center">Status</th>
+                                <th class="px-6 py-4 font-semibold text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="approvalTableBody" class="divide-y divide-gray-50 text-sm">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="emptyState" class="hidden p-12 text-center text-gray-400">
+                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-check-to-slot text-3xl text-gray-300"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-600">Semua Beres!</h3>
+                    <p class="text-sm">Tidak ada dokumen yang menunggu persetujuan Anda saat ini.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Review Modal -->
+    <div id="reviewModal"
+        class="hidden fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 transition-opacity modal">
+        <div class="bg-white rounded-2xl w-11/12 max-w-7xl h-[85vh] shadow-2xl transform scale-100 transition-transform flex flex-col overflow-hidden modalSlideUp">
+            
+            <!-- Header -->
+            <div class="flex justify-between items-center px-8 py-6 border-b border-gray-100 bg-white shrink-0">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
+                        <i class="fa-solid fa-file-signature text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900">Review & Approval Draft SPTPD</h3>
+                        <p class="text-sm text-gray-500 mt-1" id="modalWpName">Loading Wajib Pajak...</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('reviewModal')"
+                    class="text-gray-400 hover:text-gray-600 w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Content Area (Scrollable) -->
+            <div class="flex-1 overflow-hidden">
+                <div class="h-full grid grid-cols-1 lg:grid-cols-12">
+                    <!-- Info Section (Left - 3 Cols) -->
+                    <div class="lg:col-span-3 bg-gray-50/50 p-8 border-r border-gray-100 overflow-y-auto">
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Dokumen</label>
+                                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                                    <label class="block text-xs font-bold text-gray-500 mb-1">Nomor SPTPD</label>
+                                    <div class="font-mono text-sm font-bold text-gray-800 break-all" id="modalNomor">-</div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Periode Pajak</label>
+                                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm space-y-3">
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-400 mb-0.5">Masa</label>
+                                        <div class="font-medium text-sm text-gray-800" id="modalMasa">-</div>
+                                    </div>
+                                    <div class="pt-2 border-t border-gray-100">
+                                        <label class="block text-[10px] font-bold text-gray-400 mb-0.5">Total Volume</label>
+                                        <div class="font-medium text-sm text-gray-800" id="modalVolume">-</div>
+                                    </div>
+                                    <div class="pt-2 border-t border-gray-100">
+                                        <label class="block text-[10px] font-bold text-gray-400 mb-0.5">Nilai Jual (DPP)</label>
+                                        <div class="font-medium text-sm text-gray-800" id="modalNSR">-</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-indigo-600 to-purple-700 text-white p-5 rounded-2xl shadow-lg shadow-indigo-200 mt-4 relative overflow-hidden">
+                                <div class="absolute -right-4 -bottom-4 opacity-10 text-6xl"><i class="fa-solid fa-sack-dollar"></i></div>
+                                <label class="block text-xs font-bold text-indigo-200 uppercase tracking-wide mb-1 relative z-10">Pajak Terutang</label>
+                                <div class="text-3xl font-black tracking-tight relative z-10" id="modalTax">Rp 0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table Section (Right - 9 Cols) -->
+                    <div class="lg:col-span-9 flex flex-col h-full bg-white relative">
+                        <div class="px-8 py-5 border-b border-gray-100 flex justify-between items-center bg-white z-10">
+                            <h4 class="font-bold text-gray-800 flex items-center gap-2">
+                                <span class="bg-indigo-100 text-indigo-600 w-8 h-8 rounded-lg flex items-center justify-center text-sm">
+                                    <i class="fa-solid fa-list-ul"></i>
+                                </span>
+                                Rincian Pelaporan Harian
+                            </h4>
+                        </div>
+
+                        <div class="flex-1 overflow-auto custom-scrollbar p-0">
+                            <table class="w-full text-left text-sm">
+                                <thead class="bg-gray-50/80 backdrop-blur sticky top-0 z-20 shadow-sm">
+                                    <tr>
+                                        <th class="px-8 py-4 font-semibold text-gray-500 w-16 text-center">No</th>
+                                        <th class="px-4 py-4 font-semibold text-gray-500">Tanggal</th>
+                                        <th class="px-4 py-4 font-semibold text-gray-500">Jenis Mineral</th>
+                                        <th class="px-4 py-4 font-semibold text-gray-500">Lokasi Pengambilan</th>
+                                        <th class="px-4 py-4 font-semibold text-gray-500 text-right">Volume (m³)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dailyReportRows" class="divide-y divide-gray-50">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Footer Actions -->
+                        <div class="p-6 border-t border-gray-100 flex justify-end gap-3 bg-white">
+                            <button onclick="rejectSptpd()"
+                                class="px-8 py-3 text-red-600 font-bold hover:bg-red-50 rounded-xl border border-red-200 transition-colors flex items-center gap-2">
+                                <i class="fa-solid fa-xmark"></i> Tolak Dokumen
+                            </button>
+                            <button onclick="approveSptpd()"
+                                class="px-8 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                                <i class="fa-solid fa-file-signature"></i> TTE & Setujui SPTPD
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TTE Modal (SIPAREK Style) -->
+    <div id="tteModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] flex items-center justify-center p-4 transition-opacity modal">
+        <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden modalSlideUp shadow-2xl border border-indigo-100">
+            <div class="px-6 py-4 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white flex justify-between items-center">
+                <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-fingerprint"></i> Otentikasi TTE Terpusat</h3>
+                <button onclick="closeModal('tteModal')" class="text-indigo-200 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-indigo-50 border-2 border-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl relative">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <i class="fa-solid fa-check absolute bottom-0 right-0 bg-green-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full border-2 border-white"></i>
+                    </div>
+                    <p class="text-sm text-gray-500">Masukkan Passphrase Sertifikat Elektronik (BSrE BSSN) Anda untuk menandatangani dokumen <strong id="tteDocRef" class="text-indigo-700">SPTPD</strong> ini secara digital.</p>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wide">Passphrase BSrE</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-key absolute left-3.5 top-3.5 text-gray-400"></i>
+                            <input type="password" id="ttePassphrase" class="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all text-sm font-mono tracking-widest" placeholder="••••••••">
+                        </div>
+                    </div>
+                    <button onclick="executeTTE()" id="btnExecuteTte" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 shadow-md shadow-indigo-200 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-qrcode"></i> Sign & Submit
+                    </button>
+                    <p class="text-center text-[10px] text-gray-400 flex items-center justify-center gap-1 mt-2">
+                        <i class="fa-solid fa-lock text-green-500"></i> Secure 256-bit Encryption
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('mblb_current_user') || '{}');
+        if (!currentUser.role || currentUser.role !== 'Kabid Penetapan') {
+            window.location.href = '../login.html';
+        }
+
+        let selectedSptpdId = null;
+
+        function loadApprovalList() {
+            const sptpds = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]');
+            const pending = sptpds.filter(n => n.status === 'pending');
+            const container = document.getElementById('approvalTableBody');
+            const emptyState = document.getElementById('emptyState');
+
+            if (pending.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            container.innerHTML = pending.map(n => {
+                const wp = getWajibPajakById(n.wpId);
+                return `
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 text-gray-600">
+                             <div class="flex items-center gap-2">
+                                <i class="fa-regular fa-calendar-alt text-gray-400"></i>
+                                ${formatDate(n.tanggal, 'short')}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 font-medium text-gray-900">${wp?.namaUsaha || 'Unknown'}</td>
+                        <td class="px-6 py-4 text-right text-gray-600 font-mono text-xs">${n.masaPajak.split(' ')[0]}</td>
+                        <td class="px-6 py-4 text-right font-bold text-gray-900">${formatCurrency(n.total)}</td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="badge badge-warning">
+                                <i class="fa-solid fa-spinner animate-spin-slow mr-1.5 border-none"></i> Pending
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <button onclick="openReviewModal('${n.id}')" 
+                                class="bg-indigo-600 text-white hover:bg-indigo-700 font-bold text-xs px-4 py-2 rounded-xl shadow-md hover:shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5 flex items-center gap-2 mx-auto">
+                                <i class="fa-solid fa-magnifying-glass"></i> Review
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function getDailyReportsForPeriod(wpId, periode) {
+            const allReports = JSON.parse(localStorage.getItem('mblb_laporan_harian') || '[]');
+            return allReports.filter(r =>
+                r.wpId === wpId &&
+                r.tanggal.startsWith(periode)
+            ).sort((a, b) => new Date(a.tanggal) - new Date(b.tanggal));
+        }
+        function openReviewModal(sptpdId) {
+            selectedSptpdId = sptpdId;
+            const sptpd = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]').find(n => n.id === sptpdId);
+            const wp = getWajibPajakById(sptpd.wpId);
+            const rekap = JSON.parse(localStorage.getItem('mblb_rekap_bulanan') || '[]').find(r => r.id === sptpd.rekapId) || null;
+
+            document.getElementById('modalWpName').textContent = wp?.namaUsaha || 'Unknown';
+            document.getElementById('modalNomor').textContent = sptpd.nomor || '-';
+            document.getElementById('modalVolume').textContent = (rekap?.totalVolume || '-') + ' m³ / Ton';
+            document.getElementById('modalMasa').textContent = sptpd.masaPajak || '-';
+            document.getElementById('modalNSR').textContent = formatCurrency(sptpd.nilaiJual || sptpd.total || 0);
+            document.getElementById('modalTax').textContent = formatCurrency(sptpd.total || 0);
+
+            // Fetch daily reports
+            const dailyReports = rekap ? getDailyReportsForPeriod(sptpd.wpId, rekap.periode) : [];
+            const tbody = document.getElementById('dailyReportRows');
+
+            if (dailyReports.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-gray-400 text-sm italic">Tidak ada data harian detail yang tersimpan untuk periode ini</td></tr>`;
+            } else {
+                tbody.innerHTML = dailyReports.flatMap((report, index) => {
+                    const items = report.items || [];
+                    return items.map((item, itemIdx) => `
+                    <tr class="hover:bg-indigo-50/50 transition-colors border-b border-gray-50 last:border-0 group bg-white">
+                        <td class="px-8 py-4 text-center font-mono text-xs text-gray-400 group-hover:text-indigo-500">${itemIdx === 0 ? index + 1 : ''}</td>
+                        <td class="px-4 py-4 text-gray-700 font-medium">${itemIdx === 0 ? report.tanggal : ''}</td>
+                        <td class="px-4 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold border bg-indigo-50 text-indigo-700 border-indigo-100">
+                                ${item.nama || item.id}
+                            </span>
+                        </td>
+                        <td class="px-4 py-4 truncate max-w-[200px] text-gray-600" title="${report.lokasi}">
+                            ${itemIdx === 0 ? `<i class="fa-solid fa-location-dot text-gray-300 mr-1.5"></i>${report.lokasi}` : ''}
+                        </td>
+                        <td class="px-4 py-4 text-right font-mono font-bold text-gray-800">${item.volume} ${item.satuan || 'm³'}</td>
+                    </tr>
+                    `);
+                }).join('');
+            }
+
+            openModal('reviewModal');
+        }
+
+        function approveSptpd() {
+            if (!selectedSptpdId) return;
+            const sptpd = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]').find(n => n.id === selectedSptpdId);
+            document.getElementById('tteDocRef').textContent = sptpd?.nomor || 'SPTPD';
+            document.getElementById('ttePassphrase').value = '';
+            openModal('tteModal');
+        }
+
+        function executeTTE() {
+            const pass = document.getElementById('ttePassphrase').value;
+            // No strict validation, purely a gimmick as requested
+
+
+            const btn = document.getElementById('btnExecuteTte');
+            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Memproses TTE...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                const sptpds = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]');
+                const index = sptpds.findIndex(n => n.id === selectedSptpdId);
+
+                if (index !== -1) {
+                    sptpds[index].status = 'approved';
+                    sptpds[index].approvedBy = currentUser.username;
+                    sptpds[index].approvedDate = new Date().toISOString().split('T')[0];
+                    sptpds[index].tteSignature = 'BSRE-' + Math.random().toString(36).substr(2, 9).toUpperCase(); // Fake TTE Hash
+                    
+                    localStorage.setItem('mblb_draft_sptpd', JSON.stringify(sptpds));
+
+                    closeModal('tteModal');
+                    closeModal('reviewModal');
+                    showToast('TTE Berhasil! SPTPD resmi diterbitkan', 'success');
+                    
+                    btn.innerHTML = '<i class="fa-solid fa-qrcode"></i> Sign & Submit';
+                    btn.disabled = false;
+                    
+                    loadApprovalList();
+                }
+            }, 1200);
+        }
+
+        function rejectSptpd() {
+            if (!selectedSptpdId) return;
+
+            const sptpds = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]');
+            const index = sptpds.findIndex(n => n.id === selectedSptpdId);
+
+            if (index !== -1) {
+                sptpds[index].status = 'rejected';
+                localStorage.setItem('mblb_draft_sptpd', JSON.stringify(sptpds));
+
+                showToast('Draft SPTPD ditolak', 'error');
+                closeModal('reviewModal');
+                loadApprovalList();
+            }
+        }
+
+        loadApprovalList();
+    </script>
+</body>
+</html>ml>

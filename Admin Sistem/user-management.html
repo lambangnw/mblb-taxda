@@ -1,0 +1,445 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen User - Admin Sistem MBLB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50">
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-gear text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">MBLB</h2>
+                        <p class="text-xs text-indigo-200">Admin Sistem</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <!-- Dynamic sidebar populated by shared.js renderDynamicSidebar() -->
+            </nav>
+        </div>
+    </aside>
+
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Manajemen User</h1>
+                        <p class="text-sm text-gray-500">Kelola akun pengguna sistem</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="openAddModal()"
+                        class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-all text-sm">
+                        <i class="fa-solid fa-user-plus mr-2"></i>Tambah User
+                    </button>
+                    <div class="relative">
+                        <button onclick="toggleDropdown('profileDropdown')"
+                            class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                            <div
+                                class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                AD</div>
+                            <div class="hidden md:block text-left">
+                                <p class="text-sm font-semibold text-gray-900" id="currentUser">Administrator</p>
+                                <p class="text-xs text-gray-500">Admin Sistem</p>
+                            </div>
+                        </button>
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+                            <button onclick="logout()"
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <i class="fa-solid fa-right-from-bracket w-4 text-center mr-2"></i>Keluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="p-6">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-users text-indigo-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900" id="totalUsers">0</p>
+                            <p class="text-xs text-gray-500">Total User</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-circle-check text-green-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900" id="activeUsers">0</p>
+                            <p class="text-xs text-gray-500">User Aktif</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-user-shield text-amber-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900" id="totalRoles">8</p>
+                            <p class="text-xs text-gray-500">Total Role</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-ban text-red-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-gray-900" id="inactiveUsers">0</p>
+                            <p class="text-xs text-gray-500">User Nonaktif</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Table -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                    <h3 class="font-bold text-gray-900"><i class="fa-solid fa-list mr-2 text-indigo-600"></i>Daftar
+                        User</h3>
+                    <div class="flex items-center gap-2">
+                        <select id="filterRole"
+                            class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500">
+                            <option value="">Semua Role</option>
+                            <option value="Wajib Pajak">Wajib Pajak</option>
+                            <option value="Bidang Pendaftaran">Bidang Pendaftaran</option>
+                            <option value="Staff Lapangan">Staff Lapangan</option>
+                            <option value="Admin Penetapan">Admin Penetapan</option>
+                            <option value="Kabid Penetapan">Kabid Penetapan</option>
+                            <option value="Bidang Penagihan">Bidang Penagihan</option>
+                            <option value="Kepala Dinas">Kepala Dinas</option>
+                            <option value="Admin Sistem">Admin Sistem</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase">User</th>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase">Username</th>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase">Role</th>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase">NIP</th>
+                                <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase">Status</th>
+                                <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200" id="userTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Role Legend -->
+            <div class="mt-6 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h4 class="font-bold text-gray-900 mb-3"><i class="fa-solid fa-shield-halved mr-2 text-indigo-600"></i>Daftar Role & Hak Akses</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3" id="roleLegend">
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit User Modal -->
+    <div id="userModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4">
+            <div class="px-6 py-4 border-b border-gray-100 bg-indigo-50 rounded-t-2xl">
+                <h3 class="font-bold text-lg text-indigo-900 flex items-center gap-2" id="modalTitle">
+                    <i class="fa-solid fa-user-plus"></i>Tambah User Baru
+                </h3>
+            </div>
+            <form id="userForm" onsubmit="event.preventDefault(); saveUser();">
+                <div class="p-6 space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
+                            <input type="text" id="editNama" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">NIP</label>
+                            <input type="text" id="editNip"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Username</label>
+                            <input type="text" id="editUsername" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+                            <input type="text" id="editPassword" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Role</label>
+                            <select id="editRole" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                <option value="Wajib Pajak">Wajib Pajak</option>
+                                <option value="Bidang Pendaftaran">Bidang Pendaftaran</option>
+                                <option value="Staff Lapangan">Staff Lapangan</option>
+                                <option value="Admin Penetapan">Admin Penetapan</option>
+                                <option value="Kabid Penetapan">Kabid Penetapan</option>
+                                <option value="Bidang Penagihan">Bidang Penagihan</option>
+                                <option value="Kepala Dinas">Kepala Dinas</option>
+                                <option value="Admin Sistem">Admin Sistem</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Status</label>
+                            <select id="editStatus"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                                <option value="active">Aktif</option>
+                                <option value="inactive">Nonaktif</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t border-gray-100 flex gap-3 justify-end">
+                    <button type="button" onclick="closeModal('userModal')"
+                        class="px-4 py-2 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50">
+                        Batal
+                    </button>
+                    <button type="submit"
+                        class="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700">
+                        <i class="fa-solid fa-floppy-disk mr-2"></i>Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        const user = getCurrentUser();
+        if (user.name) document.getElementById('currentUser').textContent = user.name;
+
+        let editingKey = null;
+
+        const ROLE_COLORS = {
+            'Wajib Pajak': { bg: 'bg-blue-100', text: 'text-blue-700', icon: 'fa-building' },
+            'Bidang Pendaftaran': { bg: 'bg-pink-100', text: 'text-pink-700', icon: 'fa-desktop' },
+            'Staff Lapangan': { bg: 'bg-emerald-100', text: 'text-emerald-700', icon: 'fa-clipboard-user' },
+            'Admin Penetapan': { bg: 'bg-orange-100', text: 'text-orange-700', icon: 'fa-building-columns' },
+            'Kabid Penetapan': { bg: 'bg-purple-100', text: 'text-purple-700', icon: 'fa-user-tie' },
+            'Bidang Penagihan': { bg: 'bg-indigo-100', text: 'text-indigo-700', icon: 'fa-file-invoice-dollar' },
+            'Kepala Dinas': { bg: 'bg-amber-100', text: 'text-amber-700', icon: 'fa-landmark' },
+            'Admin Sistem': { bg: 'bg-gray-100', text: 'text-gray-700', icon: 'fa-cogs' }
+        };
+
+        const ROLE_DESC = {
+            'Wajib Pajak': 'Self-service portal pelaporan',
+            'Bidang Pendaftaran': 'Registrasi WP, input SPTPD, pembayaran',
+            'Staff Lapangan': 'Verifikasi lapangan & input data',
+            'Admin Penetapan': 'Verifikasi nota, terbitkan SKPD',
+            'Kabid Penetapan': 'Approval dokumen penetapan',
+            'Bidang Penagihan': 'Monitoring tagihan & surat teguran',
+            'Kepala Dinas': 'Dashboard executive, laporan',
+            'Admin Sistem': 'Konfigurasi, master data, user'
+        };
+
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('mblb_users') || 'null') || USERS;
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('mblb_users', JSON.stringify(users));
+        }
+
+        function renderTable() {
+            const users = getUsers();
+            const filter = document.getElementById('filterRole').value;
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '';
+
+            let total = 0, active = 0, inactive = 0;
+
+            Object.entries(users).forEach(([key, u]) => {
+                total++;
+                if (u.status === 'inactive') { inactive++; } else { active++; }
+
+                if (filter && u.role !== filter) return;
+
+                const rc = ROLE_COLORS[u.role] || ROLE_COLORS['Admin Sistem'];
+                const statusBadge = u.status === 'inactive'
+                    ? '<span class="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold">Nonaktif</span>'
+                    : '<span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">Aktif</span>';
+
+                const initials = (u.nama || u.name || key).split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 ${rc.bg} rounded-full flex items-center justify-center ${rc.text} font-bold text-sm">${initials}</div>
+                                <span class="font-semibold text-gray-900">${u.nama || u.name || key}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-3"><code class="bg-gray-100 px-2 py-0.5 rounded text-sm">${u.username}</code></td>
+                        <td class="px-6 py-3">
+                            <span class="px-2 py-1 ${rc.bg} ${rc.text} rounded-lg text-xs font-bold">
+                                <i class="fa-solid ${rc.icon} mr-1"></i>${u.role}
+                            </span>
+                        </td>
+                        <td class="px-6 py-3 text-sm text-gray-600">${u.nip || '-'}</td>
+                        <td class="px-6 py-3 text-center">${statusBadge}</td>
+                        <td class="px-6 py-3 text-center">
+                            <button onclick="editUser('${key}')" class="px-2 py-1 bg-amber-100 text-amber-600 rounded-lg text-sm hover:bg-amber-200 transition-all mr-1" title="Edit">
+                                <i class="fa-solid fa-edit"></i>
+                            </button>
+                            <button onclick="toggleStatus('${key}')" class="px-2 py-1 ${u.status === 'inactive' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'} rounded-lg text-sm hover:opacity-80 transition-all" title="${u.status === 'inactive' ? 'Aktifkan' : 'Nonaktifkan'}">
+                                <i class="fa-solid ${u.status === 'inactive' ? 'fa-toggle-on' : 'fa-toggle-off'}"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('totalUsers').textContent = total;
+            document.getElementById('activeUsers').textContent = active;
+            document.getElementById('inactiveUsers').textContent = inactive;
+        }
+
+        function renderRoleLegend() {
+            const container = document.getElementById('roleLegend');
+            container.innerHTML = '';
+            Object.entries(ROLE_COLORS).forEach(([role, rc]) => {
+                container.innerHTML += `
+                    <div class="p-3 ${rc.bg} rounded-lg border">
+                        <div class="flex items-center gap-2 mb-1">
+                            <i class="fa-solid ${rc.icon} ${rc.text}"></i>
+                            <span class="font-bold text-sm ${rc.text}">${role}</span>
+                        </div>
+                        <p class="text-xs text-gray-600">${ROLE_DESC[role] || ''}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function openAddModal() {
+            editingKey = null;
+            document.getElementById('modalTitle').innerHTML = '<i class="fa-solid fa-user-plus mr-2"></i>Tambah User Baru';
+            document.getElementById('editNama').value = '';
+            document.getElementById('editNip').value = '';
+            document.getElementById('editUsername').value = '';
+            document.getElementById('editPassword').value = '';
+            document.getElementById('editRole').value = 'Bidang Pendaftaran';
+            document.getElementById('editStatus').value = 'active';
+            document.getElementById('editPassword').required = true;
+            openModal('userModal');
+        }
+
+        function editUser(key) {
+            const users = getUsers();
+            const u = users[key];
+            if (!u) return;
+
+            editingKey = key;
+            document.getElementById('modalTitle').innerHTML = '<i class="fa-solid fa-user-pen mr-2"></i>Edit User';
+            document.getElementById('editNama').value = u.nama || u.name || '';
+            document.getElementById('editNip').value = u.nip || '';
+            document.getElementById('editUsername').value = u.username;
+            document.getElementById('editPassword').value = u.password;
+            document.getElementById('editRole').value = u.role;
+            document.getElementById('editStatus').value = u.status || 'active';
+            document.getElementById('editPassword').required = false;
+            openModal('userModal');
+        }
+
+        function saveUser() {
+            const users = getUsers();
+            const nama = document.getElementById('editNama').value;
+            const nip = document.getElementById('editNip').value;
+            const username = document.getElementById('editUsername').value;
+            const password = document.getElementById('editPassword').value;
+            const role = document.getElementById('editRole').value;
+            const status = document.getElementById('editStatus').value;
+
+            const key = editingKey || username.replace(/[^a-z0-9]/g, '-');
+
+            // Check duplicate username (only for new users)
+            if (!editingKey) {
+                const existing = Object.values(users).find(u => u.username === username);
+                if (existing) {
+                    showToast('Username sudah digunakan!', 'error');
+                    return;
+                }
+            }
+
+            users[key] = {
+                username,
+                password: password || (users[key]?.password || 'demo123'),
+                role,
+                nama,
+                nip,
+                status
+            };
+
+            saveUsers(users);
+            
+            if (editingKey) {
+                logActivity('Update User', `Memperbarui data akun user ${nama} (${username} - ${role})`);
+            } else {
+                logActivity('Tambah User', `Membuat akun baru untuk ${nama} (${username} - ${role})`);
+            }
+
+            closeModal('userModal');
+            renderTable();
+            showToast(editingKey ? 'User berhasil diperbarui!' : 'User baru berhasil ditambahkan!', 'success');
+        }
+
+        function toggleStatus(key) {
+            const users = getUsers();
+            if (!users[key]) return;
+            users[key].status = users[key].status === 'inactive' ? 'active' : 'inactive';
+            saveUsers(users);
+            
+            const actionVerb = users[key].status === 'active' ? 'Diaktifkan' : 'Dinonaktifkan';
+            logActivity(`Ubah Status User`, `Status user ${users[key].nama || key} (${users[key].role}) ${actionVerb}.`);
+            
+            renderTable();
+            showToast(`User ${users[key].nama || key} ${users[key].status === 'active' ? 'diaktifkan' : 'dinonaktifkan'}`, 'success');
+        }
+
+        // Filter listener
+        document.getElementById('filterRole').addEventListener('change', renderTable);
+
+        // Init
+        renderTable();
+        renderRoleLegend();
+    </script>
+</body>
+
+</html>

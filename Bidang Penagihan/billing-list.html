@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar SPTPD - Bidang Penagihan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50 flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-950 to-indigo-900 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-file-invoice-dollar text-2xl text-indigo-700"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg leading-none">MBLB</h2>
+                        <p class="text-[10px] text-indigo-300 font-bold uppercase tracking-wider mt-1">Bidang Penagihan
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <!-- Dynamic sidebar populated by shared.js renderDynamicSidebar() -->
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="flex-1 flex flex-col min-w-0 overflow-hidden lg:ml-64 transition-smooth h-screen">
+        <!-- Top Navbar -->
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Daftar SPTPD</h1>
+                        <p class="text-sm text-gray-500">Monitoring ketetapan pajak daerah</p>
+                    </div>
+                </div>
+                <div class="relative">
+                    <button onclick="toggleDropdown('profileDropdown')" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                        <div class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">BP</div>
+                        <i class="fa-solid fa-chevron-down text-sm text-gray-600"></i>
+                    </button>
+                    <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
+                        <button onclick="logout()" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                            <i class="fa-solid fa-right-from-bracket w-4 text-center mr-2"></i>Keluar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="flex-1 p-6 overflow-y-auto w-full">
+            <!-- Filter Area -->
+            <div
+                class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 mb-6 flex flex-wrap gap-4 items-center w-full">
+                <div class="flex-1 min-w-[200px] relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="searchTerm" onkeyup="renderSkpdList()"
+                        placeholder="Cari NPWPD atau Nama WP..."
+                        class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-indigo-500/20">
+                </div>
+                <select id="statusFilter" onchange="renderSkpdList()"
+                    class="px-6 py-3 bg-gray-50 border border-gray-100 rounded-2xl font-black text-xs uppercase tracking-widest outline-none cursor-pointer">
+                    <option value="all">Semua Status</option>
+                    <option value="approved">Belum Bayar</option>
+                    <option value="paid">Sudah Lunas</option>
+                </select>
+            </div>
+
+            <!-- SPTPD Table -->
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden w-full">
+                <div class="overflow-x-auto w-full">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Detail Dokumen</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Wajib Pajak</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Masa Pajak</th>
+                                <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Total Ketetapan</th>
+                                <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Status</th>
+                                <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="skpdListContainer" class="divide-y divide-gray-100 text-sm">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- SPTPD Detail Modal -->
+    <div id="skpdModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 transition-opacity modal">
+        <div class="absolute inset-0 bg-indigo-950/60 backdrop-blur-sm" onclick="closeModal('skpdModal')"></div>
+        <div class="bg-white w-full max-w-4xl rounded-[2rem] shadow-2xl relative z-10 overflow-hidden transform scale-100 transition-transform flex flex-col h-[90vh]">
+            <div class="p-8 bg-gradient-to-r from-indigo-700 to-indigo-800 text-white flex justify-between items-start shrink-0">
+                <div>
+                    <h3 class="text-2xl font-black mb-1">DETAIL SPTPD</h3>
+                    <p class="text-indigo-200 text-xs font-bold uppercase tracking-widest" id="modalSkpdNomor">-</p>
+                </div>
+                <button onclick="closeModal('skpdModal')"
+                    class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center hover:bg-white/20 transition-colors">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+
+            <div class="p-10 flex-1 overflow-y-auto pb-24">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-10">
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Informasi
+                                Wajib Pajak</p>
+                            <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm">
+                                <h4 class="font-black text-indigo-950 text-lg leading-none mb-1" id="modalWpNamaUsaha">-
+                                </h4>
+                                <p class="text-xs font-bold text-indigo-600 mb-4" id="modalWpNpwpd">-</p>
+                                <p class="text-xs text-gray-500 font-medium leading-relaxed" id="modalWpAlamat">-</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Masa & Jatuh
+                                Tempo</p>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100 shadow-sm">
+                                    <p class="text-[9px] font-black text-indigo-400 uppercase mb-1">Tahun Pajak</p>
+                                    <p class="font-black text-indigo-950 text-sm" id="modalTahunPajak">-</p>
+                                </div>
+                                <div class="bg-red-50 p-4 rounded-xl border border-red-100 shadow-sm">
+                                    <p class="text-[9px] font-black text-red-500 uppercase mb-1">Jatuh Tempo</p>
+                                    <p class="font-black text-red-950 text-sm" id="modalJatuhTempo">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Rincian nominal
+                        </p>
+                        <div class="bg-gray-900 rounded-[2rem] p-8 text-white relative overflow-hidden shadow-xl">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full -mr-16 -mt-16">
+                            </div>
+
+                            <div class="space-y-4 relative z-10">
+                                <div class="flex justify-between items-center text-indigo-300">
+                                    <span class="text-[10px] font-black uppercase">Pajak Terutang</span>
+                                    <span class="font-bold text-sm" id="modalNilaiPajak">Rp 0</span>
+                                </div>
+                                <div class="flex justify-between items-center text-red-400 hidden" id="modalDendaWrapper">
+                                    <span class="text-[10px] font-black uppercase">Denda Keterlambatan</span>
+                                    <span class="font-bold text-sm" id="modalDenda">Rp 0</span>
+                                </div>
+                                <div class="pt-4 border-t border-white/10 flex justify-between items-center">
+                                    <span class="text-xs font-black uppercase tracking-widest">Total Bayar</span>
+                                    <span class="text-2xl font-black text-[#5ce1e6]" id="modalTotal">Rp 0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="actionArea" class="pt-6">
+                            <!-- Dynamic Button -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('mblb_current_user') || '{}');
+        if (!currentUser.role || currentUser.role !== 'Bidang Penagihan') {
+            window.location.href = '../login.html';
+        }
+
+        function renderSkpdList() {
+            const skpds = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]').filter(s => s.status === 'approved' || s.status === 'paid');
+            const term = document.getElementById('searchTerm').value.toLowerCase();
+            const status = document.getElementById('statusFilter').value;
+            const container = document.getElementById('skpdListContainer');
+
+            const filtered = skpds.filter(s => {
+                const wp = getWajibPajakById(s.wpId);
+                const matchesSearch = wp?.namaUsaha.toLowerCase().includes(term) || wp?.npwpd.toLowerCase().includes(term) || s.nomor.toLowerCase().includes(term);
+                const matchesStatus = status === 'all' || s.status === status;
+                return matchesSearch && matchesStatus;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<tr><td colspan="6" class="p-16 text-center"><i class="fa-solid fa-folder-open text-6xl text-gray-200 mb-4 block"></i><p class="text-gray-400 font-bold uppercase tracking-widest text-xs">Data tidak ditemukan</p></td></tr>';
+                return;
+            }
+
+            container.innerHTML = filtered.reverse().map(s => {
+                const wp = getWajibPajakById(s.wpId);
+                const statusBadge = s.status === 'paid' 
+                    ? '<span class="badge badge-success"><i class="fa-solid fa-check mr-1"></i>Lunas</span>' 
+                    : '<span class="badge badge-danger"><i class="fa-solid fa-clock mr-1"></i>Piutang</span>';
+
+                return `
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-4 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 shrink-0 border border-indigo-100">
+                                    <i class="fa-solid fa-file-invoice"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-900 text-sm">${s.nomor}</p>
+                                    <p class="text-[10px] font-semibold text-gray-500 uppercase">${formatDate(s.tanggal, 'short')}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-4">
+                            <p class="font-bold text-gray-900 text-sm">${wp?.namaUsaha || 'Unknown'}</p>
+                            <p class="text-[10px] font-mono text-indigo-600 bg-indigo-50 border border-indigo-100 inline-block px-1.5 py-0.5 rounded mt-0.5">${wp?.npwpd || '-'}</p>
+                        </td>
+                        <td class="px-4 py-4">
+                            <span class="bg-gray-100 text-gray-600 text-xs font-bold px-2 py-1 rounded-md border border-gray-200">${s.masaPajak.split(' s.d. ')[0]}</span>
+                        </td>
+                        <td class="px-4 py-4 text-right">
+                            <p class="font-bold text-indigo-700 font-mono">${formatCurrency(s.total)}</p>
+                        </td>
+                        <td class="px-4 py-4 text-center">
+                            ${statusBadge}
+                        </td>
+                        <td class="px-4 py-4 text-center">
+                            <button onclick="viewDetail('${s.id}')" class="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-200 hover:text-indigo-600 transition-colors border border-gray-200">
+                                <i class="fa-solid fa-eye mr-1"></i> Detail
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function viewDetail(id) {
+            const skpds = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]');
+            const skpd = skpds.find(s => s.id === id);
+            if (!skpd) return;
+
+            const wp = getWajibPajakById(skpd.wpId);
+            const { nominalBunga } = hitungBunga(skpd.nilaiPajak || skpd.total, skpd.jatuhTempo);
+
+            document.getElementById('modalSkpdNomor').textContent = skpd.nomor;
+            document.getElementById('modalWpNamaUsaha').textContent = wp?.namaUsaha || 'Unknown';
+            document.getElementById('modalWpNpwpd').textContent = wp?.npwpd || '-';
+            document.getElementById('modalWpAlamat').textContent = wp?.alamat || '-';
+            document.getElementById('modalTahunPajak').textContent = skpd.tahunPajak;
+            document.getElementById('modalJatuhTempo').textContent = formatDate(skpd.jatuhTempo);
+            document.getElementById('modalNilaiPajak').textContent = formatCurrency(skpd.nilaiPajak || skpd.total);
+
+            // Tampilkan denda jika ada KETERLAMBATAN dan status belum LUNAS
+            if (nominalBunga > 0 && skpd.status === 'approved') {
+                document.getElementById('modalDendaWrapper').classList.remove('hidden');
+                document.getElementById('modalDenda').textContent = formatCurrency(nominalBunga);
+                document.getElementById('modalTotal').textContent = formatCurrency((skpd.nilaiPajak || skpd.total) + nominalBunga);
+            } else {
+                document.getElementById('modalDendaWrapper').classList.add('hidden');
+                document.getElementById('modalTotal').textContent = formatCurrency(skpd.total);
+            }
+
+            const actionArea = document.getElementById('actionArea');
+            if (skpd.status === 'approved') {
+                actionArea.innerHTML = `
+                    <button onclick="goToPayment('${skpd.id}')" class="w-full py-4 bg-emerald-500 text-white font-black text-sm uppercase tracking-wider rounded-2xl shadow-lg shadow-emerald-200 hover:bg-emerald-600 transition-all active:scale-95 flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-cash-register"></i> PROSES PENERIMAAN (BAYAR)
+                    </button>
+                `;
+            } else {
+                actionArea.innerHTML = `
+                    <div class="p-4 bg-green-500/20 border border-green-500/30 rounded-2xl text-center backdrop-blur-sm">
+                        <p class="text-green-400 font-black text-sm uppercase tracking-widest"><i class="fa-solid fa-circle-check mr-2"></i>SUDAH LUNAS</p>
+                    </div>
+                `;
+            }
+
+            openModal('skpdModal');
+        }
+
+        function goToPayment(skpdId) {
+            localStorage.setItem('mblb_payment_intent', skpdId);
+            window.location.href = 'penerimaan-sspd.html';
+        }
+
+        renderSkpdList();
+    </script>
+</body>
+
+</html>

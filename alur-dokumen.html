@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alur Dokumen Resmi - MBLB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen py-10 px-4">
+
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-black text-indigo-950 mb-2 uppercase tracking-tight">Alur Dokumen Pajak MBLB</h1>
+            <p class="text-gray-500 font-medium">Pemetaan proses dari pengawasan lapangan hingga pelunasan pajak (Galian
+                C)</p>
+            <a href="login.html"
+                class="inline-block mt-4 text-indigo-600 hover:text-indigo-800 font-black text-xs uppercase tracking-widest">
+                <i class="fa-solid fa-arrow-left mr-2"></i>Kembali ke Dashboard
+            </a>
+        </div>
+
+        <!-- Mermaid Flowchart -->
+        <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100 mb-10 overflow-x-auto">
+            <div class="mermaid text-center">
+                graph TD
+                Start(Start: Penugasan) -->|Kabid| A[Penugasan Staff]
+                A -->|Staff Lapangan| B(Laporan Harian / Muatan)
+                B -->|Admin: Rekap Bulanan| C(Nota Perhitungan)
+                C -->|Approval Kabid| D(SKPD / Ketetapan)
+                D -->|Bidang Penagihan| E(SSPD / Pelunasan)
+                E --> Finish[Selesai: PAD Bertambah]
+
+                style Start fill:#f8fafc,stroke:#e2e8f0,stroke-width:2px
+                style A fill:#e0e7ff,stroke:#4338ca,stroke-width:2px
+                style B fill:#e0e7ff,stroke:#4338ca,stroke-width:2px
+                style C fill:#eff6ff,stroke:#2563eb,stroke-width:2px
+                style D fill:#f5f3ff,stroke:#7c3aed,stroke-width:2px
+                style E fill:#ecfdf5,stroke:#059669,stroke-width:2px
+                style Finish fill:#f8fafc,stroke:#e2e8f0,stroke-width:2px
+            </div>
+            <p class="text-center text-[10px] font-black text-gray-400 uppercase tracking-widest mt-6">* Alur kerja
+                terintegrasi dari lapangan hingga ke kas daerah</p>
+        </div>
+
+        <!-- Detailed Steps Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <!-- Step 1: Laporan Harian -->
+            <div
+                class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all group">
+                <div
+                    class="bg-indigo-600 p-6 text-white flex justify-between items-center group-hover:bg-indigo-700 transition-colors">
+                    <span
+                        class="text-[10px] font-black uppercase tracking-widest bg-white/20 px-2 py-1 rounded-lg">STAGE
+                        01</span>
+                    <i class="fa-solid fa-truck-pickup text-xl"></i>
+                </div>
+                <div class="p-8">
+                    <h3 class="font-black text-indigo-950 text-xl mb-2">Laporan Harian</h3>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-6 italic">Monitoring Real-time
+                    </p>
+                    <ul class="text-xs text-gray-600 space-y-3 mb-8">
+                        <li class="flex gap-3 items-start"><i
+                                class="fa-solid fa-circle-check text-green-500 mt-0.5"></i> <span>Input tiap muatan
+                                truk</span></li>
+                        <li class="flex gap-3 items-start"><i
+                                class="fa-solid fa-circle-check text-green-500 mt-0.5"></i> <span>Lampiran foto
+                                bukti</span></li>
+                        <li class="flex gap-3 items-start"><i
+                                class="fa-solid fa-circle-check text-green-500 mt-0.5"></i> <span>Automatis track
+                                lokasi</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 2: Nota Perhitungan -->
+            <div
+                class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all group">
+                <div
+                    class="bg-blue-600 p-6 text-white flex justify-between items-center group-hover:bg-blue-700 transition-colors">
+                    <span
+                        class="text-[10px] font-black uppercase tracking-widest bg-white/20 px-2 py-1 rounded-lg">STAGE
+                        02</span>
+                    <i class="fa-solid fa-calculator text-xl"></i>
+                </div>
+                <div class="p-8">
+                    <h3 class="font-black text-indigo-950 text-xl mb-2">Nota Pajak</h3>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-6 italic">Rekapitulasi Bulanan
+                    </p>
+                    <ul class="text-xs text-gray-600 space-y-3 mb-8">
+                        <li class="flex gap-3 items-start"><i
+                                class="fa-solid fa-circle-check text-green-500 mt-0.5"></i> <span>Total volume
+                                sebulan</span></li>
+                        <li class="flex gap-3 items-start"><i
+                                class="fa-solid fa-circle-check text-green-500 mt-0.5"></i> <span>Perkalian tarif
+                                mineral</span></li>
+                        <li class="flex gap-3 items-start"><i
+                                class="fa-solid fa-circle-check text-green-500 mt-0.5"></i> <span>Draft ketetapan
+                                resmi</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 3: SKPD -->
+            <div
+                class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all group">
+                <div
+                    class="bg-purple-600 p-6 text-white flex justify-between items-center group-hover:bg-purple-700 transition-colors">
+                    <span
+                        class="text-[10px] font-black uppercase tracking-widest bg-white/20 px-2 py-1 rounded-lg">STAGE
+                        03</span>
+                    <i class="fa-solid fa-stamp text-xl"></i>
+                </div>
+                <div class="p-8">
+                    <h3 class="font-black text-indigo-950 text-xl mb-2">Ketetapan (SKPD)</h3>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-6 italic">Official Assessment
+                    </p>
+                    <ul class="text-xs text-gray-600 space-y-3 mb-8">
+                        <li class="flex gap-3 items-start"><i
+                                class="fa-solid fa-circle-check text-green-500 mt-0.5"></i> <span>Approval Kepala
+                                Bidang</span></li>
+                        <li class="flex gap-3 items-start"><i
+                                class="fa-solid fa-circle-check text-green-500 mt-0.5"></i> <span>Terbit nomor
+                                ketetapan</span></li>
+                        <li class="flex gap-3 items-start"><i
+                                class="fa-solid fa-circle-check text-green-500 mt-0.5"></i> <span>Dasar penagihan
+                                WP</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 4: SSPD -->
+            <div
+                class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all group">
+                <div
+                    class="bg-emerald-600 p-6 text-white flex justify-between items-center group-hover:bg-emerald-700 transition-colors">
+                    <span
+                        class="text-[10px] font-black uppercase tracking-widest bg-white/20 px-2 py-1 rounded-lg">STAGE
+                        04</span>
+                    <i class="fa-solid fa-receipt text-xl"></i>
+                </div>
+                <div class="p-8">
+                    <h3 class="font-black text-indigo-950 text-xl mb-2">Pelunasan (SSPD)</h3>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-6 italic">Verifikasi Bayar</p>
+                    <ul class="text-xs text-gray-600 space-y-3 mb-8">
+                        <li class="flex gap-3 items-start"><i
+                                class="fa-solid fa-circle-check text-green-500 mt-0.5"></i> <span>Validasi
+                                bank/tunai</span></li>
+                        <li class="flex gap-3 items-start"><i
+                                class="fa-solid fa-circle-check text-green-500 mt-0.5"></i> <span>Update status
+                                piutang</span></li>
+                        <li class="flex gap-3 items-start"><i
+                                class="fa-solid fa-circle-check text-green-500 mt-0.5"></i> <span>Lunas & Selesai</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-10 bg-indigo-950 rounded-[2.5rem] p-10 text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
+            <div class="relative z-10">
+                <h4 class="text-xl font-black mb-4 uppercase tracking-widest"><i
+                        class="fa-solid fa-circle-info text-indigo-400 mr-3"></i>Catatan Proses MBLB</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm opacity-80 font-medium">
+                    <p>Sistem MBLB menggunakan metode <strong>Official Assessment</strong> di mana petugas lapangan
+                        (Staff) melakukan pencatatan aktif setiap harinya untuk mencegah kebocoran data muatan.</p>
+                    <p>Integrasi antar bidang (Penetapan & Penagihan) memastikan setiap ketetapan terpantau status
+                        pembayarannya secara real-time di dashboard pimpinan.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    </script>
+</body>
+
+</html>

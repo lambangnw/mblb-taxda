@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Eksekutif - Kepala Dinas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-landmark text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">MBLB</h2>
+                        <p class="text-xs text-indigo-200">Kepala Dinas</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu space-y-2">
+                <!-- Dynamic sidebar populated by shared.js renderDynamicSidebar() -->
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+        <!-- Top Navbar -->
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Dashboard Eksekutif</h1>
+                        <p class="text-sm text-gray-500">Statistik Realisasi Pajak MBLB</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <button onclick="toggleDropdown('profileDropdown')"
+                            class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                            <div
+                                class="w-9 h-9 bg-gradient-to-r from-amber-500 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                KD</div>
+                            <span class="text-sm font-medium text-gray-700 hidden md:block" id="currentUser">Kepala
+                                Dinas</span>
+                        </button>
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2">
+                            <button onclick="logout()"
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <i class="fa-solid fa-right-from-bracket w-4 text-center mr-2"></i>Keluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard Content -->
+        <main class="p-6">
+            <!-- KPI Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+                <!-- Total Realisasi -->
+                <div class="bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-xl shadow-lg p-6 text-white">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-coins text-2xl"></i>
+                        </div>
+                        <span class="text-xs bg-green-400/20 text-green-200 px-2 py-1 rounded-full">+12.5%</span>
+                    </div>
+                    <p class="text-3xl font-bold" id="totalRealisasi">Rp 847.250.000</p>
+                    <p class="text-indigo-200 text-sm mt-1">Total Realisasi PAD (YTD)</p>
+                </div>
+
+                <!-- Target PAD -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-bullseye text-amber-600 text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-amber-600" id="targetPersen">0%</span>
+                    </div>
+                    <p class="text-2xl font-bold text-gray-900" id="targetPAD">Rp 0</p>
+                    <p class="text-gray-500 text-sm mt-1">Target PAD <span id="tahunTarget">2026</span></p>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
+                        <div class="bg-gradient-to-r from-amber-400 to-amber-600 h-2 rounded-full" id="targetBar"
+                            style="width: 0%">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jumlah WP -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-users text-blue-600 text-xl"></i>
+                        </div>
+                        <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">+3 baru</span>
+                    </div>
+                    <p class="text-3xl font-bold text-gray-900">148</p>
+                    <p class="text-gray-500 text-sm mt-1">Total Wajib Pajak Aktif</p>
+                </div>
+
+                <!-- Piutang -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-triangle-exclamation text-red-600 text-xl"></i>
+                        </div>
+                        <span class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full">12 WP</span>
+                    </div>
+                    <p class="text-3xl font-bold text-gray-900">Rp 45.750.000</p>
+                    <p class="text-gray-500 text-sm mt-1">Total Piutang Tertunggak</p>
+                </div>
+
+                <!-- Tutup Buku Section -->
+                <div id="tutupBukuSection"
+                    class="hidden bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl shadow-md p-6 border border-amber-200 mb-8">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="font-bold text-gray-900 flex items-center gap-2">
+                                <i class="fa-solid fa-calendar-check text-amber-600"></i>
+                                Tutup Buku Tahun <span id="tutupBukuYear">2026</span>
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-1">Kunci data realisasi PAD tahun ini</p>
+                        </div>
+                        <button onclick="openTutupBukuModal()"
+                            class="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg font-bold text-sm hover:shadow-lg transition-all">
+                            <i class="fa-solid fa-lock mr-2"></i>Tutup Buku
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tutup Buku Modal -->
+                <div id="tutupBukuModal"
+                    class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4">
+                        <div class="px-6 py-4 border-b border-gray-100 bg-red-50 rounded-t-2xl">
+                            <h3 class="font-bold text-lg text-red-900 flex items-center gap-2">
+                                <i class="fa-solid fa-lock"></i>Tutup Buku Tahun <span id="modalYear">2026</span>
+                            </h3>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <div class="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                                <p class="text-sm text-amber-800"><i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                                    <strong>Perhatian!</strong> Setelah ditutup, data tahun ini tidak bisa diubah lagi.
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div class="bg-gray-50 rounded-lg p-3">
+                                    <p class="text-gray-500 text-xs">Target PAD</p>
+                                    <p class="font-bold text-gray-900" id="modalTarget">-</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-3">
+                                    <p class="text-gray-500 text-xs">Realisasi</p>
+                                    <p class="font-bold text-gray-900" id="modalRealisasi">-</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-3">
+                                <p class="text-gray-500 text-xs mb-1">Akan ditutup oleh</p>
+                                <p class="font-bold text-gray-900" id="modalCloser">-</p>
+                                <p class="text-xs text-gray-500" id="modalCloserRole">-</p>
+                            </div>
+                            <div class="flex gap-3 pt-2">
+                                <button onclick="document.getElementById('tutupBukuModal').classList.add('hidden')"
+                                    class="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200">Batal</button>
+                                <button onclick="confirmTutupBuku()"
+                                    class="flex-1 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg font-bold hover:shadow-lg">
+                                    <i class="fa-solid fa-lock mr-2"></i>Konfirmasi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Monthly Trend -->
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Tren Pendapatan Bulanan</h3>
+                            <p class="text-sm text-gray-500">Realisasi vs Target per bulan</p>
+                        </div>
+                        <span class="text-xs bg-indigo-100 text-indigo-600 px-3 py-1 rounded-full font-medium">Tahun
+                            2025</span>
+                    </div>
+                    <canvas id="trendChart" height="120"></canvas>
+                </div>
+
+                <!-- Mineral Breakdown -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold text-gray-900">Komposisi per Mineral</h3>
+                        <p class="text-sm text-gray-500">Kontribusi pendapatan</p>
+                    </div>
+                    <canvas id="mineralChart" height="200"></canvas>
+                    <div class="mt-4 space-y-2" id="mineralLegend"></div>
+                </div>
+            </div>
+
+            <!-- Recent SKPD & Top WP -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Recent SKPD -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">
+                        <i class="fa-solid fa-file-lines text-indigo-600 mr-2"></i>SKPD Terbaru
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="text-left text-gray-500 border-b">
+                                    <th class="pb-3 font-medium">No. SKPD</th>
+                                    <th class="pb-3 font-medium">Wajib Pajak</th>
+                                    <th class="pb-3 font-medium text-right">Nilai</th>
+                                    <th class="pb-3 font-medium text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr>
+                                    <td class="py-3 font-mono text-xs">000647/SKPD/06/1</td>
+                                    <td class="py-3">FUJI. H (QUARI)</td>
+                                    <td class="py-3 text-right font-medium">Rp 225.000</td>
+                                    <td class="py-3 text-center"><span
+                                            class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Lunas</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-mono text-xs">000648/SKPD/06/1</td>
+                                    <td class="py-3">CV. BATU PRIMA</td>
+                                    <td class="py-3 text-right font-medium">Rp 1.450.000</td>
+                                    <td class="py-3 text-center"><span
+                                            class="px-2 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">Pending</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-mono text-xs">000649/SKPD/06/1</td>
+                                    <td class="py-3">PT. SELUMA JAYA</td>
+                                    <td class="py-3 text-right font-medium">Rp 3.200.000</td>
+                                    <td class="py-3 text-center"><span
+                                            class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">Lunas</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-mono text-xs">000650/SKPD/06/1</td>
+                                    <td class="py-3">UWAH STORE</td>
+                                    <td class="py-3 text-right font-medium">Rp 675.000</td>
+                                    <td class="py-3 text-center"><span
+                                            class="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-medium">Jatuh
+                                            Tempo</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Top Wajib Pajak -->
+                <div class="bg-white rounded-xl shadow-md p-6 border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">
+                        <i class="fa-solid fa-trophy text-amber-500 mr-2"></i>Top 5 Wajib Pajak (Kontribusi)
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-8 h-8 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center font-bold text-sm">
+                                1</div>
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-900">PT. SELUMA JAYA</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <div class="flex-1 h-2 bg-gray-100 rounded-full">
+                                        <div class="h-2 bg-indigo-500 rounded-full" style="width:85%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 w-24 text-right">Rp 156.5 jt</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-8 h-8 bg-gray-100 text-gray-700 rounded-full flex items-center justify-center font-bold text-sm">
+                                2</div>
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-900">CV. BATU PRIMA</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <div class="flex-1 h-2 bg-gray-100 rounded-full">
+                                        <div class="h-2 bg-indigo-500 rounded-full" style="width:72%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 w-24 text-right">Rp 132.8 jt</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-8 h-8 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center font-bold text-sm">
+                                3</div>
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-900">CV. MINERAL BENGKULU</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <div class="flex-1 h-2 bg-gray-100 rounded-full">
+                                        <div class="h-2 bg-indigo-500 rounded-full" style="width:58%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 w-24 text-right">Rp 98.2 jt</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-8 h-8 bg-gray-50 text-gray-500 rounded-full flex items-center justify-center font-bold text-sm">
+                                4</div>
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-900">FUJI. H (QUARI)</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <div class="flex-1 h-2 bg-gray-100 rounded-full">
+                                        <div class="h-2 bg-indigo-500 rounded-full" style="width:42%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 w-24 text-right">Rp 76.4 jt</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-8 h-8 bg-gray-50 text-gray-500 rounded-full flex items-center justify-center font-bold text-sm">
+                                5</div>
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-900">UWAH STORE</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <div class="flex-1 h-2 bg-gray-100 rounded-full">
+                                        <div class="h-2 bg-indigo-500 rounded-full" style="width:31%"></div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 w-24 text-right">Rp 54.1 jt</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        // Set user info
+        const user = getCurrentUser();
+        if (user.name) document.getElementById('currentUser').textContent = user.name;
+
+        // Load riwayat PAD
+        let riwayatPad = JSON.parse(localStorage.getItem('mblb_riwayat_pad') || '[]');
+        const activeYear = riwayatPad.find(r => r.status === 'active') || {};
+        const realisasi = activeYear.realisasi || 847250000;
+        const target = activeYear.target || 1200000000;
+        const persen = target > 0 ? ((realisasi / target) * 100).toFixed(1) : 0;
+        document.getElementById('targetPAD').textContent = 'Rp ' + target.toLocaleString('id-ID');
+        document.getElementById('tahunTarget').textContent = activeYear.tahun || '2026';
+        document.getElementById('targetPersen').textContent = persen + '%';
+        document.getElementById('targetBar').style.width = Math.min(persen, 100) + '%';
+
+        // Show tutup buku section if there's an active year
+        if (activeYear.tahun) {
+            document.getElementById('tutupBukuSection').classList.remove('hidden');
+            document.getElementById('tutupBukuYear').textContent = activeYear.tahun;
+        }
+
+        function openTutupBukuModal() {
+            document.getElementById('modalYear').textContent = activeYear.tahun;
+            document.getElementById('modalTarget').textContent = 'Rp ' + activeYear.target.toLocaleString('id-ID');
+            document.getElementById('modalRealisasi').textContent = 'Rp ' + activeYear.realisasi.toLocaleString('id-ID');
+            document.getElementById('modalCloser').textContent = user.name || 'Kepala Dinas';
+            document.getElementById('modalCloserRole').textContent = user.role || 'Kepala Dinas';
+            document.getElementById('tutupBukuModal').classList.remove('hidden');
+        }
+
+        function confirmTutupBuku() {
+            const now = new Date();
+            const idx = riwayatPad.findIndex(r => r.tahun === activeYear.tahun);
+            if (idx !== -1) {
+                riwayatPad[idx].status = 'closed';
+                riwayatPad[idx].closedDate = now.toISOString().split('T')[0];
+                riwayatPad[idx].closedBy = user.name || 'Kepala Dinas';
+                riwayatPad[idx].closedRole = user.role || 'Kepala Dinas';
+                localStorage.setItem('mblb_riwayat_pad', JSON.stringify(riwayatPad));
+            }
+            document.getElementById('tutupBukuModal').classList.add('hidden');
+            document.getElementById('tutupBukuSection').classList.add('hidden');
+            showToast(`Buku tahun ${activeYear.tahun} ditutup oleh ${user.name}`, 'success');
+        }
+
+        // Monthly Trend Chart
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        new Chart(trendCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'],
+                datasets: [{
+                    label: 'Realisasi',
+                    data: [62, 78, 85, 71, 92, 88, 95, 102, 87, 110, 73, 0],
+                    backgroundColor: 'rgba(79, 70, 229, 0.8)',
+                    borderRadius: 6
+                }, {
+                    label: 'Target',
+                    data: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+                    type: 'line',
+                    borderColor: '#f59e0b',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => ctx.dataset.label + ': Rp ' + ctx.parsed.y + ' jt'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { callback: v => 'Rp ' + v + ' jt' }
+                    }
+                }
+            }
+        });
+
+        // Mineral Breakdown Chart
+        const mineralData = [
+            { label: 'Pasir Sungai', value: 35, color: '#4f46e5' },
+            { label: 'Tanah Urug', value: 25, color: '#0891b2' },
+            { label: 'Batu Kali', value: 18, color: '#059669' },
+            { label: 'Koral', value: 12, color: '#d97706' },
+            { label: 'Batu Pecah', value: 10, color: '#dc2626' }
+        ];
+
+        const mineralCtx = document.getElementById('mineralChart').getContext('2d');
+        new Chart(mineralCtx, {
+            type: 'doughnut',
+            data: {
+                labels: mineralData.map(m => m.label),
+                datasets: [{
+                    data: mineralData.map(m => m.value),
+                    backgroundColor: mineralData.map(m => m.color),
+                    borderWidth: 0,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '65%',
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Custom legend
+        const legendEl = document.getElementById('mineralLegend');
+        mineralData.forEach(m => {
+            legendEl.innerHTML += `
+                <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full" style="background:${m.color}"></div>
+                        <span class="text-gray-600">${m.label}</span>
+                    </div>
+                    <span class="font-medium text-gray-900">${m.value}%</span>
+                </div>`;
+        });
+    </script>
+</body>
+
+</html>

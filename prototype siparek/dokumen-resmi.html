@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumen Resmi - Pajak Reklame SIPAREK</title>
+    <!-- Use Tailwind for layout outside the paper -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f3f4f6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding-top: 80px;
+            padding-bottom: 4rem;
+        }
+
+        .paper-doc {
+            background: #fff;
+            border: 1px solid #000;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            width: 21cm;
+            min-height: 29.7cm;
+            margin: 2rem auto;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 11pt;
+            color: #000;
+            line-height: normal;
+            position: relative;
+        }
+
+        /* Official Table Styles */
+        .paper-doc table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 5px 0;
+            font-size: 10pt;
+        }
+
+        .paper-doc th,
+        .paper-doc td {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            vertical-align: top;
+        }
+
+        .paper-doc th {
+            text-align: center;
+            font-weight: bold;
+            background-color: transparent;
+        }
+
+        /* Layout Grids */
+        .doc-header-grid {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 15px;
+            border-bottom: 3px double #000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .doc-info-grid {
+            display: grid;
+            grid-template-columns: 140px 15px 1fr;
+            gap: 2px;
+            margin-bottom: 5px;
+            font-size: 10pt;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            .navbar, .controls, .section-card, h1, .toc-section {
+                display: none !important;
+            }
+            .paper-doc {
+                margin: 0;
+                box-shadow: none;
+                border: none;
+                width: 100%;
+                min-height: auto;
+                page-break-after: always;
+            }
+            @page {
+                size: A4;
+                margin: 1cm;
+            }
+        }
+        
+        /* Navigation Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar for Navigation -->
+    <nav class="navbar print:hidden">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
+                <i class="fa-solid fa-file-contract"></i>
+            </div>
+            <span class="font-bold text-lg text-slate-800">Template Dokumen</span>
+        </div>
+        <div class="flex gap-4">
+             <a href="#sptpd" class="text-slate-600 hover:text-blue-600 font-medium">SPTPD</a>
+             <a href="#nota" class="text-slate-600 hover:text-blue-600 font-medium">Nota Perhitungan</a>
+             <a href="#skpd" class="text-slate-600 hover:text-blue-600 font-medium">SKPD</a>
+             <a href="#sspd" class="text-slate-600 hover:text-blue-600 font-medium">SSPD</a>
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto px-4 toc-section">
+        <h1 class="text-3xl font-bold text-slate-900 mb-4">Daftar Dokumen Resmi</h1>
+        <p class="text-slate-600 mb-8">Berikut adalah template dokumen resmi Pajak Reklame Kabupaten Seluma.</p>
+    </div>
+
+    <!-- 1. SPTPD -->
+    <div id="sptpd" class="scroll-mt-24 mb-16">
+        <div class="max-w-4xl mx-auto px-4 mb-4 flex justify-between items-center print:hidden">
+            <h2 class="text-xl font-bold text-slate-800">1. Surat Pemberitahuan Pajak Daerah (SPTPD)</h2>
+            <button onclick="printDoc('sptpd')" class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm font-medium">
+                <i class="fa-solid fa-print mr-2"></i>Cetak SPTPD
+            </button>
+        </div>
+
+        <div class="paper-doc">
+            <!-- Header SPTPD -->
+            <table style="width: 100%; border: 1px solid #000; margin-bottom: 5px;">
+                <tr>
+                    <td style="width: 60%; vertical-align: middle; text-align: center;">
+                        <h3 style="margin:0; font-size:12pt; font-weight:800;">PEMERINTAH KABUPATEN SELUMA</h3>
+                        <h2 style="margin:0; font-size:14pt; font-weight:800;">BADAN PENDAPATAN DAERAH</h2>
+                        <p style="margin:0; font-size:9pt;">Jln. Soekarno-Hatta Pematang Aur Tais Kode Pos 38576</p>
+                    </td>
+                    <td style="width: 40%; vertical-align: top;">
+                        <div style="text-align: right; font-weight: bold; font-size: 11pt; margin-bottom: 10px;">
+                            <span id="sptpd-no">000/SPTPD/2026</span>
+                        </div>
+                        <div style="font-size: 9pt;">
+                            Masa Pajak : <span id="sptpd-masa">Januari 2026</span><br>
+                            Tahun : <span id="sptpd-tahun">2026</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="text-align: center; margin: 20px 0;">
+                <h1 style="margin:0; font-size:16pt; font-weight:800; border:none; padding:0; text-decoration: underline;">SPTPD</h1>
+                <h2 style="margin:0; font-size:12pt; font-weight:800; border:none; padding:0;">(SURAT PEMBERITAHUAN PAJAK DAERAH)</h2>
+                <h3 style="margin:0; font-size:12pt; font-weight:800;">PAJAK REKLAME</h3>
+            </div>
+
+            <div style="margin-left: 60%; margin-bottom: 20px; font-size: 10pt;">
+                Kepada Yth.<br>
+                Kepala Badan Pendapatan Daerah<br>
+                Kabupaten Seluma<br>
+                di - <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tais
+            </div>
+
+            <div style="border: 1px solid #000; padding: 10px; margin-bottom: 15px; font-size: 10pt;">
+                <div class="doc-info-grid">
+                    <div>1. Nama Wajib Pajak</div><div>:</div><div style="font-weight: bold;" id="sptpd-nama">...</div>
+                    <div>2. Alamat</div><div>:</div><div id="sptpd-alamat">...</div>
+                    <div>3. NPWPD</div><div>:</div><div style="font-weight: bold;" id="sptpd-npwpd">...</div>
+                    <div>4. Nama Usaha/Merk</div><div>:</div><div id="sptpd-usaha">...</div>
+                </div>
+            </div>
+
+            <div style="font-weight: bold; font-size: 10pt; margin-bottom: 5px;">A. DATA OBJEK PAJAK REKLAME</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="30">No</th>
+                        <th>Uraian Reklame (Judul/Tema)</th>
+                        <th>Lokasi Pemasangan</th>
+                        <th width="80">Ukuran</th>
+                        <th width="40">Jml</th>
+                        <th width="100">Jangka Waktu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align="center">1</td>
+                        <td>
+                            <div style="font-weight: bold;" id="sptpd-jenis">...</div>
+                            <div id="sptpd-judul" style="font-style: italic;">...</div>
+                        </td>
+                        <td id="sptpd-lokasi">...</td>
+                        <td align="center" id="sptpd-ukuran">...</td>
+                        <td align="center" id="sptpd-jumlah">...</td>
+                        <td align="center" id="sptpd-periode">...</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="font-weight: bold; font-size: 10pt; margin-top: 15px; margin-bottom: 5px;">B. PERNYATAAN</div>
+            <div style="font-size: 10pt; text-align: justify; margin-bottom: 30px;">
+                Demikian Surat Pemberitahuan Pajak Daerah ini diisi dengan sebenar-benarnya dan apabila dikemudian hari ternyata data yang disampaikan tidak benar, saya bersedia dikenakan sanksi sesuai dengan peraturan perundang-undangan yang berlaku.
+            </div>
+
+            <table style="border: none;">
+                <tr style="border: none;">
+                    <td style="border: none; width: 60%;"></td>
+                    <td style="border: none; width: 40%; text-align: center;">
+                        Tais, <span id="sptpd-tanggal">...</span><br>
+                        Wajib Pajak / Penanggung Jawab<br>
+                        <br><br><br><br>
+                        (<span id="sptpd-ttd-nama" style="font-weight: bold; text-decoration: underline;">...</span>)<br>
+                        Jabatan : Pemilik / Direktur
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 2. Nota Perhitungan -->
+    <div id="nota" class="scroll-mt-24 mb-16">
+         <div class="max-w-4xl mx-auto px-4 mb-4 flex justify-between items-center print:hidden">
+            <h2 class="text-xl font-bold text-slate-800">2. Nota Perhitungan Pajak Daerah</h2>
+            <button onclick="printDoc('nota')" class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm font-medium">
+                <i class="fa-solid fa-print mr-2"></i>Cetak Nota
+            </button>
+        </div>
+
+        <div class="paper-doc">
+            <table style="width: 100%; border: 1px solid #000; margin-bottom: 10px;">
+                <tr>
+                    <td style="text-align: center; border: none;">
+                        <h3 style="margin: 0; font-size: 12pt; font-weight: 800;">PEMERINTAH KABUPATEN SELUMA</h3>
+                        <h2 style="margin: 2px 0; font-size: 14pt; font-weight: 800;">BADAN PENDAPATAN DAERAH</h2>
+                        <div style="font-size: 9pt;">Jln. Soekarno-Hatta Pematang Aur Tais Kode Pos 38576</div>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; font-size: 14pt; font-weight: 800; border: none; text-decoration: underline;">NOTA PERHITUNGAN PAJAK DAERAH</h2>
+                <div style="font-style: italic; font-size: 10pt;">Nomor: <span id="nota-no">...</span></div>
+            </div>
+
+            <div class="doc-info-grid">
+                <div>Nama Wajib Pajak</div><div>:</div><div style="font-weight: bold;" id="nota-nama">...</div>
+                <div>NPWPD</div><div>:</div><div style="font-weight: bold;" id="nota-npwpd">...</div>
+                <div>Objek Pajak</div><div>:</div><div id="nota-jenis">...</div>
+                <div>Lokasi</div><div>:</div><div id="nota-lokasi">...</div>
+            </div>
+
+            <div style="margin-top: 20px; font-weight: bold; border-bottom: 1px solid #000;">PERHITUNGAN PAJAK</div>
+            <table style="margin-top: 10px;">
+                <tr>
+                    <th align="left" width="40%">Uraian</th>
+                    <th align="center" width="20%">Dasar Pengenaan</th>
+                    <th align="center" width="15%">Tarif</th>
+                    <th align="right" width="25%">Jumlah Ketetapan (Rp)</th>
+                </tr>
+                <tr>
+                    <td>
+                        <span id="nota-uraian">Pajak Reklame...</span><br>
+                        <span style="font-size: 9pt; font-style: italic;" id="nota-detail">Ukuran ...</span>
+                    </td>
+                    <td align="center" id="nota-nsr">Rp ...</td>
+                    <td align="center">25%</td>
+                    <td align="right" style="font-weight: bold;" id="nota-pokok">...</td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="right" style="font-weight: bold;">TOTAL PAJAK TERHUTANG</td>
+                    <td align="right" style="font-weight: 800; font-size: 12pt;" id="nota-total">...</td>
+                </tr>
+            </table>
+
+            <div style="margin-top: 10px; font-style: italic;">
+                Terbilang: <span style="font-weight: bold; text-transform: capitalize;" id="nota-terbilang">...</span>
+            </div>
+
+            <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: center;">
+                <div>
+                     Mengetahui,<br>
+                     Kepala Bidang Penetapan<br>
+                     <br><br><br><br>
+                     <span style="font-weight: bold; text-decoration: underline;">PARLYNDUNGAN SIANTURI, SE, MH</span><br>
+                     NIP. 197608192010011007
+                </div>
+                <div>
+                     Dibuat Oleh,<br>
+                     Verifikator / Petugas Hitung<br>
+                     <br><br><br><br>
+                     <span style="font-weight: bold; text-decoration: underline;" id="nota-verifikator">RINA HARTATI</span><br>
+                     Staf Penetapan
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. SKPD -->
+    <div id="skpd" class="scroll-mt-24 mb-16">
+      <div class="max-w-4xl mx-auto px-4 mb-4 flex justify-between items-center print:hidden">
+            <h2 class="text-xl font-bold text-slate-800">3. Surat Ketetapan Pajak Daerah (SKPD)</h2>
+            <button onclick="printDoc('skpd')" class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm font-medium">
+                <i class="fa-solid fa-print mr-2"></i>Cetak SKPD
+            </button>
+        </div>
+        <div class="paper-doc">
+            <table style="margin-bottom: 2px;">
+                <tr>
+                    <td width="60%" align="center">
+                        <h3 style="margin: 0; font-size: 12pt; font-weight: 800;">PEMERINTAH KABUPATEN SELUMA</h3>
+                        <h2 style="margin: 0; font-size: 14pt; font-weight: 800;">BADAN PENDAPATAN DAERAH</h2>
+                        <div style="font-size: 9pt;">Jln. Soekarno-Hatta Pematang Aur Tais Kode Pos 38576</div>
+                    </td>
+                    <td width="40%" align="center">
+                        <h2 style="margin: 0; font-size: 14pt; font-weight: 800; border: none;">SKPD</h2>
+                        <div style="font-size: 10pt; font-weight: bold;">(SURAT KETETAPAN PAJAK DAERAH)</div>
+                        <div style="font-size: 10pt; margin-top: 5px;">Nomor: <span id="skpd-no">...</span></div>
+                        <div style="font-size: 9pt;">Tahun: <span id="skpd-tahun">2026</span></div>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="display: grid; grid-template-columns: 100px 10px 1fr; gap: 2px; margin: 15px 0; font-size: 10pt;">
+                <div>Nama</div><div>:</div><div id="skpd-nama">...</div>
+                <div>Alamat</div><div>:</div><div id="skpd-alamat">...</div>
+                <div>NPWPD</div><div>:</div><div style="font-weight: bold;" id="skpd-npwpd">...</div>
+                <div>Jatuh Tempo</div><div>:</div><div style="font-weight: bold; color: #dc2626;" id="skpd-jatuhtempo">...</div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th width="30">No</th>
+                        <th>Kode Rekening</th>
+                        <th>Uraian Pajak Daerah</th>
+                        <th width="120">Jumlah (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align="center" style="vertical-align: top;">1</td>
+                        <td style="vertical-align: top;">4.1.1.04.01</td>
+                        <td style="vertical-align: top;">
+                            <div style="font-weight: bold;">Pajak Reklame</div>
+                            <div id="skpd-uraian">...</div>
+                            <div style="margin-top: 5px; font-style: italic;">
+                                Lokasi: <span id="skpd-lokasi">...</span><br>
+                                Masa Pajak: <span id="skpd-masa">...</span>
+                            </div>
+                        </td>
+                        <td align="right" style="vertical-align: top;" id="skpd-jumlah">...</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" align="right" style="font-weight: bold;">Jumlah Ketetapan Pokok</td>
+                        <td align="right" style="font-weight: bold;" id="skpd-total">...</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div style="margin-top: 5px; font-style: italic; font-weight: bold;">
+                Terbilang: <span id="skpd-terbilang" style="text-transform: capitalize;">...</span>
+            </div>
+
+             <div style="margin-top: 20px; font-size: 9pt; border: 1px solid #000; padding: 5px;">
+                <strong>PERHATIAN :</strong><br>
+                1. Harap penyetoran dilakukan melalui Kas Daerah / Bank Bengkulu Cabang Tais.<br>
+                2. Apabila SKPD ini tidak dibayar setelah tanggal jatuh tempo, dikenakan sanksi administrasi berupa bunga 2% per bulan.
+            </div>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <div style="display: inline-block; text-align: center; width: 250px;">
+                    Tais, <span id="skpd-tanggal-ttd">...</span><br>
+                    KEPALA BIDANG PENETAPAN<br>
+                     <br><br><br><br>
+                     <span style="font-weight: bold; text-decoration: underline;">PARLYNDUNGAN SIANTURI, SE, MH</span><br>
+                     NIP. 197608192010011007
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. SSPD -->
+    <div id="sspd" class="scroll-mt-24 mb-16">
+        <div class="max-w-4xl mx-auto px-4 mb-4 flex justify-between items-center print:hidden">
+            <h2 class="text-xl font-bold text-slate-800">4. Surat Setoran Pajak Daerah (SSPD)</h2>
+            <button onclick="printDoc('sspd')" class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm font-medium">
+                <i class="fa-solid fa-print mr-2"></i>Cetak SSPD
+            </button>
+        </div>
+        <div class="paper-doc">
+             <table style="width: 100%; border: 1px solid #000; margin-bottom: 2px;">
+                <tr>
+                    <td style="width: 60%; vertical-align: middle; text-align: center;">
+                        <h3 style="margin: 0; font-size: 12pt; font-weight: 800;">PEMERINTAH KABUPATEN SELUMA</h3>
+                        <h2 style="margin: 0; font-size: 14pt; font-weight: 800;">BADAN PENDAPATAN DAERAH</h2>
+                        <div style="font-size: 9pt;">Jln. Soekarno-Hatta Pematang Aur Tais Kode Pos 38576</div>
+                    </td>
+                    <td style="width: 40%; text-align: center;">
+                        <h3 style="margin: 0; font-size: 16pt; font-weight: 800;">SSPD</h3>
+                        <div style="font-size: 9pt; font-weight: bold;">(SURAT SETORAN PAJAK DAERAH)</div>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="text-align: right; font-size: 10pt; margin: 5px 0;">
+                Nomor: <span id="sspd-no">...</span> / Tanggal: <span id="sspd-tanggal">...</span>
+            </div>
+
+            <div class="doc-info-grid">
+                <div>Nama Penyetor</div><div>:</div><div id="sspd-nama">...</div>
+                <div>Alamat</div><div>:</div><div id="sspd-alamat">...</div>
+                <div>NPWPD</div><div>:</div><div style="font-weight: bold;" id="sspd-npwpd">...</div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th width="30">No</th>
+                        <th>Kode Rekening</th>
+                        <th>Uraian</th>
+                        <th width="120">Jumlah (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align="center">1</td>
+                        <td>4.1.1.04.01</td>
+                        <td>
+                            <div style="font-weight: bold;">Pajak Reklame</div>
+                            <div id="sspd-uraian">...</div>
+                        </td>
+                        <td align="right" id="sspd-nilai">...</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" align="center" style="font-weight: bold;">TOTAL PEMBAYARAN</td>
+                        <td align="right" style="font-weight: bold;" id="sspd-total">...</td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div style="margin-top: 5px; font-style: italic;">
+                Terbilang: <span id="sspd-terbilang" style="font-weight: bold; text-transform: capitalize;">...</span>
+            </div>
+
+             <table style="margin-top: 30px; border: 1px solid #000;">
+                <tr>
+                    <td width="33%" align="center" style="padding: 20px 5px;">
+                        Petugas Penerima,<br>
+                        <br><br><br><br>
+                        (____________________)
+                    </td>
+                    <td width="33%" align="center" style="padding: 20px 5px;">
+                        Penyetor,<br>
+                         <br><br><br><br>
+                        (<span id="sspd-penyetor">...</span>)
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Utilities
+        const formatRupiah = (num) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(num);
+        
+        // Populate Functions
+        function populateSPTPD() {
+            const data = JSON.parse(localStorage.getItem('siparek_active_sptpd'));
+            if(!data) return;
+            
+            setText('sptpd-nama', data.nama);
+            setText('sptpd-npwpd', data.npwpd || data.npwpd);
+            setText('sptpd-usaha', data.usaha);
+            setText('sptpd-alamat', data.alamat);
+            setText('sptpd-jenis', data.jenis);
+            setText('sptpd-judul', data.judul);
+            setText('sptpd-lokasi', data.lokasi);
+            setText('sptpd-ukuran', data.ukuran);
+            setText('sptpd-jumlah', data.jumlah);
+            setText('sptpd-periode', data.masa);
+            
+            // Random Number
+            setText('sptpd-no', '00' + Math.floor(Math.random()*1000) + '/SPTPD/2026');
+            setText('sptpd-tanggal', new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}));
+            setText('sptpd-ttd-nama', data.nama.toUpperCase());
+        }
+
+        function populateNota() {
+            const data = JSON.parse(localStorage.getItem('siparek_active_nota'));
+            if(!data) return;
+
+            setText('nota-nama', data.nama);
+            setText('nota-npwpd', data.npwpd);
+            setText('nota-jenis', data.jenis);
+            setText('nota-lokasi', data.lokasi);
+            setText('nota-uraian', data.jenis + ' - ' + data.lokasi);
+            setText('nota-detail', 'Ukuran: ' + data.ukuran + ', Masa: ' + data.masa);
+            
+            setText('nota-nsr', formatRupiah(data.nilaiSewa));
+            setText('nota-pokok', formatRupiah(data.pajak));
+            setText('nota-total', formatRupiah(data.total));
+            setText('nota-terbilang', data.terbilang);
+
+            setText('nota-no', '00' + Math.floor(Math.random()*1000) + '/NOTA/2026');
+        }
+
+        function populateSKPD() {
+            const data = JSON.parse(localStorage.getItem('siparek_active_skpd'));
+            if(!data) return;
+
+            setText('skpd-no', data.no_skpd);
+            setText('skpd-nama', data.nama);
+            setText('skpd-alamat', data.alamat);
+            setText('skpd-npwpd', data.npwpd);
+            setText('skpd-jatuhtempo', data.jatuhtempo);
+            
+            setText('skpd-uraian', data.jenis + ' - ' + data.lokasi);
+            setText('skpd-lokasi', data.lokasi);
+            setText('skpd-masa', data.masa);
+            
+            setText('skpd-jumlah', formatRupiah(data.total));
+            setText('skpd-total', formatRupiah(data.total));
+            setText('skpd-terbilang', data.terbilang);
+            setText('skpd-tanggal-ttd', new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}));
+        }
+
+        function populateSSPD() {
+            const data = JSON.parse(localStorage.getItem('siparek_last_payment'));
+            if(!data) return;
+            
+            setText('sspd-nama', data.nama);
+            setText('sspd-alamat', 'Seluma'); // Mock
+            setText('sspd-npwpd', data.npwpd);
+            setText('sspd-uraian', 'Pembayaran Pajak Reklame');
+            
+            const total = data.total || 0;
+            setText('sspd-nilai', formatRupiah(total));
+            setText('sspd-total', formatRupiah(total));
+            
+            const terbilangText = terbilang(total) + ' Rupiah';
+            setText('sspd-terbilang', terbilangText);
+            
+            setText('sspd-penyetor', data.nama.toUpperCase());
+            setText('sspd-no', '00' + Math.floor(Math.random()*1000) + '/SSPD/2026');
+            setText('sspd-tanggal', new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'}));
+        }
+
+        // Helper
+        function setText(id, value) {
+            const el = document.getElementById(id);
+            if(el) el.textContent = value;
+        }
+
+        // Terbilang function (Simplified)
+        function terbilang(a){var b=["","Satu","Dua","Tiga","Empat","Lima","Enam","Tujuh","Delapan","Sembilan","Sepuluh","Sebelas"];var c="";if(a<12){c=" "+b[a]}else if(a<20){c=terbilang(a-10)+" Belas"}else if(a<100){c=terbilang(Math.floor(a/10))+" Puluh"+terbilang(a%10)}else if(a<200){c=" Seratus"+terbilang(a-100)}else if(a<1000){c=terbilang(Math.floor(a/100))+" Ratus"+terbilang(a%100)}else if(a<2000){c=" Seribu"+terbilang(a-1000)}else if(a<1000000){c=terbilang(Math.floor(a/1000))+" Ribu"+terbilang(a%1000)}else if(a<1000000000){c=terbilang(Math.floor(a/1000000))+" Juta"+terbilang(a%1000000)}return c}
+
+        // Print function
+        function printDoc(id) {
+            // Hide other sections
+            const allDocs = document.querySelectorAll('.paper-doc');
+            const allHeaders = document.querySelectorAll('.scroll-mt-24 h2');
+            
+            // Just for printing, simple visibility toggle won't work well with CSS @media print handling current layout
+            // So we'll use a specific print logic:
+            window.print();
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+             const hash = window.location.hash;
+             if(hash === '#sptpd') populateSPTPD();
+             if(hash === '#nota') populateNota();
+             if(hash === '#skpd') populateSKPD();
+             if(hash === '#sspd') populateSSPD();
+
+             if(hash) {
+                 // Auto scroll or isolate view
+                 const id = hash.substring(1);
+                 const el = document.getElementById(id);
+                 if(el) {
+                     // Hide others for non-print view too if you want focused view
+                     document.querySelectorAll('.scroll-mt-24').forEach(div => {
+                         if(div.id !== id) div.style.display = 'none';
+                     });
+                     document.querySelector('.toc-section').style.display = 'none';
+                 }
+             }
+        });
+    </script>
+</body>
+</html>

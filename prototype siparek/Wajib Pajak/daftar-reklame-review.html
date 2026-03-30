@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Pendaftaran - SIPAREK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50">
+
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-file-invoice-dollar text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">SIPAREK</h2>
+                        <p class="text-xs text-indigo-200">Pajak Reklame</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <a href="dashboard.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-home w-5 text-center"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Layanan Utama</p>
+                </div>
+                <a href="daftar-reklame.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth bg-indigo-700">
+                    <i class="fa-solid fa-plus-circle w-5 text-center"></i>
+                    <span class="font-medium">Daftar Reklame</span>
+                </a>
+                <a href="pembayaran.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-wallet w-5 text-center"></i>
+                    <span class="font-medium">Bayar Pajak</span>
+                </a>
+                <a href="objek-reklame.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-rectangle-ad w-5 text-center"></i>
+                    <span class="font-medium">Objek Reklame Saya</span>
+                </a>
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Permohonan</p>
+                </div>
+                <a href="perubahan.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-pen-to-square w-5 text-center"></i>
+                    <span class="font-medium">Perubahan Data</span>
+                </a>
+                <a href="pembongkaran.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-trash-can w-5 text-center"></i>
+                    <span class="font-medium">Pembongkaran</span>
+                </a>
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Lainnya</p>
+                </div>
+                <a href="riwayat.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-clock-rotate-left w-5 text-center"></i>
+                    <span class="font-medium">Riwayat Transaksi</span>
+                </a>
+                <a href="bantuan.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-circle-question w-5 text-center"></i>
+                    <span class="font-medium">Bantuan</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+
+        <!-- Top Navbar -->
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Review & Konfirmasi</h1>
+                        <p class="text-sm text-gray-500">Periksa kembali data pendaftaran</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button onclick="window.location.href='notifikasi.html'"
+                        class="relative p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bell text-xl text-gray-600"></i>
+                    </button>
+                    <div class="relative">
+                        <button onclick="toggleDropdown('profileDropdown')"
+                            class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                            <div
+                                class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">
+                                AP</div>
+                            <div class="hidden md:block text-left">
+                                <p class="text-sm font-semibold text-gray-900">Ahmad Pratama</p>
+                                <p class="text-xs text-gray-500">npwpd: 1234...0001</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-sm text-gray-600"></i>
+                        </button>
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
+                            <a href="profile.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-user w-4 text-center"></i>
+                                    Profil Saya
+                                </div>
+                            </a>
+                            <hr class="my-1">
+                            <button onclick="logout()"
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-right-from-bracket w-4 text-center"></i>
+                                    Keluar
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Form Content -->
+        <main class="p-6">
+            <div class="max-w-6xl mx-auto">
+
+                <!-- Progress Steps -->
+                <div class="bg-white rounded-xl shadow-sm p-6 mb-6 border border-gray-100">
+                    <div class="step-indicator flex justify-between items-center mb-6">
+                        <div class="step completed flex-1 flex items-center">
+                            <div
+                                class="step-circle w-10 h-10 rounded-full border-2 bg-green-500 text-white flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-semibold text-gray-900">Kategori</p>
+                                <p class="text-xs text-gray-500">Pilih jenis</p>
+                            </div>
+                        </div>
+                        <div class="step completed flex-1 flex items-center">
+                            <div
+                                class="step-circle w-10 h-10 rounded-full border-2 bg-green-500 text-white flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-semibold text-gray-900">Data Objek</p>
+                                <p class="text-xs text-gray-500">Isi detail</p>
+                            </div>
+                        </div>
+                        <div class="step completed flex-1 flex items-center">
+                            <div
+                                class="step-circle w-10 h-10 rounded-full border-2 bg-green-500 text-white flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-semibold text-gray-900">Upload Foto</p>
+                                <p class="text-xs text-gray-500">Dokumen</p>
+                            </div>
+                        </div>
+                        <div class="step active flex-1 flex items-center">
+                            <div
+                                class="step-circle w-10 h-10 rounded-full border-2 bg-indigo-500 text-white flex items-center justify-center font-bold">
+                                4
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-semibold text-gray-900">Review</p>
+                                <p class="text-xs text-gray-500">Konfirmasi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review Content -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                    <!-- Left Side - Data Review -->
+                    <div class="lg:col-span-2 space-y-6">
+
+                        <!-- Data Objek -->
+                        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-bold text-gray-900">
+                                    <i class="fa-solid fa-rectangle-ad mr-2 text-indigo-500"></i>Data Objek Reklame
+                                </h3>
+                                <button onclick="window.location.href='daftar-reklame.html'"
+                                    class="text-sm text-indigo-600 hover:text-indigo-700 font-semibold">
+                                    <i class="fa-solid fa-edit mr-1"></i>Edit
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Kategori</p>
+                                    <p class="font-semibold text-gray-900" id="review-kategori">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Kelas Jalan</p>
+                                    <p class="font-semibold text-gray-900" id="review-kelas-jalan">-</p>
+                                </div>
+                                <div class="col-span-2">
+                                    <p class="text-xs text-gray-500 mb-1">Lokasi</p>
+                                    <p class="font-semibold text-gray-900" id="review-lokasi">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Ukuran</p>
+                                    <p class="font-semibold text-gray-900" id="review-ukuran">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Jumlah Sisi</p>
+                                    <p class="font-semibold text-gray-900" id="review-sisi">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Masa Pajak</p>
+                                    <p class="font-semibold text-gray-900" id="review-masa-pajak">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Konten Rokok/Alkohol</p>
+                                    <p class="font-semibold text-gray-900" id="review-rokok">-</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Foto Dokumentasi -->
+                        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-bold text-gray-900">
+                                    <i class="fa-solid fa-images mr-2 text-indigo-500"></i>Foto Dokumentasi
+                                </h3>
+                                <button onclick="window.location.href='daftar-reklame-upload.html'"
+                                    class="text-sm text-indigo-600 hover:text-indigo-700 font-semibold">
+                                    <i class="fa-solid fa-edit mr-1"></i>Edit
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-2">Tampak Depan</p>
+                                    <img id="review-foto-depan" src="" alt="Foto Depan"
+                                        class="w-full h-32 object-cover rounded-lg border border-gray-200">
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-2">Tampak Samping</p>
+                                    <img id="review-foto-samping" src="" alt="Foto Samping"
+                                        class="w-full h-32 object-cover rounded-lg border border-gray-200">
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-2">Konteks Lokasi</p>
+                                    <img id="review-foto-lokasi" src="" alt="Foto Lokasi"
+                                        class="w-full h-32 object-cover rounded-lg border border-gray-200">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Terms & Conditions -->
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
+                            <h3 class="font-bold text-yellow-900 mb-3">
+                                <i class="fa-solid fa-exclamation-triangle mr-2"></i>Syarat & Ketentuan
+                            </h3>
+                            <div class="text-sm text-yellow-800 space-y-2 mb-4">
+                                <p>• Data yang disampaikan adalah benar dan dapat dipertanggungjawabkan</p>
+                                <p>• Bersedia dilakukan survey lapangan oleh petugas</p>
+                                <p>• Menyetujui perhitungan pajak yang telah ditetapkan</p>
+                                <p>• Akan membayar pajak sesuai dengan jatuh tempo yang ditentukan</p>
+                            </div>
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" id="agree-terms"
+                                    class="w-5 h-5 text-indigo-600 border-gray-300 rounded mt-0.5">
+                                <span class="text-sm text-gray-700">
+                                    Saya telah membaca dan menyetujui syarat & ketentuan di atas, serta menyatakan bahwa
+                                    semua data yang saya berikan adalah benar.
+                                </span>
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Side - Summary -->
+                    <div class="lg:col-span-1">
+                        <div
+                            class="bg-gradient-to-br from-indigo-600 to-purple-600 text-white p-8 rounded-3xl shadow-xl sticky top-24">
+                            <h4 class="text-xs font-bold text-indigo-200 uppercase tracking-widest mb-6">Estimasi Pajak
+                            </h4>
+
+                            <!-- Luas Total -->
+                            <div class="mb-6 pb-6 border-b border-indigo-400">
+                                <p class="text-sm text-indigo-100 mb-1">Luas Total</p>
+                                <p class="text-3xl font-black" id="summary-luas">0 m²</p>
+                            </div>
+
+                            <!-- NSR -->
+                            <div class="mb-6 pb-6 border-b border-indigo-400">
+                                <p class="text-sm text-indigo-100 mb-1">Nilai Sewa Reklame (NSR)</p>
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-sm">Rp</span>
+                                    <span class="text-3xl font-black" id="summary-nsr">0 Jt</span>
+                                </div>
+                                <p class="text-xs text-indigo-200 mt-1" id="summary-formula-nsr">-</p>
+                            </div>
+
+                            <!-- Pajak Terutang -->
+                            <div class="mb-6">
+                                <p class="text-sm text-indigo-100 mb-1">Pajak Terutang (25%)</p>
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-sm">Rp</span>
+                                    <span class="text-4xl font-black" id="summary-pajak">0 Jt</span>
+                                </div>
+                                <p class="text-xs text-indigo-200 mt-1" id="summary-formula-pajak">-</p>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button onclick="submitRegistration()" id="btnSubmit"
+                                class="w-full py-4 bg-white text-indigo-600 font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 opacity-50 cursor-not-allowed mb-3"
+                                disabled>
+                                <i class="fa-solid fa-check"></i>
+                                Submit Pendaftaran
+                            </button>
+                            <button onclick="window.location.href='daftar-reklame-upload.html'"
+                                class="w-full py-3 bg-indigo-700 hover:bg-indigo-800 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                Kembali
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="../shared.js"></script>
+    <script>
+        let draftData = null;
+
+        window.addEventListener('load', () => {
+            loadDraftData();
+        });
+
+        function loadDraftData() {
+            const draft = localStorage.getItem('siparek_reklame_draft');
+            if (!draft) {
+                showToast('Data tidak ditemukan. Silakan mulai dari awal.', 'error');
+                setTimeout(() => {
+                    window.location.href = 'daftar-reklame.html';
+                }, 2000);
+                return;
+            }
+
+            draftData = JSON.parse(draft);
+
+            // Populate data objek
+            const kategoriMap = {
+                'videotron': 'Videotron',
+                'billboard': 'Billboard',
+                'spanduk': 'Spanduk',
+                'baliho': 'Baliho'
+            };
+
+            const kelasJalanMap = {
+                'protokol-a': 'Protokol A (Utama)',
+                'protokol-b': 'Protokol B (Sekunder)',
+                'lingkungan': 'Jalan Lingkungan'
+            };
+
+            document.getElementById('review-kategori').textContent = kategoriMap[draftData.kategori] || draftData.kategori;
+            document.getElementById('review-kelas-jalan').textContent = kelasJalanMap[draftData.kelas_jalan] || draftData.kelas_jalan;
+            document.getElementById('review-lokasi').textContent = draftData.lokasi || '-';
+            document.getElementById('review-ukuran').textContent = `${draftData.panjang} m × ${draftData.lebar} m`;
+            document.getElementById('review-sisi').textContent = `${draftData.sisi} Sisi`;
+            document.getElementById('review-masa-pajak').textContent = `${draftData.masa_pajak} Bulan`;
+            document.getElementById('review-rokok').textContent = draftData.is_rokok ? 'Ya (+25%)' : 'Tidak';
+
+            // Populate photos
+            if (draftData.foto_depan) {
+                document.getElementById('review-foto-depan').src = draftData.foto_depan;
+            }
+            if (draftData.foto_samping) {
+                document.getElementById('review-foto-samping').src = draftData.foto_samping;
+            }
+            if (draftData.foto_lokasi) {
+                document.getElementById('review-foto-lokasi').src = draftData.foto_lokasi;
+            }
+
+            // Populate summary
+            const luas = draftData.panjang * draftData.lebar;
+            const nsr = draftData.nsr || 0;
+            const pajak = draftData.pajak || 0;
+
+            document.getElementById('summary-luas').textContent = luas.toFixed(1) + ' m²';
+            document.getElementById('summary-nsr').textContent = formatNumber(Math.round(nsr / 1000000)) + ' Jt';
+            document.getElementById('summary-pajak').textContent = formatNumber(Math.round(pajak / 1000000)) + ' Jt';
+            document.getElementById('summary-formula-nsr').textContent = draftData.formula_nsr || '-';
+            document.getElementById('summary-formula-pajak').textContent = draftData.formula_pajak || '-';
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Enable submit button when terms are agreed
+        document.getElementById('agree-terms').addEventListener('change', (e) => {
+            const btnSubmit = document.getElementById('btnSubmit');
+            if (e.target.checked) {
+                btnSubmit.disabled = false;
+                btnSubmit.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                btnSubmit.disabled = true;
+                btnSubmit.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        });
+
+        function submitRegistration() {
+            if (!document.getElementById('agree-terms').checked) {
+                showToast('Harap setujui syarat & ketentuan terlebih dahulu', 'error');
+                return;
+            }
+
+            if (!draftData) {
+                showToast('Data tidak valid', 'error');
+                return;
+            }
+
+            // Get current user
+            const currentUser = JSON.parse(localStorage.getItem('siparek_current_user') || '{}');
+
+            // Get existing reklame data
+            let reklameList = JSON.parse(localStorage.getItem('siparek_reklame') || '[]');
+
+            // Generate new ID
+            const newId = 'R' + String(reklameList.length + 1).padStart(3, '0');
+
+            // Create new reklame object
+            const newReklame = {
+                id: newId,
+                npwpd: currentUser.npwpd || '1234567890120001',
+                nama_pemilik: currentUser.nama || 'Ahmad Pratama',
+                kategori: draftData.kategori,
+                jenis: getCategoryLabel(draftData.kategori),
+                lokasi: draftData.lokasi,
+                kelas_jalan: draftData.kelas_jalan,
+                ukuran_panjang: parseFloat(draftData.panjang),
+                ukuran_lebar: parseFloat(draftData.lebar),
+                sisi: parseInt(draftData.sisi),
+                jumlah: 1,
+                status: 'pending_survey',
+                tanggal_daftar: new Date().toISOString().split('T')[0],
+                masa_berlaku_mulai: null,
+                masa_berlaku_selesai: null,
+                masa_pajak: parseInt(draftData.masa_pajak),
+                is_rokok: draftData.is_rokok || false,
+                koordinat_gps: draftData.gps || null,
+                foto_depan: draftData.foto_depan,
+                foto_samping: draftData.foto_samping,
+                foto_lokasi: draftData.foto_lokasi,
+                nsr: draftData.nsr,
+                pajak: draftData.pajak
+            };
+
+            // Add to list
+            reklameList.push(newReklame);
+
+            // Save to localStorage
+            localStorage.setItem('siparek_reklame', JSON.stringify(reklameList));
+
+            // Clear draft
+            localStorage.removeItem('siparek_reklame_draft');
+
+            // Store registration ID for success page
+            localStorage.setItem('siparek_last_registration_id', newId);
+
+            // Show success and redirect
+            showToast('Pendaftaran berhasil disubmit!', 'success');
+            setTimeout(() => {
+                window.location.href = 'daftar-reklame-sukses.html';
+            }, 1500);
+        }
+
+        function getCategoryLabel(category) {
+            const labels = {
+                'videotron': 'Videotron LED',
+                'billboard': 'Billboard Outdoor',
+                'spanduk': 'Spanduk',
+                'baliho': 'Baliho'
+            };
+            return labels[category] || category;
+        }
+    </script>
+</body>
+
+</html>

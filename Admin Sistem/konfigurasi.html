@@ -1,0 +1,627 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfigurasi Sistem - Admin Sistem MBLB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-gear text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">MBLB</h2>
+                        <p class="text-xs text-indigo-200">Admin Sistem</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu space-y-2">
+                <!-- Dynamic sidebar populated by shared.js renderDynamicSidebar() -->
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+        <!-- Top Navbar -->
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Konfigurasi Sistem</h1>
+                        <p class="text-sm text-gray-500">Riwayat PAD, Rekening & Instansi</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <button onclick="toggleDropdown('profileDropdown')"
+                            class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                            <div
+                                class="w-9 h-9 bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                                SA</div>
+                            <span class="text-sm font-medium text-gray-700 hidden md:block"
+                                id="currentUser">Admin</span>
+                        </button>
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2">
+                            <button onclick="logout()"
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <i class="fa-solid fa-right-from-bracket w-4 text-center mr-2"></i>Keluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <main class="p-6 space-y-6">
+
+            <!-- PAD History Section -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+                <div
+                    class="px-6 py-4 bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-100 flex items-center justify-between">
+                    <h3 class="font-bold text-gray-900 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line text-amber-600"></i>
+                        Riwayat Target & Realisasi PAD
+                    </h3>
+                    <button onclick="openNewYearModal()"
+                        class="px-3 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-bold text-xs hover:shadow-lg transition-all">
+                        <i class="fa-solid fa-plus mr-1"></i>Tambah Tahun
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-gray-50 border-b border-gray-200">
+                                <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Tahun</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Target PAD</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Realisasi</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Capaian</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Status</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Ditutup Oleh</th>
+                                <th class="px-6 py-3 text-xs font-semibold text-gray-500 uppercase text-center">Aksi
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="padHistoryBody" class="divide-y divide-gray-100"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Info Instansi & Bank -->
+            <form id="configForm" onsubmit="saveConfig(event)" class="space-y-6">
+                <!-- Bank Info -->
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+                    <div class="px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
+                        <h3 class="font-bold text-gray-900 flex items-center gap-2">
+                            <i class="fa-solid fa-building-columns text-blue-600"></i>
+                            Bank Penerima Setoran
+                        </h3>
+                    </div>
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Bank</label>
+                            <input type="text" id="bankPenerima" required
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Nomor Rekening</label>
+                            <input type="text" id="noRekening" required
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Opsen Pajak Provinsi -->
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+                    <div class="px-6 py-4 bg-gradient-to-r from-purple-50 to-fuchsia-50 border-b border-purple-100">
+                        <h3 class="font-bold text-gray-900 flex items-center gap-2">
+                            <i class="fa-solid fa-building-flag text-purple-600"></i>
+                            Opsen Pajak Provinsi
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <!-- Info Alert -->
+                        <div class="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                            <p class="text-sm text-purple-800"><i class="fa-solid fa-circle-info mr-1"></i>
+                                <strong>Opsen Provinsi</strong> adalah pungutan tambahan oleh Provinsi atas pajak MBLB Kabupaten/Kota (UU HKPD No. 1/2022). Dihitung dari persentase pajak terutang Kabupaten.
+                            </p>
+                        </div>
+                        <!-- Toggle + Input -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Status</label>
+                                <div class="flex items-center gap-3 pt-1">
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="opsenAktif" class="sr-only peer" checked>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                    </label>
+                                    <span class="text-sm font-medium text-gray-700" id="opsenStatusLabel">Aktif</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Persentase Opsen (%)</label>
+                                <input type="number" id="opsenProvinsi" min="0" max="100" value="25"
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Provinsi</label>
+                                <input type="text" id="namaProvinsi" value="Provinsi Bengkulu"
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            </div>
+                        </div>
+                        <!-- Preview -->
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                            <p class="text-xs text-gray-500 mb-2">Preview perhitungan (Pajak Kabupaten Rp 400.000):</p>
+                            <div class="grid grid-cols-3 gap-4 text-sm">
+                                <div>
+                                    <p class="text-gray-500 text-xs">Pajak Kabupaten</p>
+                                    <p class="font-bold text-gray-900">Rp 400.000</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500 text-xs">Opsen Provinsi</p>
+                                    <p class="font-bold text-purple-600" id="opsenPreviewNominal">Rp 100.000</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500 text-xs">Total Bayar</p>
+                                    <p class="font-bold text-green-600" id="opsenPreviewTotal">Rp 500.000</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Instansi -->
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+                    <div class="px-6 py-4 bg-gradient-to-r from-green-50 to-emerald-50 border-b border-green-100">
+                        <h3 class="font-bold text-gray-900 flex items-center gap-2">
+                            <i class="fa-solid fa-landmark text-green-600"></i>
+                            Informasi Instansi
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Dinas</label>
+                                <input type="text" id="namaDinas" required
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Kabupaten</label>
+                                <input type="text" id="namaKabupaten" required
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Alamat Kantor</label>
+                            <input type="text" id="alamatDinas" required
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarif & Perhitungan Pajak -->
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+                    <div class="px-6 py-4 bg-gradient-to-r from-amber-50 to-yellow-50 border-b border-amber-100">
+                        <h3 class="font-bold text-gray-900 flex items-center gap-2">
+                            <i class="fa-solid fa-percent text-amber-600"></i>
+                            Tarif & Perhitungan Pajak
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Tarif Pajak MBLB (%)</label>
+                                <input type="number" id="tarifPajakPersen" min="1" max="100" value="20"
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                                <p class="text-xs text-gray-400 mt-1">UU PDRD maks 20%</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Bunga Denda (%/bln)</label>
+                                <input type="number" id="dendaBungaPersen" min="0" max="10" step="0.5" value="2"
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Maks Denda (bulan)</label>
+                                <input type="number" id="dendaMaxBulan" min="1" max="48" value="24"
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Jatuh Tempo (hari)</label>
+                                <input type="number" id="jatuhTempoHari" min="7" max="90" value="30"
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                                <p class="text-xs text-gray-400 mt-1">Sejak tanggal penetapan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pejabat Penandatangan -->
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+                    <div class="px-6 py-4 bg-gradient-to-r from-rose-50 to-pink-50 border-b border-rose-100">
+                        <h3 class="font-bold text-gray-900 flex items-center gap-2">
+                            <i class="fa-solid fa-signature text-rose-600"></i>
+                            Pejabat Penandatangan Dokumen
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <!-- Kabid -->
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <p class="text-xs font-bold text-gray-500 uppercase mb-3">Kepala Bidang Penetapan</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-600 mb-1">Nama Lengkap</label>
+                                    <input type="text" id="pejabatKabid"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-rose-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-600 mb-1">NIP</label>
+                                    <input type="text" id="nipKabid"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-rose-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-600 mb-1">Jabatan</label>
+                                    <input type="text" id="jabatanKabid" value="Kepala Bidang Penetapan"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-rose-500">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Kadis -->
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <p class="text-xs font-bold text-gray-500 uppercase mb-3">Kepala Dinas</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-600 mb-1">Nama Lengkap</label>
+                                    <input type="text" id="pejabatKadis"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-rose-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-600 mb-1">NIP</label>
+                                    <input type="text" id="nipKadis"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-rose-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-600 mb-1">Jabatan</label>
+                                    <input type="text" id="jabatanKadis"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-rose-500">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Staf Penetapan -->
+                        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <p class="text-xs font-bold text-gray-500 uppercase mb-3">Staf Penetapan / Verifikator</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-600 mb-1">Nama Lengkap</label>
+                                    <input type="text" id="pejabatStaf"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-rose-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-600 mb-1">NIP</label>
+                                    <input type="text" id="nipStaf"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-rose-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-600 mb-1">Jabatan</label>
+                                    <input type="text" id="jabatanStaf"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-rose-500">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-bold hover:shadow-lg transform hover:scale-105 transition-all">
+                        <i class="fa-solid fa-floppy-disk mr-2"></i>Simpan Pengaturan
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <!-- Modal: Tutup Buku -->
+    <div id="tutupBukuModal"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4">
+            <div class="px-6 py-4 border-b border-gray-100 bg-red-50 rounded-t-2xl">
+                <h3 class="font-bold text-lg text-red-900 flex items-center gap-2">
+                    <i class="fa-solid fa-lock"></i>Tutup Buku Tahun <span id="closingYear">2026</span>
+                </h3>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="bg-amber-50 border border-amber-200 rounded-lg p-3">
+                    <p class="text-sm text-amber-800"><i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                        <strong>Perhatian!</strong> Setelah ditutup, data tahun ini tidak bisa diubah lagi.
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <p class="text-gray-500 text-xs">Target PAD</p>
+                        <p class="font-bold text-gray-900" id="closeTarget">-</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-3">
+                        <p class="text-gray-500 text-xs">Realisasi</p>
+                        <p class="font-bold text-gray-900" id="closeRealisasi">-</p>
+                    </div>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                    <p class="text-gray-500 text-xs mb-1">Ditutup oleh</p>
+                    <p class="font-bold text-gray-900" id="closeBy">-</p>
+                    <p class="text-xs text-gray-500" id="closeRole">-</p>
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button onclick="closeTutupBukuModal()"
+                        class="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                        Batal
+                    </button>
+                    <button onclick="confirmTutupBuku()"
+                        class="flex-1 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg font-bold hover:shadow-lg transition-all">
+                        <i class="fa-solid fa-lock mr-2"></i>Konfirmasi Tutup Buku
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Tambah Tahun -->
+    <div id="newYearModal"
+        class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4">
+            <div class="px-6 py-4 border-b border-gray-100">
+                <h3 class="font-bold text-lg text-gray-900">Set Target Tahun Baru</h3>
+            </div>
+            <form onsubmit="addNewYear(event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Tahun Anggaran</label>
+                    <input type="number" id="newYear" required min="2020" max="2035"
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Target PAD (Rp)</label>
+                    <input type="number" id="newTarget" required min="0"
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <p class="text-xs text-gray-400 mt-1" id="newTargetPreview">-</p>
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="closeNewYearModal()"
+                        class="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200">Batal</button>
+                    <button type="submit"
+                        class="flex-1 px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-bold hover:shadow-lg transition-all">
+                        <i class="fa-solid fa-check mr-2"></i>Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        const user = getCurrentUser();
+        if (user.name) document.getElementById('currentUser').textContent = user.name;
+
+        let config = JSON.parse(localStorage.getItem('mblb_konfigurasi') || '{}');
+        let riwayat = JSON.parse(localStorage.getItem('mblb_riwayat_pad') || '[]');
+        let closingYearData = null;
+
+        // Load config form
+        function loadConfigForm() {
+            document.getElementById('bankPenerima').value = config.bankPenerima || '';
+            document.getElementById('noRekening').value = config.noRekening || '';
+            document.getElementById('namaDinas').value = config.namaDinas || '';
+            document.getElementById('namaKabupaten').value = config.namaKabupaten || '';
+            document.getElementById('alamatDinas').value = config.alamatDinas || '';
+            // Opsen
+            document.getElementById('opsenAktif').checked = config.opsenAktif !== false;
+            document.getElementById('opsenProvinsi').value = config.opsenProvinsi || 25;
+            document.getElementById('namaProvinsi').value = config.namaProvinsi || 'Provinsi Bengkulu';
+            updateOpsenStatus();
+            updateOpsenPreview();
+            // Tarif & Perhitungan
+            document.getElementById('tarifPajakPersen').value = config.tarifPajakPersen || 20;
+            document.getElementById('dendaBungaPersen').value = config.dendaBungaPersen || 2;
+            document.getElementById('dendaMaxBulan').value = config.dendaMaxBulan || 24;
+            document.getElementById('jatuhTempoHari').value = config.jatuhTempoHari || 30;
+            // Pejabat
+            document.getElementById('pejabatKabid').value = config.pejabatKabid || '';
+            document.getElementById('nipKabid').value = config.nipKabid || '';
+            document.getElementById('jabatanKabid').value = config.jabatanKabid || 'Kepala Bidang Penetapan';
+            document.getElementById('pejabatKadis').value = config.pejabatKadis || '';
+            document.getElementById('nipKadis').value = config.nipKadis || '';
+            document.getElementById('jabatanKadis').value = config.jabatanKadis || 'Kepala Badan Pendapatan Daerah';
+            document.getElementById('pejabatStaf').value = config.pejabatStaf || '';
+            document.getElementById('nipStaf').value = config.nipStaf || '';
+            document.getElementById('jabatanStaf').value = config.jabatanStaf || 'Staf Penetapan';
+        }
+
+        function saveConfig(e) {
+            e.preventDefault();
+            config.bankPenerima = document.getElementById('bankPenerima').value;
+            config.noRekening = document.getElementById('noRekening').value;
+            config.namaDinas = document.getElementById('namaDinas').value;
+            config.namaKabupaten = document.getElementById('namaKabupaten').value;
+            config.alamatDinas = document.getElementById('alamatDinas').value;
+            // Opsen
+            config.opsenAktif = document.getElementById('opsenAktif').checked;
+            config.opsenProvinsi = parseInt(document.getElementById('opsenProvinsi').value) || 0;
+            config.namaProvinsi = document.getElementById('namaProvinsi').value;
+            // Tarif & Perhitungan
+            config.tarifPajakPersen = parseInt(document.getElementById('tarifPajakPersen').value) || 20;
+            config.dendaBungaPersen = parseFloat(document.getElementById('dendaBungaPersen').value) || 2;
+            config.dendaMaxBulan = parseInt(document.getElementById('dendaMaxBulan').value) || 24;
+            config.jatuhTempoHari = parseInt(document.getElementById('jatuhTempoHari').value) || 30;
+            // Pejabat
+            config.pejabatKabid = document.getElementById('pejabatKabid').value;
+            config.nipKabid = document.getElementById('nipKabid').value;
+            config.jabatanKabid = document.getElementById('jabatanKabid').value;
+            config.pejabatKadis = document.getElementById('pejabatKadis').value;
+            config.nipKadis = document.getElementById('nipKadis').value;
+            config.jabatanKadis = document.getElementById('jabatanKadis').value;
+            config.pejabatStaf = document.getElementById('pejabatStaf').value;
+            config.nipStaf = document.getElementById('nipStaf').value;
+            config.jabatanStaf = document.getElementById('jabatanStaf').value;
+            localStorage.setItem('mblb_konfigurasi', JSON.stringify(config));
+            logActivity('Ubah Konfigurasi', 'Pembaruan konfigurasi master sistem, tarif, dan pejabat penandatangan.');
+            showToast('Pengaturan berhasil disimpan!', 'success');
+        }
+
+        // Opsen Preview & Status
+        function updateOpsenStatus() {
+            const aktif = document.getElementById('opsenAktif').checked;
+            document.getElementById('opsenStatusLabel').textContent = aktif ? 'Aktif' : 'Nonaktif';
+        }
+        function updateOpsenPreview() {
+            const persen = parseInt(document.getElementById('opsenProvinsi').value) || 0;
+            const pajakKab = 400000;
+            const opsen = Math.floor(pajakKab * (persen / 100));
+            document.getElementById('opsenPreviewNominal').textContent = 'Rp ' + opsen.toLocaleString('id-ID');
+            document.getElementById('opsenPreviewTotal').textContent = 'Rp ' + (pajakKab + opsen).toLocaleString('id-ID');
+        }
+        document.getElementById('opsenAktif')?.addEventListener('change', updateOpsenStatus);
+        document.getElementById('opsenProvinsi')?.addEventListener('input', updateOpsenPreview);
+
+        // PAD History Table
+        function renderPadHistory() {
+            const tbody = document.getElementById('padHistoryBody');
+            tbody.innerHTML = '';
+            // Sort descending by year
+            const sorted = [...riwayat].sort((a, b) => b.tahun - a.tahun);
+            sorted.forEach(r => {
+                const persen = r.target > 0 ? ((r.realisasi / r.target) * 100).toFixed(1) : 0;
+                const isClosed = r.status === 'closed';
+                const statusBadge = isClosed
+                    ? '<span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold"><i class="fa-solid fa-lock mr-1"></i>Closed</span>'
+                    : '<span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold"><i class="fa-solid fa-circle-play mr-1"></i>Active</span>';
+
+                const closedInfo = isClosed
+                    ? `<div><p class="font-medium text-gray-800 text-xs">${r.closedBy}</p><p class="text-[10px] text-gray-400">${r.closedRole} · ${r.closedDate}</p></div>`
+                    : '<span class="text-gray-400 text-xs">-</span>';
+
+                const actionBtn = !isClosed
+                    ? `<button onclick="openTutupBuku(${r.tahun})" class="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-xs font-bold transition-colors"><i class="fa-solid fa-lock mr-1"></i>Tutup Buku</button>`
+                    : '<span class="text-gray-300 text-xs">—</span>';
+
+                const progressColor = persen >= 100 ? 'bg-green-500' : persen >= 70 ? 'bg-amber-500' : 'bg-red-500';
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4"><span class="font-bold text-gray-900 text-lg">${r.tahun}</span></td>
+                        <td class="px-6 py-4 font-medium text-gray-700">Rp ${r.target.toLocaleString('id-ID')}</td>
+                        <td class="px-6 py-4 font-medium text-indigo-600">Rp ${r.realisasi.toLocaleString('id-ID')}</td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-16 h-2 bg-gray-200 rounded-full"><div class="${progressColor} h-2 rounded-full" style="width:${Math.min(persen, 100)}%"></div></div>
+                                <span class="text-xs font-bold text-gray-600">${persen}%</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">${statusBadge}</td>
+                        <td class="px-6 py-4">${closedInfo}</td>
+                        <td class="px-6 py-4 text-center">${actionBtn}</td>
+                    </tr>`;
+            });
+        }
+
+        // Tutup Buku
+        function openTutupBuku(tahun) {
+            closingYearData = riwayat.find(r => r.tahun === tahun);
+            if (!closingYearData) return;
+            document.getElementById('closingYear').textContent = tahun;
+            document.getElementById('closeTarget').textContent = 'Rp ' + closingYearData.target.toLocaleString('id-ID');
+            document.getElementById('closeRealisasi').textContent = 'Rp ' + closingYearData.realisasi.toLocaleString('id-ID');
+
+            // Who is closing
+            const currentUser = getCurrentUser();
+            document.getElementById('closeBy').textContent = currentUser.name || 'Administrator';
+            document.getElementById('closeRole').textContent = currentUser.role || 'Admin Sistem';
+
+            document.getElementById('tutupBukuModal').classList.remove('hidden');
+        }
+
+        function closeTutupBukuModal() {
+            document.getElementById('tutupBukuModal').classList.add('hidden');
+        }
+
+        function confirmTutupBuku() {
+            if (!closingYearData) return;
+            const currentUser = getCurrentUser();
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0];
+
+            // Update the record
+            const idx = riwayat.findIndex(r => r.tahun === closingYearData.tahun);
+            if (idx !== -1) {
+                riwayat[idx].status = 'closed';
+                riwayat[idx].closedDate = dateStr;
+                riwayat[idx].closedBy = currentUser.name || 'Administrator';
+                riwayat[idx].closedRole = currentUser.role || 'Admin Sistem';
+            }
+
+            localStorage.setItem('mblb_riwayat_pad', JSON.stringify(riwayat));
+            closeTutupBukuModal();
+            renderPadHistory();
+            showToast(`Buku tahun ${closingYearData.tahun} berhasil ditutup oleh ${riwayat[idx].closedBy}`, 'success');
+        }
+
+        // Add New Year
+        function openNewYearModal() {
+            const maxYear = riwayat.length > 0 ? Math.max(...riwayat.map(r => r.tahun)) : 2025;
+            document.getElementById('newYear').value = maxYear + 1;
+            document.getElementById('newTarget').value = '';
+            document.getElementById('newTargetPreview').textContent = '-';
+            document.getElementById('newYearModal').classList.remove('hidden');
+        }
+
+        function closeNewYearModal() {
+            document.getElementById('newYearModal').classList.add('hidden');
+        }
+
+        document.getElementById('newTarget')?.addEventListener('input', () => {
+            const val = parseInt(document.getElementById('newTarget').value || 0);
+            document.getElementById('newTargetPreview').textContent = 'Rp ' + val.toLocaleString('id-ID');
+        });
+
+        function addNewYear(e) {
+            e.preventDefault();
+            const tahun = parseInt(document.getElementById('newYear').value);
+            const target = parseInt(document.getElementById('newTarget').value);
+
+            if (riwayat.find(r => r.tahun === tahun)) {
+                showToast('Tahun sudah ada!', 'error');
+                return;
+            }
+
+            riwayat.push({
+                tahun, target, realisasi: 0, status: 'active',
+                closedDate: null, closedBy: null, closedRole: null
+            });
+
+            localStorage.setItem('mblb_riwayat_pad', JSON.stringify(riwayat));
+            closeNewYearModal();
+            renderPadHistory();
+            showToast(`Target PAD ${tahun} berhasil ditambahkan`, 'success');
+        }
+
+        // Init
+        loadConfigForm();
+        renderPadHistory();
+    </script>
+</body>
+
+</html>

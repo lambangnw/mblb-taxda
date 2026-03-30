@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekonsiliasi Pembayaran - Bendahara SIPAREK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50">
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-coins text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">SIPAREK</h2>
+                        <p class="text-xs text-indigo-200">Bendahara</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <a href="dashboard.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-home w-5 text-center"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Tugas Utama</p>
+                </div>
+                <a href="billing-list.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth group">
+                    <i class="fa-solid fa-file-invoice-dollar w-5 text-center"></i>
+                    <span class="font-medium">Terbit Kode Billing</span>
+                </a>
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Keuangan</p>
+                </div>
+                <a href="rekonsiliasi.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-money-bill-transfer w-5 text-center"></i>
+                    <span class="font-medium">Rekonsiliasi</span>
+                </a>
+                <a href="monitoring-tagihan.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-list-check w-5 text-center"></i>
+                    <span class="font-medium">Monitoring Tagihan</span>
+                </a>
+                <a href="laporan.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-chart-line w-5 text-center"></i>
+                    <span class="font-medium">Laporan Keuangan</span>
+                </a>
+                <a href="export.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-download w-5 text-center"></i>
+                    <span class="font-medium">Export SIMDA</span>
+                </a>
+
+                <div class="pt-4 mt-auto">
+                    <button onclick="window.location.href='../seed-data.html'"
+                        class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-red-800/50 hover:bg-red-700 transition-smooth text-red-100">
+                        <i class="fa-solid fa-sync w-5 text-center"></i>
+                        <span class="font-medium">Reset Data Demo</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Rekonsiliasi Pembayaran</h1>
+                        <p class="text-sm text-gray-500">Verifikasi dan rekonsiliasi penerimaan</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <select
+                        class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <option>Hari Ini (8 Feb 2026)</option>
+                        <option>Kemarin</option>
+                        <option>7 Hari Terakhir</option>
+                        <option>Bulan Ini</option>
+                        <option>Custom Range</option>
+                    </select>
+                    <div class="relative">
+                        <button onclick="toggleDropdown('profileDropdown')"
+                            class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                            <div
+                                class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">
+                                LP</div>
+                            <div class="hidden md:block text-left">
+                                <p class="text-sm font-semibold text-gray-900">Linda Pratiwi</p>
+                                <p class="text-xs text-gray-500">Penagihan</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-sm text-gray-600"></i>
+                        </button>
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
+                            <button onclick="logout()"
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <i class="fa-solid fa-right-from-bracket w-4 text-center mr-2"></i>Keluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="p-6">
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl p-6 text-white shadow-lg">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-money-bill-wave text-2xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-green-100 mb-1">Penerimaan Hari Ini</p>
+                    <p class="text-4xl font-black">Rp 85.5 Jt</p>
+                    <p class="text-xs text-green-100 mt-2">12 transaksi</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-hourglass-half text-2xl text-orange-600"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-1">Menunggu Verifikasi</p>
+                    <p class="text-4xl font-black text-gray-900">4</p>
+                    <p class="text-xs text-gray-500 mt-2">Rp 45 Juta</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-circle-check text-2xl text-green-600"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-1">Terverifikasi</p>
+                    <p class="text-4xl font-black text-gray-900">8</p>
+                    <p class="text-xs text-gray-500 mt-2">Rp 40.5 Juta</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-md border border-gray-100">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-calendar-check text-2xl text-indigo-600"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-1">Bulan Ini</p>
+                    <p class="text-3xl font-black text-gray-900">Rp 9.2 M</p>
+                    <p class="text-xs text-gray-500 mt-2">Target: Rp 15 M</p>
+                </div>
+            </div>
+
+            <!-- Breakdown by Payment Method -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Rekapitulasi per Metode Pembayaran (Hari Ini)</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 border-2 border-indigo-200 rounded-lg bg-indigo-50">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-building-columns text-indigo-600"></i>
+                                <p class="font-semibold text-gray-900">Transfer Bank</p>
+                            </div>
+                            <span class="text-xs font-semibold text-indigo-600">61%</span>
+                        </div>
+                        <p class="text-2xl font-bold text-indigo-600">Rp 52 Jt</p>
+                        <p class="text-xs text-gray-500 mt-1">7 transaksi</p>
+                    </div>
+                    <div class="p-4 border-2 border-green-200 rounded-lg bg-green-50">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-qrcode text-green-600"></i>
+                                <p class="font-semibold text-gray-900">QRIS</p>
+                            </div>
+                            <span class="text-xs font-semibold text-green-600">29%</span>
+                        </div>
+                        <p class="text-2xl font-bold text-green-600">Rp 25 Jt</p>
+                        <p class="text-xs text-gray-500 mt-1">4 transaksi</p>
+                    </div>
+                    <div class="p-4 border-2 border-purple-200 rounded-lg bg-purple-50">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-money-bill text-purple-600"></i>
+                                <p class="font-semibold text-gray-900">Tunai</p>
+                            </div>
+                            <span class="text-xs font-semibold text-purple-600">10%</span>
+                        </div>
+                        <p class="text-2xl font-bold text-purple-600">Rp 8.5 Jt</p>
+                        <p class="text-xs text-gray-500 mt-1">1 transaksi</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verification Queue -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-gray-900">Antrian Verifikasi Pembayaran</h3>
+                        <button onclick="verifyAll()"
+                            class="px-4 py-2 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-all">
+                            <i class="fa-solid fa-check-double mr-2"></i>Verifikasi Semua
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">ID Transaksi
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Wajib Pajak
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">No. Tagihan
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Metode</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Jumlah</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Status</th>
+                                <th class="px-6 py-4 text-center text-xs font-bold text-gray-600 uppercase">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reconTableBody" class="divide-y divide-gray-200">
+                            <tr>
+                                <td colspan="7" class="p-8 text-center text-gray-500">
+                                    <i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><br>
+                                    Memuat data...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex items-center justify-between mt-6">
+                <p class="text-sm text-gray-600" id="showingText">Menampilkan data...</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- DETAIL MODAL -->
+    <div id="detailModal"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4 sticky-modal">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full flex flex-col max-h-[90vh]">
+            <!-- Modal Header -->
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-2xl">
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900">Detail Pembayaran</h3>
+                    <p class="text-sm text-gray-500" id="modalTrxId">TRX-...</p>
+                </div>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto custom-scrollbar">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Kolom Kiri: Info WP & Tagihan -->
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Informasi Wajib Pajak</h4>
+                            <div class="bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                                <p class="font-bold text-gray-900 text-lg" id="modalNamaWp">-</p>
+                                <p class="text-sm text-gray-600 mt-1" id="modalnpwpd">-</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Detail Tagihan (SKPD)</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-600 text-sm">Nomor SKPD</span>
+                                    <span class="font-semibold text-gray-900 text-sm" id="modalNoTagihan">-</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-600 text-sm">Periode Pajak</span>
+                                    <span class="font-semibold text-gray-900 text-sm" id="modalPeriode">-</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-100 pb-2">
+                                    <span class="text-gray-600 text-sm">Objek Pajak</span>
+                                    <span class="font-semibold text-gray-900 text-sm text-right"
+                                        id="modalObjek">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kolom Kanan: Bukti Bayar & Nominal -->
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Bukti Pembayaran</h4>
+                            <div
+                                class="bg-gray-100 rounded-xl p-4 border border-gray-200 flex flex-col items-center justify-center min-h-[150px]">
+                                <i class="fa-solid fa-receipt text-4xl text-gray-400 mb-2"></i>
+                                <span class="text-xs text-gray-500">Klik untuk memperbesar bukti bayar</span>
+                                <button class="mt-2 text-xs text-indigo-600 font-bold hover:underline">Lihat Dokumen
+                                    Asli</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Rincian Pembayaran</h4>
+                            <div class="bg-green-50 p-4 rounded-xl border border-green-100">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-green-800 text-sm">Metode</span>
+                                    <span class="font-bold text-green-800 text-sm" id="modalMetode">-</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-green-800 text-sm">Ref. Bank</span>
+                                    <span class="font-mono font-bold text-green-800 text-xs" id="modalRef">-</span>
+                                </div>
+                                <div class="border-t border-green-200 my-2"></div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-green-800 font-bold">Total Bayar</span>
+                                    <span class="text-xl font-black text-green-700" id="modalNominal">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-6 border-t border-gray-100 bg-gray-50 rounded-b-2xl flex justify-end gap-3">
+                <button onclick="closeModal()"
+                    class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-100 transition-all">
+                    Tutup
+                </button>
+                <button id="btnVerifyModal" onclick=""
+                    class="px-6 py-2 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-all shadow-lg shadow-green-200 flex items-center gap-2">
+                    <i class="fa-solid fa-check"></i> Verifikasi Pembayaran
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadReconciliationData();
+        });
+
+        function loadReconciliationData() {
+            let reconData = JSON.parse(localStorage.getItem('siparek_rekonsiliasi') || '[]');
+
+            if (reconData.length === 0 && typeof SEED_DATA !== 'undefined') {
+                reconData = SEED_DATA.rekonsiliasi;
+                localStorage.setItem('siparek_rekonsiliasi', JSON.stringify(reconData));
+            }
+            const tbody = document.getElementById('reconTableBody');
+
+            if (reconData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-gray-500">Tidak ada data rekonsiliasi.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = reconData.map(item => {
+                const isVerified = item.status === 'terverifikasi';
+                const statusBadge = isVerified
+                    ? `<span class="badge badge-success">Verified</span>`
+                    : `<span class="badge badge-warning">Pending</span>`;
+
+                const verifyBtn = !isVerified
+                    ? `<button onclick="openDetail('${item.id}')" class="px-3 py-1 bg-green-600 text-white rounded-md text-xs font-semibold hover:bg-green-700 transition-all mr-2">Verifikasi</button>`
+                    : '';
+
+                return `
+                <tr class="hover:bg-gray-50 ${isVerified ? 'bg-white' : 'bg-orange-50/30'}">
+                    <td class="p-4 font-mono text-sm font-semibold">${item.id}</td>
+                    <td class="p-4 text-sm font-semibold text-gray-900">${item.nama_wp}</td>
+                    <td class="p-4 text-sm text-gray-600">${item.nomor_tagihan}</td>
+                    <td class="p-4">
+                        <span class="px-2 py-1 rounded text-xs font-bold ${item.metode.includes('QRIS') ? 'bg-blue-100 text-blue-700' : 'bg-indigo-100 text-indigo-700'}">
+                            ${item.metode}
+                        </span>
+                    </td>
+                    <td class="p-4 text-sm font-bold text-gray-900">${formatCurrency(item.nominal)}</td>
+                    <td class="p-4">${statusBadge}</td>
+                    <td class="p-4 text-center">
+                        ${verifyBtn}
+                        <button onclick="openDetail('${item.id}')" class="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-xs font-semibold hover:bg-gray-200 transition-all">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                `;
+            }).join('');
+
+            document.getElementById('showingText').innerText = `Menampilkan ${reconData.length} data`;
+        }
+
+        function openDetail(id) {
+            const reconData = JSON.parse(localStorage.getItem('siparek_rekonsiliasi')) || [];
+            const item = reconData.find(d => d.id === id);
+
+            if (!item) return;
+
+            // Populate Modal
+            document.getElementById('modalTrxId').innerText = item.id;
+            document.getElementById('modalNamaWp').innerText = item.nama_wp;
+            // Mock data for missing fields
+            document.getElementById('modalnpwpd').innerText = 'P.1.0012345.01.01 (Mock)';
+            document.getElementById('modalNoTagihan').innerText = item.nomor_tagihan;
+            document.getElementById('modalPeriode').innerText = 'Februari 2026';
+            document.getElementById('modalObjek').innerText = 'Reklame Videotron/Baliho';
+
+            document.getElementById('modalMetode').innerText = item.metode;
+            document.getElementById('modalRef').innerText = item.ref_number || '-';
+            document.getElementById('modalNominal').innerText = formatCurrency(item.nominal);
+
+            // Button Logic
+            const btnVerify = document.getElementById('btnVerifyModal');
+            if (item.status === 'terverifikasi') {
+                btnVerify.classList.add('hidden');
+            } else {
+                btnVerify.classList.remove('hidden');
+                btnVerify.onclick = () => verifyPayment(item.id);
+            }
+
+            // Show Modal
+            document.getElementById('detailModal').classList.remove('hidden');
+            document.getElementById('detailModal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+            document.getElementById('detailModal').classList.remove('flex');
+        }
+
+        function verifyPayment(id) {
+            Swal.fire({
+                title: 'Konfirmasi Verifikasi',
+                text: "Apakah data pembayaran sudah sesuai dengan mutasi bank?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#10B981',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Valid & Sesuai!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    processVerification(id);
+                }
+            });
+        }
+
+        function processVerification(id) {
+            let reconData = JSON.parse(localStorage.getItem('siparek_rekonsiliasi')) || [];
+            const index = reconData.findIndex(d => d.id === id);
+
+            if (index !== -1) {
+                reconData[index].status = 'terverifikasi';
+                localStorage.setItem('siparek_rekonsiliasi', JSON.stringify(reconData));
+
+                // Update stats
+                const stats = JSON.parse(localStorage.getItem('siparek_stats')) || {};
+                if (stats.penagihan) {
+                    stats.penagihan.pending_rekonsiliasi = Math.max(0, (stats.penagihan.pending_rekonsiliasi || 0) - 1);
+                    localStorage.setItem('siparek_stats', JSON.stringify(stats));
+                }
+
+                closeModal();
+                Swal.fire('Tervalidasi!', 'Pembayaran telah berhasil direkonsiliasi.', 'success')
+                    .then(() => loadReconciliationData());
+            }
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(amount);
+        }
+
+        function verifyAll() {
+            Swal.fire({
+                title: 'Verifikasi Semua?',
+                text: "Aksi ini akan menanda semua transaksi pending sebagai terverifikasi.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Lakukan'
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Teguran Pajak Daerah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="official.css">
+</head>
+
+<body>
+    <!-- Navbar for Navigation (No Print) -->
+    <nav class="navbar no-print bg-white shadow-sm px-6 py-4 flex justify-between items-center fixed top-0 w-full z-50">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-white">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <span class="font-bold text-lg text-slate-800">Dokumen Teguran Pajak MBLB</span>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="window.print()"
+                class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm font-medium transition-colors">
+                <i class="fa-solid fa-print mr-2"></i>Cetak Surat
+            </button>
+            <button onclick="window.close()"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm font-medium transition-colors">
+                Tutup
+            </button>
+        </div>
+    </nav>
+
+    <div class="paper-doc mt-24" style="line-height: 1.5;">
+        <!-- Kop Surat -->
+        <table style="width: 100%; border-bottom: 3px solid #000; margin-bottom: 20px; padding-bottom: 10px;">
+            <tr>
+                <td style="width: 15%; text-align: center;">
+                    <div
+                        style="width: 80px; height: 100px; margin: 0 auto; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; font-size: 10px;">
+                        LOGO SELUMA</div>
+                </td>
+                <td style="width: 85%; text-align: center;">
+                    <h3 style="margin:0; font-size:14pt; font-weight:bold;">PEMERINTAH KABUPATEN SELUMA</h3>
+                    <h1 style="margin:0; font-size:18pt; font-weight:900;">BADAN PENDAPATAN DAERAH</h1>
+                    <p style="margin:0; font-size:10pt; font-style: italic;">Jln. Pemuda No. 1, Tais, Kabupaten Seluma,
+                        Bengkulu 38576</p>
+                    <p style="margin:0; font-size:10pt;">Telp / Fax : (0736) XXXXXXX • Email: bapenda@selumakab.go.id
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Info Surat -->
+        <table style="width: 100%; border: none; margin-bottom: 30px; font-size: 11pt;">
+            <tr>
+                <td style="width: 10%;">Nomor</td>
+                <td style="width: 2%;">:</td>
+                <td style="width: 50%;" id="docNomor">973/___/BAPENDA/2026</td>
+                <td style="width: 38%; text-align: right;">Tais, <span id="docTanggal">11 Maret 2026</span></td>
+            </tr>
+            <tr>
+                <td>Sifat</td>
+                <td>:</td>
+                <td>Penting dan Segera</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Lampiran</td>
+                <td>:</td>
+                <td>1 (Satu) Berkas</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td valign="top">Perihal</td>
+                <td valign="top">:</td>
+                <td valign="top"><strong style="text-decoration: underline;" id="docPerihal">Surat Teguran Pertama
+                        (1)</strong><br>Pajak Mineral Bukan Logam dan Batuan</td>
+
+                <td valign="top" style="padding-left: 20px;">
+                    Kepada Yth.<br>
+                    Sdr/i. Pimpinan <strong id="wpUsaha">NAMA USAHA</strong><br>
+                    di -<br>
+                    <span style="padding-left: 20px" id="wpAlamat">Tempat</span>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Body Surat -->
+        <div style="font-size: 11pt; text-align: justify;">
+            <p style="margin-bottom: 15px;">Dengan hormat,</p>
+            <p style="margin-bottom: 15px;">Berdasarkan Peraturan Daerah Kabupaten Seluma tentang Pajak Daerah, terkait
+                dengan kewajiban pembayaran Pajak Mineral Bukan Logam dan Batuan (MBLB), bersama surat ini kami
+                sampaikan bahwa menurut catatan administrasi kami, Saudara/i belum melunasi kewajiban Pajak MBLB sesuai
+                dengan ketetapan berikut:</p>
+
+            <table
+                style="width: 90%; margin: 20px auto; border-collapse: collapse; border: 1px solid #000; font-size: 10pt;">
+                <tr>
+                    <td style="padding: 5px; border: 1px solid #000; width: 35%; font-weight: bold;">Dokumen Penetapan
+                    </td>
+                    <td style="padding: 5px; border: 1px solid #000;" id="skpdNomor">-</td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px; border: 1px solid #000; font-weight: bold;">Masa Pajak</td>
+                    <td style="padding: 5px; border: 1px solid #000;" id="skpdMasa">-</td>
+                </tr>
+                <tr>
+                    <td style="padding: 5px; border: 1px solid #000; font-weight: bold;">Tanggal Jatuh Tempo</td>
+                    <td style="padding: 5px; border: 1px solid #000; color: red;" id="skpdJatuhTempo">-</td>
+                </tr>
+            </table>
+
+            <p style="margin-bottom: 15px;">Sehubungan dengan keterlambatan tersebut, Saudara/i dikenakan <strong>Sanksi
+                    Administratif berupa Bunga sebesar 2% per bulan</strong>. Rincian tagihan yang harus Saudara/i
+                lunasi per tanggal diterbitkannya surat ini adalah sebagai berikut:</p>
+
+            <table style="width: 100%; margin: 20px 0; font-size: 11pt;">
+                <tr>
+                    <td style="width: 5%;">1.</td>
+                    <td style="width: 45%;">Pokok Ketetapan Pajak MBLB</td>
+                    <td style="width: 5%;">:</td>
+                    <td style="width: 5%;">Rp</td>
+                    <td style="width: 40%; text-align: right;" id="valPokok">0,00</td>
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td>Denda Keterlambatan <span id="valBulanText" style="font-style: italic;">(0 Bulan)</span></td>
+                    <td>:</td>
+                    <td>Rp</td>
+                    <td style="text-align: right; border-bottom: 1px solid #000; padding-bottom: 5px;" id="valDenda">
+                        0,00</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="font-weight: bold; padding-top: 5px; text-align: right;">Total Tagihan
+                        Keseluruhan :</td>
+                    <td style="font-weight: bold; padding-top: 5px;">Rp</td>
+                    <td style="text-align: right; font-weight: bold; padding-top: 5px;" id="valTotal">0,00</td>
+                </tr>
+            </table>
+
+            <p style="margin-bottom: 15px;">Kami harap Saudara/i dapat segera menyelesaikan pembayaran pajak tersebut
+                paling lambat <strong>7 (tujuh) hari</strong> setelah diterimanya surat ini melalui Rekening Kas Umum
+                Daerah pada Bank Bengkulu Cabang Tais atau Loket Pembayaran Bapenda.</p>
+
+            <p style="margin-bottom: 15px;" id="threatText">Apabila teguran ini tidak diindahkan, kami akan menerbitkan
+                Surat Teguran Ketiga yang dapat disertai dengan tindakan Penagihan Pajak dengan Surat Paksa sesuai
+                dengan peraturan perundang-undangan yang berlaku.</p>
+
+            <p style="margin-bottom: 30px;">Demikian surat teguran ini disampaikan, atas perhatian dan kerjasamanya
+                diucapkan terima kasih.</p>
+        </div>
+
+        <!-- Tanda Tangan -->
+        <div style="display: flex; justify-content: flex-end; margin-top: 30px; font-size: 11pt;">
+            <div style="text-align: center; width: 45%;">
+                <strong><span id="ttdJabatan">KEPALA BADAN PENDAPATAN DAERAH</span><br>KABUPATEN SELUMA</strong>
+                <br><br><br><br><br>
+                <strong style="text-decoration: underline;" id="ttdNama">Ir. H. SYAMSUL BAHRI, M.Si</strong><br>
+                Pembina Utama Muda<br>
+                NIP. <span id="ttdNip">19680315 199303 1 005</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script for Dynamic Content -->
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const skpdId = urlParams.get('id');
+
+        if (skpdId) {
+
+            try {
+                const skpds = JSON.parse(localStorage.getItem('mblb_skpd') || '[]');
+                const skpd = skpds.find(s => s.id === skpdId);
+                const configKadis = getPejabatConfig().kepalaDinas;
+
+                if (skpd) {
+                    const wp = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]').find(w => w.id === skpd.wpId);
+
+                    // Calculation Penalty
+                    const pokok = skpd.nilaiPajak || skpd.total;
+                    const sanksi = hitungBunga(pokok, skpd.jatuhTempo);
+                    const riwayat = skpd.riwayatTeguran || 1; // Default to 1 if missing for print
+
+                    // Set Texts based on Riwayat
+                    let levelStr = 'Pertama (1)';
+                    let numberStr = '01';
+                    let threatMsg = 'Apabila teguran ini tidak diindahkan, kami akan menerbitkan Surat Teguran Kedua sesuai dengan prosedur penagihan pajak daerah.';
+
+                    if (riwayat === 2) {
+                        levelStr = 'Kedua (2)';
+                        numberStr = '02';
+                        threatMsg = 'Apabila teguran ini masih juga tidak diindahkan, kami akan menerbitkan Surat Teguran Ketiga / Teguran Terakhir yang mengarah pada tindakan penerapan Surat Paksa.';
+                    } else if (riwayat >= 3) {
+                        levelStr = 'Ketiga (3) / Penagihan Paksa';
+                        numberStr = '03';
+                        threatMsg = 'Sesuai dengan ketentuan perundangan, <strong>Surat ini merupakan Panggilan Terakhir</strong>. Tim Penagihan akan segera memproses penagihan dengan dokumen Surat Paksa dan berkoordinasi dengan instansi berwenang terkait izin usaha pertambangan Saudara/i.';
+                        document.getElementById('docPerihal').style.color = 'red';
+                    }
+
+                    // Map to DOM
+                    const dateObj = new Date();
+                    document.getElementById('docTanggal').textContent = formatDate(dateObj.toISOString().split('T')[0]);
+                    document.getElementById('docNomor').textContent = `973/ST-${numberStr}/BAPENDA/${dateObj.getFullYear()}`;
+                    document.getElementById('docPerihal').textContent = `Surat Teguran ${levelStr}`;
+                    document.getElementById('threatText').innerHTML = threatMsg;
+
+                    document.getElementById('wpUsaha').textContent = wp?.namaUsaha || wp?.nama || '-';
+                    document.getElementById('wpAlamat').textContent = wp?.alamat || '-';
+
+                    document.getElementById('skpdNomor').textContent = skpd.nomor;
+                    document.getElementById('skpdMasa').textContent = skpd.masaPajak || skpd.tanggal;
+                    document.getElementById('skpdJatuhTempo').textContent = formatDate(skpd.jatuhTempo);
+
+                    document.getElementById('valPokok').textContent = pokok.toLocaleString('id-ID', { minimumFractionDigits: 2 });
+                    document.getElementById('valBulanText').textContent = `(${sanksi.bulanTelat} Bulan)`;
+                    document.getElementById('valDenda').textContent = sanksi.nominalBunga.toLocaleString('id-ID', { minimumFractionDigits: 2 });
+                    document.getElementById('valTotal').textContent = (pokok + sanksi.nominalBunga).toLocaleString('id-ID', { minimumFractionDigits: 2 });
+
+                    document.getElementById('ttdJabatan').textContent = configKadis.jabatan || 'KEPALA BADAN PENDAPATAN DAERAH';
+                    document.getElementById('ttdNama').textContent = configKadis.nama || 'Ir. H. SYAMSUL BAHRI, M.Si';
+                    document.getElementById('ttdNip').textContent = configKadis.nip || '19680315 199303 1 005';
+                }
+
+            } catch (e) { console.error(e); }
+        }
+    </script>
+</body>
+
+</html>

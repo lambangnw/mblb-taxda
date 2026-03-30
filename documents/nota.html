@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nota Perhitungan Pajak Daerah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="official.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar no-print bg-white shadow-sm px-6 py-4 flex justify-between items-center fixed top-0 w-full z-50">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+            </div>
+            <span class="font-bold text-lg text-slate-800">Nota Perhitungan</span>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="window.print()"
+                class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm font-medium">
+                <i class="fa-solid fa-print mr-2"></i>Cetak PDF
+            </button>
+            <button onclick="window.close()"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm font-medium">
+                Tutup
+            </button>
+        </div>
+    </nav>
+
+    <div class="paper-doc mt-24">
+        <table style="width: 100%; border: 1px solid #000; margin-bottom: 10px;">
+            <tr>
+                <td style="text-align: center; border: none;">
+                    <h3 style="margin: 0; font-size: 12pt; font-weight: 800;">PEMERINTAH KABUPATEN SELUMA</h3>
+                    <h2 style="margin: 2px 0; font-size: 14pt; font-weight: 800;">BADAN PENDAPATAN DAERAH</h2>
+                    <div style="font-size: 9pt;">Jln. Soekarno-Hatta Pematang Aur Tais Kode Pos 38576</div>
+                </td>
+            </tr>
+        </table>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="margin: 0; font-size: 14pt; font-weight: 800; border: none; text-decoration: underline;">NOTA
+                PERHITUNGAN PAJAK DAERAH</h2>
+            <div style="font-style: italic; font-size: 10pt;">Nomor: <span id="docNumber">...</span></div>
+        </div>
+
+        <div class="doc-info-grid">
+            <div>Nama Wajib Pajak</div>
+            <div>:</div>
+            <div style="font-weight: bold;" id="wpNamaUsaha">...</div>
+            <div>NPWPD</div>
+            <div>:</div>
+            <div style="font-weight: bold;" id="wpNPWPD">...</div>
+            <div>Objek Pajak</div>
+            <div>:</div>
+            <div id="nota-jenis">Minerba</div>
+            <div>Lokasi</div>
+            <div>:</div>
+            <div id="wpAlamat">...</div>
+        </div>
+
+        <div style="margin-top: 20px; font-weight: bold; border-bottom: 1px solid #000;">PERHITUNGAN PAJAK</div>
+        <table style="margin-top: 10px;">
+            <tr>
+                <th align="left" width="40%">Uraian</th>
+                <th align="center" width="20%">Dasar Pengenaan</th>
+                <th align="center" width="15%">Tarif</th>
+                <th align="right" width="25%">Jumlah Ketetapan (Rp)</th>
+            </tr>
+            <tbody id="detailsBody">
+                <!-- Content injected by JS -->
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" align="right" style="font-weight: bold;">TOTAL PAJAK TERHUTANG</td>
+                    <td align="right" style="font-weight: 800; font-size: 12pt;" id="totalBayar">...</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div style="margin-top: 10px; font-style: italic;">
+            Terbilang: <span style="font-weight: bold; text-transform: capitalize;" id="terbilang">...</span>
+        </div>
+
+        <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: center;">
+            <div>
+                Mengetahui,<br>
+                <span id="ttdJabatanKabid">Kepala Bidang Penetapan</span><br>
+                <br><br><br><br>
+                <span style="font-weight: bold; text-decoration: underline;" id="ttdNamaKabid">PARLYNDUNGAN SIANTURI, SE, MH</span><br>
+                NIP. <span id="ttdNipKabid">197608192010011007</span>
+            </div>
+            <div>
+                Dibuat Oleh,<br>
+                <span id="ttdJabatanStaf">Verifikator / Petugas Hitung</span><br>
+                <br><br><br><br>
+                <span style="font-weight: bold; text-decoration: underline;" id="ttdNamaStaf">RINA HARTATI</span><br>
+                NIP. <span id="ttdNipStaf">-</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        const configPenetapan = getPejabatConfig().penetapan;
+        const configVerifikasi = getPejabatConfig().verifikasi;
+
+        if (id) {
+            try {
+                const notas = JSON.parse(localStorage.getItem('mblb_nota_perhitungan') || '[]');
+                const nota = notas.find(n => n.id === id);
+                if (nota) {
+                    const wp = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]').find(w => w.id === nota.wpId);
+
+                    document.getElementById('docNumber').textContent = nota.nomor;
+                    document.getElementById('wpNamaUsaha').textContent = wp?.namaUsaha;
+                    document.getElementById('wpNPWPD').textContent = wp?.npwpd;
+                    document.getElementById('wpAlamat').textContent = wp?.alamat;
+
+                    document.getElementById('ttdJabatanKabid').textContent = configPenetapan.jabatan || 'Kepala Bidang Penetapan';
+                    document.getElementById('ttdNamaKabid').textContent = configPenetapan.nama || 'PARLYNDUNGAN SIANTURI, SE, MH';
+                    document.getElementById('ttdNipKabid').textContent = configPenetapan.nip || '197608192010011007';
+
+                    document.getElementById('ttdJabatanStaf').textContent = configVerifikasi.jabatan || 'Verifikator / Petugas Hitung';
+                    document.getElementById('ttdNamaStaf').textContent = configVerifikasi.nama || 'RINA HARTATI';
+                    document.getElementById('ttdNipStaf').textContent = configVerifikasi.nip || '-';
+
+                    const config = JSON.parse(localStorage.getItem('mblb_konfigurasi') || JSON.stringify(KONFIGURASI_SISTEM));
+                    const rate = config.tarifPajakPersen || 20;
+
+                    // Detail Row — opsen included in total internally, not shown separately
+                    const tbody = document.getElementById('detailsBody');
+                    tbody.innerHTML = `
+                        <tr>
+                            <td>
+                                <span>Pajak Minerba (Masa: ${nota.masaPajak})</span><br>
+                                <span style="font-size: 9pt; font-style: italic;">Sesuai Laporan Bulanan</span>
+                            </td>
+                            <td align="center">${formatCurrency(nota.nilaiJual)}</td>
+                            <td align="center">${rate}%</td>
+                            <td align="right" style="font-weight: bold;">${formatCurrency(nota.pajak)}</td>
+                        </tr>
+                    `;
+
+                    document.getElementById('totalBayar').textContent = formatCurrency(nota.total);
+                    document.getElementById('terbilang').textContent = terbilang(nota.total) + ' Rupiah';
+                }
+            } catch (e) { console.error(e); }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SIPAREK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+</head>
+
+<body
+    class="bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 min-h-screen flex items-center justify-center p-4">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-pattern opacity-10"></div>
+
+    <div class="max-w-md w-full relative z-10">
+        <!-- Logo & Title -->
+        <div class="text-center mb-8">
+            <div
+                class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-2xl shadow-2xl mb-4 transform hover:scale-110 transition-transform">
+                <i class="fa-solid fa-building text-5xl text-indigo-600"></i>
+            </div>
+            <h1 class="text-4xl font-black text-white mb-2">SIPAREK</h1>
+            <p class="text-indigo-200 text-lg">Sistem Informasi Pajak Reklame</p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2 text-center">Masuk ke Sistem</h2>
+            <p class="text-center text-gray-500 text-sm mb-8">Pilih role untuk quick login demo</p>
+
+            <!-- Quick Login Buttons -->
+            <div class="space-y-3">
+                <button onclick="quickLogin('wajib-pajak')"
+                    class="w-full px-4 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl text-sm font-bold hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-user text-lg"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold">Wajib Pajak</p>
+                            <p class="text-xs text-indigo-100">Ahmad Pratama</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                </button>
+
+                <button onclick="quickLogin('front-office')"
+                    class="w-full px-4 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl text-sm font-bold hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-building text-lg"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold">Front Office</p>
+                            <p class="text-xs text-green-100">Budi Santoso</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                </button>
+
+                <button onclick="quickLogin('surveyor')"
+                    class="w-full px-4 py-4 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-xl text-sm font-bold hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-map-location-dot text-lg"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold">Surveyor</p>
+                            <p class="text-xs text-orange-100">Dedi Supratman</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                </button>
+
+                <button onclick="quickLogin('penetapan')"
+                    class="w-full px-4 py-4 bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-xl text-sm font-bold hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-clipboard-check text-lg"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold">Penetapan</p>
+                            <p class="text-xs text-blue-100">Rina Handayani</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                </button>
+
+                <button onclick="quickLogin('kepala-dinas')"
+                    class="w-full px-4 py-4 bg-gradient-to-r from-rose-500 to-pink-600 text-white rounded-xl text-sm font-bold hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-landmark text-lg"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold">Kepala Dinas</p>
+                            <p class="text-xs text-rose-100">Executive Dashboard</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                </button>
+
+                <button onclick="quickLogin('kepala-bidang')"
+                    class="w-full px-4 py-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-xl text-sm font-bold hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-user-tie text-lg"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold">Kepala Bidang</p>
+                            <p class="text-xs text-purple-100">Hadi Wijaya</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                </button>
+
+                <button onclick="quickLogin('admin-sistem')"
+                    class="w-full px-4 py-4 bg-gradient-to-r from-yellow-500 to-orange-600 text-white rounded-xl text-sm font-bold hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-gear text-lg"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold">Admin Sistem</p>
+                            <p class="text-xs text-yellow-100">Siti Purnama</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                </button>
+
+                <button onclick="quickLogin('penagihan')"
+                    class="w-full px-4 py-4 bg-gradient-to-r from-teal-500 to-green-600 text-white rounded-xl text-sm font-bold hover:shadow-xl transform hover:scale-105 transition-all flex items-center justify-between group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-coins text-lg"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-bold">Penagihan</p>
+                            <p class="text-xs text-teal-100">Linda Pratiwi</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
+                </button>
+            </div>
+
+            <!-- Divider -->
+            <div class="relative my-6">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-4 bg-white text-gray-500 font-semibold">Info</span>
+                </div>
+            </div>
+
+            <!-- Info Note -->
+            <div class="text-center">
+                <p class="text-gray-600 text-xs">
+                    <i class="fa-solid fa-info-circle text-indigo-600 mr-1"></i>
+                    Klik role untuk quick login demo
+                </p>
+                <p class="text-gray-500 text-xs mt-2">
+                    Belum punya akun?
+                    <a href="#" class="text-indigo-600 font-bold hover:text-indigo-700 transition-colors">Daftar
+                        Sekarang</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-6">
+            <button onclick="window.location.href='index.html'"
+                class="text-indigo-200 hover:text-white font-semibold text-sm transition-colors">
+                <i class="fa-solid fa-arrow-left mr-2"></i>Kembali ke Beranda
+            </button>
+        </div>
+        <div class="text-center mt-4 text-indigo-200 text-sm">
+            <p>&copy; 2026 SIPAREK. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>
+        // Role dashboard mapping
+        const roleDashboards = {
+            'wajib-pajak': 'Wajib Pajak/dashboard.html',
+            'front-office': 'Front Office/dashboard.html',
+            'surveyor': 'Surveyor/dashboard.html',
+            'penetapan': 'Penetapan/dashboard.html',
+            'kepala-dinas': 'Kepala Dinas/dashboard.html',
+            'kepala-bidang': 'Kepala Bidang/dashboard.html',
+            'admin-sistem': 'Admin Sistem/dashboard.html',
+            'penagihan': 'Penagihan/dashboard.html'
+        };
+
+        // Demo credentials
+        const demoCredentials = {
+            'wajib-pajak': { username: 'ahmad.pratama', name: 'Ahmad Pratama' },
+            'front-office': { username: 'budi.santoso', name: 'Budi Santoso' },
+            'surveyor': { username: 'dedi.supratman', name: 'Dedi Supratman' },
+            'penetapan': { username: 'rina.handayani', name: 'Rina Handayani' },
+            'kepala-dinas': { username: 'kepala.dinas', name: 'Kepala Dinas' },
+            'kepala-bidang': { username: 'hadi.wijaya', name: 'Hadi Wijaya' },
+            'admin-sistem': { username: 'siti.purnama', name: 'Siti Purnama' },
+            'penagihan': { username: 'linda.pratiwi', name: 'Linda Pratiwi' }
+        };
+
+        // Quick Login Function
+        function quickLogin(role) {
+            if (!demoCredentials[role]) {
+                showToast('Role tidak ditemukan', 'error');
+                return;
+            }
+
+            // Show loading toast
+            showToast(`Login sebagai ${demoCredentials[role].name}...`, 'info');
+
+            // Save login info
+            setTimeout(() => {
+                localStorage.setItem('currentUser', JSON.stringify({
+                    username: demoCredentials[role].username,
+                    name: demoCredentials[role].name,
+                    role: role,
+                    loginTime: new Date().toISOString()
+                }));
+
+                showToast('Login berhasil!', 'success');
+
+                // Redirect
+                setTimeout(() => {
+                    window.location.href = roleDashboards[role];
+                }, 500);
+            }, 500);
+        }
+    </script>
+
+    <style>
+        .bg-pattern {
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255, 255, 255, .05) 35px, rgba(255, 255, 255, .05) 70px);
+        }
+    </style>
+</body>
+
+</html>

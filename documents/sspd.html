@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSPD - Surat Setoran Pajak Daerah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="official.css">
+    <style>
+        .checkbox-box {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 1px solid #000;
+            margin-right: 5px;
+            vertical-align: middle;
+            text-align: center;
+            line-height: 10px;
+            font-size: 10px;
+        }
+
+        .checkbox-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin: 5px 0 10px 140px;
+            font-size: 9pt;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar no-print bg-white shadow-sm px-6 py-4 flex justify-between items-center fixed top-0 w-full z-50">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
+                <i class="fa-solid fa-receipt"></i>
+            </div>
+            <span class="font-bold text-lg text-slate-800">Dokumen SSPD</span>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="window.print()"
+                class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm font-medium">
+                <i class="fa-solid fa-print mr-2"></i>Cetak SSPD
+            </button>
+            <button onclick="window.close()"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm font-medium">
+                Tutup
+            </button>
+        </div>
+    </nav>
+
+    <div class="paper-doc mt-24" style="font-family: 'Times New Roman', Times, serif; color: #000;">
+        <!-- Header SSPD -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="margin: 0; font-size: 14pt; font-weight: bold; text-decoration: underline;">SSPD</h2>
+            <h3 style="margin: 0; font-size: 11pt; font-weight: bold;">(SURAT SETORAN PAJAK DAERAH)</h3>
+            <div style="font-size: 10pt; margin-top: 5px;">Tahun <span id="sspd-tahun-header">2025</span></div>
+
+            <div style="margin-top: 15px;">
+                <h3 style="margin: 0; font-size: 12pt; font-weight: bold;">PEMERINTAH KABUPATEN SELUMA</h3>
+                <h3 style="margin: 0; font-size: 12pt; font-weight: bold;">Badan Pendapatan Daerah</h3>
+                <div style="font-size: 9pt;">Jln. Soekarno-Hatta Pematang Aur Tais Kode Pos 38576</div>
+            </div>
+        </div>
+
+        <div style="border-top: 2px solid #000; border-bottom: 2px solid #000; padding: 10px 0; margin-bottom: 15px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 9pt;">
+                <!-- Kiri -->
+                <div>
+                    <table style="width: 100%; border: none;">
+                        <tr>
+                            <td width="30%">Nama</td>
+                            <td width="5%">:</td>
+                            <td id="wpNama">FUJI. H (QUARI)</td>
+                        </tr>
+                        <tr>
+                            <td valign="top">Alamat</td>
+                            <td valign="top">:</td>
+                            <td id="wpAlamat">Ds. Rantau Panjang, RT/RW.-, Kel. Desa Rantau Panjang...</td>
+                        </tr>
+                        <tr>
+                            <td>Nomor</td>
+                            <td>:</td>
+                            <td id="sspd-no">003328/SSPD/06/1/2025</td>
+                        </tr>
+                        <tr>
+                            <td>Tanggal</td>
+                            <td>:</td>
+                            <td id="sspd-tanggal">17 Desember 2025</td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- Kanan -->
+                <div>
+                    <table style="width: 100%; border: none;">
+                        <tr>
+                            <td width="30%">Nama Usaha</td>
+                            <td width="5%">:</td>
+                            <td id="wpNamaUsaha">FUJI.H (QUARI)</td>
+                        </tr>
+                        <tr>
+                            <td valign="top">Alamat Usaha</td>
+                            <td valign="top">:</td>
+                            <td id="wpAlamatUsaha">DESA RANTAU PANJANG</td>
+                        </tr>
+                        <tr>
+                            <td>NPWPD</td>
+                            <td>:</td>
+                            <td style="font-weight: bold;" id="wpNPWPD">P . 2 . 0000342 . 13 . 11</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div style="font-size: 9pt; margin-bottom: 10px;">
+            <div style="display: flex;">
+                <div style="width: 140px;">Menyetor berdasarkan</div>
+                <div>:</div>
+            </div>
+            <div class="checkbox-container">
+                <div><span class="checkbox-box"></span> S K P D</div>
+                <div><span class="checkbox-box"></span> S K P D T</div>
+                <div><span class="checkbox-box"></span> S K P D K B</div>
+                <div><span class="checkbox-box"></span> S K P D K B T</div>
+                <div><span class="checkbox-box"></span> S T P D</div>
+                <div><span class="checkbox-box">✓</span> S P T P D</div>
+                <div><span class="checkbox-box"></span> SK Pembetulan</div>
+                <div><span class="checkbox-box"></span> SK Keberatan</div>
+                <div><span class="checkbox-box"></span> Lain - lain</div>
+            </div>
+
+            <table style="width: 100%; border: none; margin-bottom: 5px;">
+                <tr>
+                    <td width="140">Dokumen Penetapan</td>
+                    <td width="10">:</td>
+                    <td id="docPenetapan">003249/SPTPD/06/1/2025</td>
+                </tr>
+                <tr>
+                    <td>Masa Pajak</td>
+                    <td>:</td>
+                    <td id="masaPajak">01/10/2025 - 31/10/2025</td>
+                </tr>
+                <tr>
+                    <td>Tahun</td>
+                    <td>:</td>
+                    <td id="tahunPajak"> 2025</td>
+                </tr>
+            </table>
+
+            <div style="display: flex; margin-bottom: 5px;">
+                <div style="width: 140px;">Cara Pembayaran</div>
+                <div style="width: 10px;">:</div>
+                <div style="display: flex; gap: 20px;">
+                    <div><span class="checkbox-box"></span> Tunai</div>
+                    <div><span class="checkbox-box">✓</span> Bank</div>
+                </div>
+            </div>
+
+            <table style="width: 100%; border: none; margin-bottom: 15px;">
+                <tr>
+                    <td width="140">Bank Penerima Setoran</td>
+                    <td width="10">:</td>
+                    <td id="bankPenerima">BANK BENGKULU CABANG TAIS , No. Rek : 303.01.01.10002.6</td>
+                </tr>
+                <tr>
+                    <td valign="top">Uraian</td>
+                    <td valign="top">:</td>
+                    <td id="uraian">PMBLB- AN." FUJI.H" UNTUK PEMBAYARAN PAJAK...</td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="font-size: 9pt; margin-bottom: 5px;">Dengan rincian penerimaan setoran sebagai berikut :</div>
+        <table style="font-size: 9pt;">
+            <thead>
+                <tr>
+                    <th width="40">No.</th>
+                    <th>Kode Rekening</th>
+                    <th>Jenis Pajak</th>
+                    <th width="150">Nilai (Rp)</th>
+                </tr>
+            </thead>
+            <tbody id="rincian-body">
+                <tr>
+                    <td align="center">1</td>
+                    <td>4.1.1.06.01.01</td>
+                    <td>Tanah Urug</td>
+                    <td align="right">135.000,00</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" align="center" style="font-weight: bold;">Jumlah</td>
+                    <td align="right" style="font-weight: bold;" id="jumlahTotal">135.000,00</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div style="margin-top: 10px; font-size: 9pt;">
+            <table style="width: 100%; border: none;">
+                <tr>
+                    <td width="70" valign="top">Terbilang : </td>
+                    <td style="font-style: italic; font-weight: bold;" id="terbilang">Seratus tiga puluh lima ribu
+                        rupiah</td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; margin-top: 30px; font-size: 9pt;">
+            <div style="border: 1px solid #000; padding: 10px;">
+                <div>Diterima Oleh :</div>
+                <div style="text-align: center; margin-top: 15px;">
+                    Ruang untuk Teraan<br>
+                    Kas Register/Tanda Tangan
+                </div>
+                <div style="margin-top: 40px;">
+                    Petugas Penerima<br>
+                    NIP.
+                </div>
+            </div>
+            <div style="text-align: center; padding-top: 10px;">
+                Tais, <span id="sspd-ttd-tanggal">17/12/2025</span><br>
+                Penyetor<br><br><br><br><br>
+                <div style="font-weight: bold; text-decoration: underline;" id="namaPenyetor">CV. FUJI ALMAS</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        if (id) {
+            try {
+                const sspds = JSON.parse(localStorage.getItem('mblb_sspd') || '[]');
+                const sspd = sspds.find(s => s.id === id);
+                if (sspd) {
+                    const wp = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]').find(w => w.id === sspd.wpId);
+                    const skpd = JSON.parse(localStorage.getItem('mblb_skpd') || '[]').find(s => s.id === sspd.skpdId);
+
+                    // Finding rekap to get mineral details
+                    const rekap = JSON.parse(localStorage.getItem('mblb_rekap_bulanan') || '[]').find(r => r.id === skpd?.rekapId || r.id === sspd.rekapId);
+                    const mineral = getJenisMineralById(rekap?.jenisMineral) || getJenisMineralById(sspd.jenisMineral);
+
+                    const tahun = (skpd?.tanggal || sspd.tanggal).split('-')[0];
+                    document.getElementById('sspd-tahun-header').textContent = tahun;
+                    document.getElementById('tahunPajak').textContent = tahun;
+                    document.getElementById('sspd-no').textContent = sspd.nomor;
+
+                    const d = new Date(sspd.tanggal);
+                    document.getElementById('sspd-tanggal').textContent = formatDate(sspd.tanggal);
+                    document.getElementById('sspd-ttd-tanggal').textContent = `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getFullYear()}`;
+
+                    document.getElementById('wpNama').textContent = wp?.nama || '-';
+                    document.getElementById('wpAlamat').textContent = wp?.alamat || '-';
+                    document.getElementById('wpNamaUsaha').textContent = wp?.namaUsaha || '-';
+                    document.getElementById('wpAlamatUsaha').textContent = wp?.alamat || '-';
+                    document.getElementById('wpNPWPD').textContent = wp?.npwpd || '-';
+
+                    document.getElementById('namaPenyetor').textContent = wp?.nama.toUpperCase() || '-';
+
+                    document.getElementById('docPenetapan').textContent = skpd?.nomor || '-';
+                    document.getElementById('masaPajak').textContent = rekap?.periode || sspd.periode || '-';
+                    document.getElementById('uraian').textContent = `PMBLB- AN."${wp?.namaUsaha || ''}" UNTUK PEMBAYARAN PAJAK ${wp?.alamat || ''}`.toUpperCase();
+
+                    // Rincian
+                    const tbody = document.getElementById('rincian-body');
+                    const pokokPajak = sspd.pokokPajak || sspd.jumlah; // Backward compatibility
+                    let trHtml = `
+                        <tr>
+                            <td align="center">1</td>
+                            <td>${mineral?.kodeRekening || '-'}</td>
+                            <td>${mineral?.nama || sspd.jenisMineral || '-'}</td>
+                            <td align="right">${pokokPajak.toLocaleString('id-ID', { minimumFractionDigits: 2 })}</td>
+                        </tr>
+                    `;
+
+                    if (sspd.denda && sspd.denda > 0) {
+                        trHtml += `
+                        <tr>
+                            <td align="center">2</td>
+                            <td>-</td>
+                            <td style="font-weight: bold; color: red;">Denda Keterlambatan (Bunga 2%/bln)</td>
+                            <td align="right">${sspd.denda.toLocaleString('id-ID', { minimumFractionDigits: 2 })}</td>
+                        </tr>
+                        `;
+                    }
+
+                    tbody.innerHTML = trHtml;
+
+                    document.getElementById('jumlahTotal').textContent = sspd.jumlah.toLocaleString('id-ID', { minimumFractionDigits: 2 });
+                    document.getElementById('terbilang').textContent = terbilang(sspd.jumlah) + " rupiah";
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        // Simple terbilang function for JS
+        function terbilang(angka) {
+            var bilangan = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh', 'Sebelas'];
+            if (angka < 12) return bilangan[angka];
+            else if (angka < 20) return terbilang(angka - 10) + ' Belas';
+            else if (angka < 100) return terbilang(Math.floor(angka / 10)) + ' Puluh ' + terbilang(angka % 10);
+            else if (angka < 200) return 'Seratus ' + terbilang(angka - 100);
+            else if (angka < 1000) return terbilang(Math.floor(angka / 100)) + ' Ratus ' + terbilang(angka % 100);
+            else if (angka < 2000) return 'Seribu ' + terbilang(angka - 1000);
+            else if (angka < 1000000) return terbilang(Math.floor(angka / 1000)) + ' Ribu ' + terbilang(angka % 1000);
+            else if (angka < 1000000000) return terbilang(Math.floor(angka / 1000000)) + ' Juta ' + terbilang(angka % 1000000);
+            return 'Lebih dari semilyar';
+        }
+    </script>
+</body>
+
+</html>

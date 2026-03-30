@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Referensi - Admin SIPAREK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        .tab-active {
+            border-bottom: 2px solid #4f46e5;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        .tab-inactive {
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-inactive:hover {
+            color: #374151;
+            border-bottom: 2px solid #d1d5db;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-gear text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">SIPAREK</h2>
+                        <p class="text-xs text-indigo-200">Admin Sistem</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <a href="dashboard.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-home w-5 text-center"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Master Data</p>
+                </div>
+                <a href="master-tarif.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-table w-5 text-center"></i>
+                    <span class="font-medium">Master Tarif</span>
+                </a>
+                <a href="master-referensi.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-tags w-5 text-center"></i>
+                    <span class="font-medium">Master Referensi</span>
+                </a>
+
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Pengguna</p>
+                </div>
+                <a href="user-management.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-users w-5 text-center"></i>
+                    <span class="font-medium">User Management</span>
+                </a>
+
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Pengaturan</p>
+                </div>
+                <a href="konfigurasi.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-sliders w-5 text-center"></i>
+                    <span class="font-medium">Konfigurasi Sistem</span>
+                </a>
+                <a href="audit-log.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-list w-5 text-center"></i>
+                    <span class="font-medium">Audit Log</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Master Referensi</h1>
+                        <p class="text-sm text-gray-500">Kelola referensi data sistem</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <button onclick="toggleDropdown('profileDropdown')"
+                            class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                            <div
+                                class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">
+                                SP</div>
+                            <div class="hidden md:block text-left">
+                                <p class="text-sm font-semibold text-gray-900">Siti Purnama</p>
+                                <p class="text-xs text-gray-500">Admin Sistem</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-sm text-gray-600"></i>
+                        </button>
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
+                            <button onclick="logout()"
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <i class="fa-solid fa-right-from-bracket w-4 text-center mr-2"></i>Keluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="p-6">
+            <!-- Tabs -->
+            <div class="mb-6 border-b border-gray-200">
+                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center">
+                    <li class="mr-2">
+                        <button onclick="switchTab('tabKelasJalan')" id="btnTabKelasJalan"
+                            class="tab-active inline-block p-4 rounded-t-lg">
+                            <i class="fa-solid fa-road mr-2"></i>Kelas Jalan
+                        </button>
+                    </li>
+                    <li class="mr-2">
+                        <button onclick="switchTab('tabFaktorSisi')" id="btnTabFaktorSisi"
+                            class="tab-inactive inline-block p-4 rounded-t-lg">
+                            <i class="fa-solid fa-clone mr-2"></i>Faktor Sisi
+                        </button>
+                    </li>
+                    <li class="mr-2">
+                        <button onclick="switchTab('tabKategori')" id="btnTabKategori"
+                            class="tab-inactive inline-block p-4 rounded-t-lg">
+                            <i class="fa-solid fa-layer-group mr-2"></i>Kategori
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Tab Content: Kelas Jalan -->
+            <div id="tabKelasJalan" class="block">
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+                    <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                        <h3 class="font-bold text-gray-800">Daftar Kelas Jalan</h3>
+                        <button onclick="openModalKelas('add')"
+                            class="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700">
+                            <i class="fa-solid fa-plus mr-1"></i>Tambah Kelas
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Kode</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Nama Kelas
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Keterangan
+                                    </th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-gray-600 uppercase">Aksi
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyKelasJalan" class="divide-y divide-gray-200">
+                                <!-- JS Injection -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Faktor Sisi -->
+            <div id="tabFaktorSisi" class="hidden">
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+                    <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                        <h3 class="font-bold text-gray-800">Daftar Faktor Sisi</h3>
+                        <button onclick="openModalSisi('add')"
+                            class="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700">
+                            <i class="fa-solid fa-plus mr-1"></i>Tambah Faktor
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Jumlah
+                                        Muka (Sisi)</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Faktor
+                                        Pengali</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Keterangan
+                                    </th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-gray-600 uppercase">Aksi
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyFaktorSisi" class="divide-y divide-gray-200">
+                                <!-- JS Injection -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Kategori Reklame -->
+            <div id="tabKategori" class="hidden">
+                <div class="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
+                    <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                        <h3 class="font-bold text-gray-800">Daftar Kategori Reklame</h3>
+                        <button onclick="openModalKategori('add')"
+                            class="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700">
+                            <i class="fa-solid fa-plus mr-1"></i>Tambah Kategori
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Kode</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Nama
+                                        Kategori
+                                    </th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase">Deskripsi
+                                    </th>
+                                    <th class="px-6 py-4 text-center text-xs font-bold text-gray-600 uppercase">Aksi
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyKategori" class="divide-y divide-gray-200">
+                                <!-- JS Injection -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal Kelas Jalan -->
+    <div id="modalKelasJalan" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+            <h3 class="text-xl font-bold text-gray-900 mb-4" id="titleModalKelas">Tambah Kelas Jalan</h3>
+            <form id="formKelasJalan" onsubmit="saveKelasJalan(event)">
+                <input type="hidden" id="kelasId">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Kelas</label>
+                        <input type="text" id="kelasNama" required placeholder="Contoh: Protokol A"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Keterangan</label>
+                        <textarea id="kelasDesc" rows="2" placeholder="Deskripsi singkat..."
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeModal('modalKelasJalan')"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg">Batal</button>
+                    <button type="submit" class="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Faktor Sisi -->
+    <div id="modalFaktorSisi" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+            <h3 class="text-xl font-bold text-gray-900 mb-4" id="titleModalSisi">Tambah Faktor Sisi</h3>
+            <form id="formFaktorSisi" onsubmit="saveFaktorSisi(event)">
+                <input type="hidden" id="sisiId">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Jumlah Muka (Sisi)</label>
+                        <input type="number" id="sisiJumlah" required min="1" max="10"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Faktor Pengali</label>
+                        <input type="number" id="sisiFaktor" required min="0.1" step="0.1"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <p class="text-xs text-gray-500 mt-1">1.0 = Normal, 1.5 = Tambah 50%, 2.0 = Kali 2</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Keterangan</label>
+                        <input type="text" id="sisiDesc" placeholder="Contoh: Satu Muka"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeModal('modalFaktorSisi')"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg">Batal</button>
+                    <button type="submit" class="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Kategori Reklame -->
+    <div id="modalKategori" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+            <h3 class="text-xl font-bold text-gray-900 mb-4" id="titleModalKategori">Tambah Kategori</h3>
+            <form id="formKategori" onsubmit="saveKategori(event)">
+                <input type="hidden" id="katId">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Kategori</label>
+                        <input type="text" id="katNama" required placeholder="Contoh: Videotron"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Deskripsi</label>
+                        <textarea id="katDesc" rows="2" placeholder="Deskripsi singkat..."
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                </div>
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeModal('modalKategori')"
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg">Batal</button>
+                    <button type="submit" class="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div id="deleteMasterModal"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl p-8 max-w-sm w-full mx-4 text-center">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-triangle-exclamation text-3xl text-red-600"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Hapus Data?</h3>
+            <p class="text-gray-600 mb-6">Pastikan data tidak sedang digunakan di master tarif.</p>
+            <div class="flex items-center gap-3">
+                <button onclick="closeModal('deleteMasterModal')"
+                    class="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50">
+                    Batal
+                </button>
+                <button id="confirmDeleteMasterBtn"
+                    class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700">
+                    Hapus
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../shared.js"></script>
+    <script>
+        // State
+        let dataKelas = [];
+        let dataSisi = [];
+        let dataKategori = [];
+        let currentDelete = { type: '', id: '' };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            renderKelas();
+            renderSisi();
+            renderKategori();
+        });
+
+        function loadData() {
+            dataKelas = JSON.parse(localStorage.getItem('siparek_kelas_jalan')) || [];
+            dataSisi = JSON.parse(localStorage.getItem('siparek_faktor_sisi')) || [];
+            dataKategori = JSON.parse(localStorage.getItem('siparek_kategori_reklame')) || [];
+        }
+
+        // Tabs Logic
+        function switchTab(tabId) {
+            document.getElementById('tabKelasJalan').classList.add('hidden');
+            document.getElementById('tabFaktorSisi').classList.add('hidden');
+            document.getElementById('tabKategori').classList.add('hidden');
+
+            document.getElementById('btnTabKelasJalan').className = 'tab-inactive inline-block p-4 rounded-t-lg';
+            document.getElementById('btnTabFaktorSisi').className = 'tab-inactive inline-block p-4 rounded-t-lg';
+            document.getElementById('btnTabKategori').className = 'tab-inactive inline-block p-4 rounded-t-lg';
+
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById('btn' + tabId.charAt(0).toUpperCase() + tabId.slice(1)).className = 'tab-active inline-block p-4 rounded-t-lg';
+        }
+
+        // --- CRUD Kelas Jalan ---
+        function renderKelas() {
+            const tbody = document.getElementById('tbodyKelasJalan');
+            tbody.innerHTML = dataKelas.map(item => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-mono text-xs">${item.id}</td>
+                    <td class="px-6 py-4 font-semibold text-gray-900">${item.nama}</td>
+                    <td class="px-6 py-4 text-gray-600">${item.deskripsi || '-'}</td>
+                    <td class="px-6 py-4 text-center">
+                         <div class="flex items-center justify-center gap-2">
+                            <button onclick="editKelas('${item.id}')" class="text-green-600 hover:bg-green-100 p-2 rounded"><i class="fa-solid fa-edit"></i></button>
+                            <button onclick="askDelete('kelas', '${item.id}')" class="text-red-600 hover:bg-red-100 p-2 rounded"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openModalKelas(mode, id = null) {
+            if (mode === 'add') {
+                document.getElementById('formKelasJalan').reset();
+                document.getElementById('kelasId').value = '';
+                document.getElementById('titleModalKelas').innerText = 'Tambah Kelas Jalan';
+            }
+            openModal('modalKelasJalan');
+        }
+
+        function editKelas(id) {
+            const item = dataKelas.find(x => x.id === id);
+            if (!item) return;
+            document.getElementById('kelasId').value = item.id;
+            document.getElementById('kelasNama').value = item.nama;
+            document.getElementById('kelasDesc').value = item.deskripsi;
+            document.getElementById('titleModalKelas').innerText = 'Edit Kelas Jalan';
+            openModal('modalKelasJalan');
+        }
+
+        function saveKelasJalan(e) {
+            e.preventDefault();
+            const id = document.getElementById('kelasId').value;
+            const nama = document.getElementById('kelasNama').value;
+            const desc = document.getElementById('kelasDesc').value;
+
+            if (id) {
+                // Edit
+                const idx = dataKelas.findIndex(x => x.id === id);
+                if (idx !== -1) dataKelas[idx] = { ...dataKelas[idx], nama, deskripsi: desc };
+            } else {
+                // Add
+                const newId = 'KJ' + String(Date.now()).slice(-4);
+                dataKelas.push({ id: newId, nama, deskripsi: desc });
+            }
+            localStorage.setItem('siparek_kelas_jalan', JSON.stringify(dataKelas));
+            renderKelas();
+            closeModal('modalKelasJalan');
+            showToast('Data Kelas Jalan disimpan', 'success');
+        }
+
+        // --- CRUD Faktor Sisi ---
+        function renderSisi() {
+            const tbody = document.getElementById('tbodyFaktorSisi');
+            tbody.innerHTML = dataSisi.map(item => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-bold text-gray-900">${item.jumlah} Muka</td>
+                    <td class="px-6 py-4">
+                        <span class="bg-indigo-100 text-indigo-700 font-bold px-2 py-1 rounded">x ${item.faktor}</span>
+                    </td>
+                    <td class="px-6 py-4 text-gray-600">${item.keterangan || '-'}</td>
+                    <td class="px-6 py-4 text-center">
+                         <div class="flex items-center justify-center gap-2">
+                            <button onclick="editSisi('${item.jumlah}')" class="text-green-600 hover:bg-green-100 p-2 rounded"><i class="fa-solid fa-edit"></i></button>
+                            <button onclick="askDelete('sisi', '${item.jumlah}')" class="text-red-600 hover:bg-red-100 p-2 rounded"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openModalSisi(mode, id = null) {
+            if (mode === 'add') {
+                document.getElementById('formFaktorSisi').reset();
+                document.getElementById('sisiId').value = '';
+                document.getElementById('sisiJumlah').removeAttribute('readonly');
+                document.getElementById('titleModalSisi').innerText = 'Tambah Faktor Sisi';
+            }
+            openModal('modalFaktorSisi');
+        }
+
+        function editSisi(jumlah) {
+            const item = dataSisi.find(x => x.jumlah == jumlah); // loose eq
+            if (!item) return;
+            document.getElementById('sisiId').value = item.jumlah; // Use amount as ID
+            document.getElementById('sisiJumlah').value = item.jumlah;
+            document.getElementById('sisiJumlah').setAttribute('readonly', 'true');
+            document.getElementById('sisiFaktor').value = item.faktor;
+            document.getElementById('sisiDesc').value = item.keterangan;
+            document.getElementById('titleModalSisi').innerText = 'Edit Faktor Sisi';
+            openModal('modalFaktorSisi');
+        }
+
+        function saveFaktorSisi(e) {
+            e.preventDefault();
+            const id = document.getElementById('sisiId').value; // old jumlah
+            const jumlah = parseInt(document.getElementById('sisiJumlah').value);
+            const faktor = parseFloat(document.getElementById('sisiFaktor').value);
+            const ket = document.getElementById('sisiDesc').value;
+
+            if (id) {
+                // Edit
+                const idx = dataSisi.findIndex(x => x.jumlah == id);
+                if (idx !== -1) dataSisi[idx] = { jumlah, faktor, keterangan: ket };
+            } else {
+                // Add
+                // Check exist
+                if (dataSisi.some(x => x.jumlah === jumlah)) {
+                    showToast('Jumlah sisi ini sudah ada!', 'error');
+                    return;
+                }
+                dataSisi.push({ jumlah, faktor, keterangan: ket });
+                // Sort
+                dataSisi.sort((a, b) => a.jumlah - b.jumlah);
+            }
+            localStorage.setItem('siparek_faktor_sisi', JSON.stringify(dataSisi));
+            renderSisi();
+            closeModal('modalFaktorSisi');
+            showToast('Data Faktor Sisi disimpan', 'success');
+        }
+
+        // --- Delete Logic ---
+        function askDelete(type, id) {
+            currentDelete = { type, id };
+            openModal('deleteMasterModal');
+        }
+
+        document.getElementById('confirmDeleteMasterBtn').addEventListener('click', () => {
+            if (currentDelete.type === 'kelas') {
+                dataKelas = dataKelas.filter(x => x.id !== currentDelete.id);
+                localStorage.setItem('siparek_kelas_jalan', JSON.stringify(dataKelas));
+                renderKelas();
+            } else if (currentDelete.type === 'sisi') {
+                dataSisi = dataSisi.filter(x => x.jumlah != currentDelete.id);
+                localStorage.setItem('siparek_faktor_sisi', JSON.stringify(dataSisi));
+                renderSisi();
+            } else if (currentDelete.type === 'kategori') {
+                dataKategori = dataKategori.filter(x => x.id !== currentDelete.id);
+                localStorage.setItem('siparek_kategori_reklame', JSON.stringify(dataKategori));
+                renderKategori();
+            }
+            closeModal('deleteMasterModal');
+            showToast('Data berhasil dihapus', 'success');
+        });
+
+        // --- CRUD Kategori Reklame ---
+        function renderKategori() {
+            const tbody = document.getElementById('tbodyKategori');
+            tbody.innerHTML = dataKategori.map(item => `
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 font-mono text-xs">${item.id}</td>
+                    <td class="px-6 py-4 font-semibold text-gray-900">${item.nama}</td>
+                    <td class="px-6 py-4 text-gray-600">${item.deskripsi || '-'}</td>
+                    <td class="px-6 py-4 text-center">
+                         <div class="flex items-center justify-center gap-2">
+                            <button onclick="editKategori('${item.id}')" class="text-green-600 hover:bg-green-100 p-2 rounded"><i class="fa-solid fa-edit"></i></button>
+                            <button onclick="askDelete('kategori', '${item.id}')" class="text-red-600 hover:bg-red-100 p-2 rounded"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openModalKategori(mode, id = null) {
+            if (mode === 'add') {
+                document.getElementById('formKategori').reset();
+                document.getElementById('katId').value = '';
+                document.getElementById('titleModalKategori').innerText = 'Tambah Kategori';
+            }
+            openModal('modalKategori');
+        }
+
+        function editKategori(id) {
+            const item = dataKategori.find(x => x.id === id);
+            if (!item) return;
+            document.getElementById('katId').value = item.id;
+            document.getElementById('katNama').value = item.nama;
+            document.getElementById('katDesc').value = item.deskripsi;
+            document.getElementById('titleModalKategori').innerText = 'Edit Kategori';
+            openModal('modalKategori');
+        }
+
+        function saveKategori(e) {
+            e.preventDefault();
+            const id = document.getElementById('katId').value;
+            const nama = document.getElementById('katNama').value;
+            const desc = document.getElementById('katDesc').value;
+
+            if (id) {
+                // Edit
+                const idx = dataKategori.findIndex(x => x.id === id);
+                if (idx !== -1) dataKategori[idx] = { ...dataKategori[idx], nama, deskripsi: desc };
+            } else {
+                // Add
+                const newId = 'KR' + String(Date.now()).slice(-4);
+                dataKategori.push({ id: newId, nama, deskripsi: desc });
+            }
+            localStorage.setItem('siparek_kategori_reklame', JSON.stringify(dataKategori));
+            renderKategori();
+            closeModal('modalKategori');
+            showToast('Data Kategori disimpan', 'success');
+        }
+
+    </script>
+</body>
+
+</html>

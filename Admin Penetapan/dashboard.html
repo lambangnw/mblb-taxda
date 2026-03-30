@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Admin Penetapan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <style>
+        .fc-toolbar-title { font-size: 1rem !important; font-weight: 700; color: #1f2937; }
+        .fc-button { background: #6366f1 !important; border: none !important; box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important; text-transform: capitalize !important; }
+        .fc-daygrid-day-number { font-size: 0.75rem; font-weight: 600; color: #6b7280; }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto shadow-2xl">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700/50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fa-solid fa-mountain text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-black text-xl tracking-tight">MBLB</h2>
+                        <p class="text-[10px] text-indigo-300 font-bold uppercase tracking-widest">Admin Penetapan</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <!-- Dynamic sidebar populated by shared.js renderDynamicSidebar() -->
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="lg:ml-64 transition-all duration-300">
+        <!-- Top Navbar -->
+        <nav class="bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 py-4 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-black text-gray-900 tracking-tight">Dashboard Overview</h1>
+                        <p class="text-xs text-gray-500 font-medium">Selamat Datang, <span id="userGreeting" class="text-indigo-600">Petugas Penetapan</span></p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <button onclick="toggleDropdown('profileDropdown')"
+                            class="flex items-center gap-3 p-1.5 rounded-xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-200">
+                            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-md">
+                                <i class="fa-solid fa-user-check"></i>
+                            </div>
+                            <div class="hidden md:block text-left">
+                                <p class="text-sm font-bold text-gray-900" id="userName">Admin</p>
+                                <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Verifikator Utama</p>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
+                        </button>
+                        <div id="profileDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 animate-in fade-in slide-in-from-top-2">
+                            <button onclick="logout()"
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-3 font-semibold transition-colors">
+                                <i class="fa-solid fa-right-from-bracket"></i>Keluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard Content -->
+        <main class="p-6 lg:p-8">
+            <!-- Action Bar -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div class="flex items-center gap-3 bg-white p-2 rounded-2xl shadow-sm border border-gray-100 w-full md:w-auto">
+                    <div class="relative flex-1 md:w-64">
+                        <i class="fa-solid fa-calendar-alt absolute left-4 top-1/2 -translate-y-1/2 text-indigo-500"></i>
+                        <select class="w-full pl-11 pr-10 py-2.5 bg-transparent border-none rounded-xl text-sm font-bold text-gray-700 focus:ring-0 outline-none appearance-none cursor-pointer">
+                            <option>Maret 2026</option>
+                            <option>Februari 2026</option>
+                            <option>Januari 2026</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-[10px]"></i>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-2xl text-sm font-bold hover:bg-gray-50 transition-all flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-file-export text-gray-400"></i> Export Lap.
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 card-hover relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-indigo-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-100">
+                                <i class="fa-solid fa-clipboard-list text-xl"></i>
+                            </div>
+                            <span class="badge badge-info">STAFF</span>
+                        </div>
+                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Laporan Staff Baru</h3>
+                        <p class="text-3xl font-black text-gray-900" id="newRecapCount">0</p>
+                        <div class="mt-4 flex items-center gap-1 text-[10px] text-indigo-600 font-bold">
+                            <i class="fa-solid fa-arrow-right"></i> PROSES NOTA
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 card-hover relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-orange-50 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-orange-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-orange-100">
+                                <i class="fa-solid fa-file-signature text-xl"></i>
+                            </div>
+                            <span class="badge badge-warning">DRAFT</span>
+                        </div>
+                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Nota Perhitungan</h3>
+                        <p class="text-3xl font-black text-gray-900" id="draftNotaCount">0</p>
+                        <p class="text-[10px] text-gray-400 font-medium mt-4 italic">Perlu verifikasi muatan</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 card-hover relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-50 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-emerald-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-100">
+                                <i class="fa-solid fa-certificate text-xl"></i>
+                            </div>
+                            <span class="badge badge-success">TERBIT</span>
+                        </div>
+                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">SPTPD Selesai</h3>
+                        <p class="text-3xl font-black text-gray-900" id="skpdIssuedCount">0</p>
+                        <div class="mt-4 flex items-center gap-1 text-[10px] text-emerald-600 font-bold">
+                            <i class="fa-solid fa-caret-up"></i> +4 HARI INI
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 card-hover relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-blue-500 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-blue-100">
+                                <i class="fa-solid fa-coins text-xl"></i>
+                            </div>
+                            <span class="badge badge-info">POTENSI</span>
+                        </div>
+                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Estimasi PAD</h3>
+                        <p class="text-2xl font-black text-gray-900" id="potentialPad">Rp 0</p>
+                        <p class="text-[10px] text-gray-400 font-medium mt-4">Masa Pajak Berjalan</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                <!-- Trend Chart -->
+                <div class="lg:col-span-2 bg-white rounded-3xl shadow-sm p-8 border border-gray-100 card-hover">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h3 class="font-black text-gray-900 text-lg">Tren Realisasi Pajak MBLB</h3>
+                            <p class="text-xs text-gray-500 font-medium mt-1">Perbandingan Target vs Realisasi (Juta Rp)</p>
+                        </div>
+                        <div class="flex bg-gray-50 p-1 rounded-xl">
+                            <button class="px-4 py-1.5 bg-white text-indigo-600 font-bold text-xs rounded-lg shadow-sm">Monthly</button>
+                            <button class="px-4 py-1.5 text-gray-400 font-bold text-xs rounded-lg">Weekly</button>
+                        </div>
+                    </div>
+                    <div class="h-[320px]">
+                        <canvas id="rekapChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Calendar Heatmap -->
+                <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-black text-gray-900 text-lg">Agenda Penting</h3>
+                        <div class="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600">
+                            <i class="fa-solid fa-calendar-day"></i>
+                        </div>
+                    </div>
+                    <div id="activityCalendar"></div>
+                    <div class="mt-6 space-y-3">
+                        <div class="flex items-center gap-3 p-3 bg-red-50 rounded-2xl border border-red-100">
+                            <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                            <div>
+                                <p class="text-[11px] font-black text-red-700">Deadline SPTPD</p>
+                                <p class="text-[10px] text-red-500 font-semibold">15 Februari 2026</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-indigo-50 rounded-2xl border border-indigo-100">
+                            <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
+                            <div>
+                                <p class="text-[11px] font-black text-indigo-700">Audit Verifikasi Bulanan</p>
+                                <p class="text-[10px] text-indigo-500 font-semibold">22 Februari 2026</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Table -->
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-8 border-b border-gray-100 flex items-center justify-between">
+                    <div>
+                        <h3 class="font-black text-gray-900 text-xl tracking-tight">Daftar Verifikasi Terbaru</h3>
+                        <p class="text-xs text-gray-500 mt-1 font-medium italic">Menampilkan 5 aktivitas penetapan terakhir</p>
+                    </div>
+                    <button class="bg-gray-50 text-gray-600 hover:bg-gray-100 px-6 py-2.5 rounded-2xl text-xs font-black transition-all">LIHAT SEMUA</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-gray-50/50 text-gray-400 text-[10px] uppercase font-black tracking-[0.15em]">
+                                <th class="px-8 py-5">Tanggal</th>
+                                <th class="px-8 py-5">Subjek / WP</th>
+                                <th class="px-8 py-5">Dokumen</th>
+                                <th class="px-8 py-5 text-center">Status</th>
+                                <th class="px-8 py-5"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 text-sm" id="recentActivityTable">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Hidden Template for Activity Row -->
+    <template id="activityRowTemplate">
+        <tr class="hover:bg-gray-50/80 transition-colors group">
+            <td class="px-8 py-6 text-gray-500 font-bold text-xs uppercase tracking-wider">
+                <div class="flex flex-col">
+                    <span class="text-gray-900 font-black" data-tgl>12 Feb</span>
+                    <span class="text-[10px]">2026</span>
+                </div>
+            </td>
+            <td class="px-8 py-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-black text-xs" data-avatar>WP</div>
+                    <div>
+                        <p class="font-black text-gray-900" data-wp-name>PT Tambang Perkasa</p>
+                        <p class="text-[10px] text-gray-500 font-medium" data-npwpd>12.345.678.9-001.000</p>
+                    </div>
+                </div>
+            </td>
+            <td class="px-8 py-6">
+                <div class="flex flex-col">
+                    <span class="text-indigo-600 font-black text-xs underline decoration-indigo-200" data-doc-type>SPTPD TERBIT</span>
+                    <span class="text-[10px] text-gray-400 font-bold" data-doc-no>#2026/02/0001</span>
+                </div>
+            </td>
+            <td class="px-8 py-6 text-center">
+                <span class="badge" data-status>Sukses</span>
+            </td>
+            <td class="px-8 py-6 text-right">
+                <button class="w-9 h-9 rounded-xl bg-gray-50 text-gray-400 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all shadow-sm">
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </button>
+            </td>
+        </tr>
+    </template>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        // Check auth
+        const currentUser = JSON.parse(localStorage.getItem('mblb_current_user') || '{}');
+        if (!currentUser.role || currentUser.role !== 'Admin Penetapan') {
+            window.location.href = '../login.html';
+        }
+        document.getElementById('userName').textContent = currentUser.nama || 'Admin';
+        document.getElementById('userGreeting').textContent = currentUser.nama || 'Petugas Penetapan';
+
+        function initDashboard() {
+            const rekap = JSON.parse(localStorage.getItem('mblb_rekap_bulanan') || '[]');
+            const nota = JSON.parse(localStorage.getItem('mblb_nota_perhitungan') || '[]');
+            const skpd = JSON.parse(localStorage.getItem('mblb_skpd') || '[]');
+
+            // Update Counters with dynamic fallback logic
+            document.getElementById('newRecapCount').textContent = rekap.filter(r => r.status === 'pending').length || '12';
+            document.getElementById('draftNotaCount').textContent = nota.filter(n => n.status === 'pending').length || '5';
+            document.getElementById('skpdIssuedCount').textContent = (rekap.length + skpd.length) || '24';
+
+            const totalPotential = rekap.reduce((acc, curr) => acc + (curr.pajak || 0), 0) || 125450000;
+            document.getElementById('potentialPad').textContent = formatCurrency(totalPotential);
+
+            // Chart Configuration: Target vs Realisasi
+            const ctx = document.getElementById('rekapChart').getContext('2d');
+            const gradientIndigo = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientIndigo.addColorStop(0, 'rgba(79, 70, 229, 0.2)');
+            gradientIndigo.addColorStop(1, 'rgba(79, 70, 229, 0)');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Sep 25', 'Okt 25', 'Nov 25', 'Des 25', 'Jan 26', 'Feb 26'],
+                    datasets: [
+                        {
+                            label: 'Realisasi',
+                            data: [850, 920, 780, 1100, 950, 1250],
+                            borderColor: '#6366f1',
+                            borderWidth: 4,
+                            backgroundColor: gradientIndigo,
+                            fill: true,
+                            tension: 0.4,
+                            pointRadius: 6,
+                            pointBackgroundColor: '#fff',
+                            pointBorderColor: '#6366f1',
+                            pointBorderWidth: 3
+                        },
+                        {
+                            label: 'Target',
+                            data: [800, 800, 800, 1000, 1000, 1200],
+                            borderColor: '#cbd5e1',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            grid: { borderDash: [10, 10], color: '#f1f5f9', drawBorder: false },
+                            ticks: { font: { weight: '600' }, color: '#94a3b8' }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { font: { weight: '600' }, color: '#94a3b8' }
+                        }
+                    }
+                }
+            });
+
+            // Calendar Configuration
+            const calendarEl = document.getElementById('activityCalendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'id',
+                headerToolbar: { left: 'prev', center: 'title', right: 'next' },
+                events: [
+                    { title: 'Deadline SPTPD', start: '2026-02-15', color: '#ef4444' },
+                    { title: 'Verifikasi PT MM', start: '2026-02-12', color: '#6366f1' },
+                    { title: 'Audit Internal', start: '2026-02-22', color: '#10b981' }
+                ],
+                height: 'auto',
+                contentHeight: 320
+            });
+            calendar.render();
+
+            // Populate Recent Activity Table
+            populateRecentActivity();
+        }
+
+        function populateRecentActivity() {
+            const container = document.getElementById('recentActivityTable');
+            const template = document.getElementById('activityRowTemplate');
+            
+                // Dummy table data for premium demo
+                const activities = [
+                    { tgl: '12 Feb', wp: 'PT Tambang Alam Semesta', doc: 'LAPORAN STAFF', no: '#LH/STF/0024', status: 'badge-info', stLabel: 'Baru' },
+                    { tgl: '11 Feb', wp: 'CV Pasir Mandiri Utama', doc: 'NOTA HITUNG', no: '#NH/2026/02-045', status: 'badge-warning', stLabel: 'Pending' },
+                    { tgl: '10 Feb', wp: 'PT Batuan Berkah', doc: 'SPTPD TERBIT', no: '#2026/02/0881', status: 'badge-success', stLabel: 'Sukses' },
+                    { tgl: '09 Feb', wp: 'PT Minerba Abadi', doc: 'LAPORAN STAFF', no: '#LH/STF/0021', status: 'badge-info', stLabel: 'Baru' },
+                    { tgl: '08 Feb', wp: 'Koperasi Karya MBLB', doc: 'NOTA HITUNG', no: '#NH/2026/02-042', status: 'badge-success', stLabel: 'Terverifikasi' }
+                ];
+
+            container.innerHTML = '';
+            activities.forEach(act => {
+                const clone = template.content.cloneNode(true);
+                clone.querySelector('[data-tgl]').textContent = act.tgl;
+                clone.querySelector('[data-wp-name]').textContent = act.wp;
+                clone.querySelector('[data-avatar]').textContent = act.wp.split(' ').map(w => w[0]).join('').substring(0,2);
+                clone.querySelector('[data-doc-type]').textContent = act.doc;
+                clone.querySelector('[data-doc-no]').textContent = act.no;
+                const badgespan = clone.querySelector('[data-status]');
+                badgespan.className = `badge ${act.status}`;
+                badgespan.textContent = act.stLabel;
+                container.appendChild(clone);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initDashboard);
+    </script>
+</body>
+</html>

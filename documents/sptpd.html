@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPTPD - Surat Pemberitahuan Pajak Daerah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="official.css">
+</head>
+
+<body>
+    <!-- Navbar for Navigation (No Print) -->
+    <nav class="navbar no-print bg-white shadow-sm px-6 py-4 flex justify-between items-center fixed top-0 w-full z-50">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
+                <i class="fa-solid fa-file-contract"></i>
+            </div>
+            <span class="font-bold text-lg text-slate-800">Dokumen SPTPD</span>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="window.print()"
+                class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 text-sm font-medium">
+                <i class="fa-solid fa-print mr-2"></i>Cetak SPTPD
+            </button>
+            <button onclick="window.close()"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 text-sm font-medium">
+                Tutup
+            </button>
+        </div>
+    </nav>
+
+    <div class="paper-doc mt-24">
+        <!-- Header SPTPD — 3 kolom: Logo | Nama Dinas | Nomor -->
+        <table style="width: 100%; border: 1px solid #000; margin-bottom: 5px;">
+            <tr>
+                <td style="width: 10%; vertical-align: middle; text-align: center; border-right: none;">
+                    <div class="doc-logo">[LOGO]</div>
+                </td>
+                <td
+                    style="width: 50%; vertical-align: middle; text-align: center; border-left: none; border-right: none;">
+                    <h3 style="margin:0; font-size:12pt; font-weight:800; color: #000;">PEMERINTAH KABUPATEN
+                        SELUMA</h3>
+                    <div style="font-weight:bold; font-size:11pt; color: #000;">Badan Pendapatan Daerah</div>
+                    <p style="margin:0; font-size:8pt;">Alamat : Jln. Soekarno-Hatta Pematang Aur Tais Kode Pos
+                        38576</p>
+                </td>
+                <td style="width: 40%; vertical-align: top; border-left: 1px solid #000;">
+                    <div style="font-weight: bold; font-size: 11pt; padding: 5px;" id="sptpd-no">
+                        003249/SPTPD/06/1/2025</div>
+                    <div style="font-size: 9pt; padding: 0 5px;">
+                        Masa Pajak &nbsp;: <span id="sptpd-masa">01/10/2025 s.d. 31/10/2025</span><br>
+                        Tahun Pajak : <span id="sptpd-tahun">2025</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Judul -->
+        <div style="text-align: center; margin: 15px 0;">
+            <h3 style="margin:0; font-size:14pt; font-weight:800; color: #000;">SPTPD</h3>
+            <h4 style="margin:0; font-size:11pt; font-weight:800; color: #000;">(Surat Pemberitahuan Pajak
+                Daerah)</h4>
+            <h4 style="margin:0; font-size:11pt; font-weight:800; color: #000;">Pajak Mineral Bukan Logam dan
+                Batuan</h4>
+        </div>
+
+        <!-- Kepada -->
+        <div style="text-align: right; margin-bottom: 15px; font-size: 10pt;">
+            Kepada : Yth.<br>Kepala Badan Pendapatan Daerah<br>Di - Tais
+        </div>
+
+        <!-- Data WP -->
+        <div class="doc-info-grid" style="font-size: 10pt; margin-bottom: 10px;">
+            <div>NPWPD</div>
+            <div>:</div>
+            <div><strong id="sptpd-npwpd">P.2.0000342.13.11</strong> | <span id="sptpd-npwpd-label">FUJI. H
+                    (QUARI)</span></div>
+            <div>Nama Usaha</div>
+            <div>:</div>
+            <div id="sptpd-usaha">FUJI.H (QUARI)</div>
+            <div>Nama Pemilik</div>
+            <div>:</div>
+            <div id="sptpd-nama">FUJI HARIYANTI</div>
+            <div>Keterangan</div>
+            <div>:</div>
+            <div style="font-size:9pt;" id="sptpd-keterangan">PMBLB- AN." FUJI.H" UNTUK PEMBAYARAN PAJAK DESA AIR
+                MELANCAR...</div>
+        </div>
+
+        <!-- PERHATIAN -->
+        <div
+            style="font-weight: bold; font-size: 10pt; margin-bottom: 5px; border-bottom: 1px solid #000; padding-bottom: 3px;">
+            PERHATIAN :</div>
+        <ol style="font-size: 9pt; margin: 5px 0 15px 0; padding-left: 20px;">
+            <li>Harap diisi dalam rangkap 2 (dua) dan ditulis dengan huruf CETAK</li>
+            <li>Beri Nomor pada Kotak yang tersedia untuk jawaban yang diberikan</li>
+            <li>Setelah diisi dan ditandatangani harap diserahkan kembali kepada <strong>Badan Pendapatan
+                    Daerah</strong>, paling lambat tanggal <strong>10</strong> bulan berikutnya.</li>
+            <li>Keterlambatan penyerahan dari tanggal tersebut di atas akan dilakukan Penerbitan Surat Teguran
+            </li>
+        </ol>
+
+        <!-- Section A -->
+        <div style="font-weight: bold; font-size: 10pt; margin-bottom: 5px;">A. DIISI OLEH WAJIB PAJAK /
+            PENANGGUNG PAJAK</div>
+        <div style="font-size: 10pt; margin-bottom: 5px; padding-left: 15px;">1. &nbsp;&nbsp; Data Obyek Pajak
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th width="30">No.</th>
+                    <th>Uraian</th>
+                    <th width="120">Volume/ Tonase (M3/Ton)</th>
+                    <th width="120">Harga Pasar/ Nilai Standar</th>
+                </tr>
+            </thead>
+            <tbody id="sptpd-tabel-body">
+                <tr>
+                    <td style="text-align: center;">1</td>
+                    <td id="sptpd-jenis">4.1.1.06.01.01<br><span style="font-weight: bold;">Tanah Urug</span></td>
+                    <td style="text-align: center;" id="sptpd-volume">45 m³</td>
+                    <td style="text-align: right;" id="sptpd-harga">Rp 15.000</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Section B -->
+        <div style="font-weight: bold; font-size: 10pt; margin-top: 15px; margin-bottom: 5px;">B. DIISI OLEH WAJIB PAJAK
+            / PENANGGUNG PAJAK SELF ASSESMENT</div>
+        <div style="font-size: 9pt; margin-bottom: 5px;">Jumlah Pembayaran dan Pajak terhutang untuk Masa Pajak Sekarang
+            (lampiran foto copy dokumen)</div>
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2" width="30">No</th>
+                    <th rowspan="2">Rekening</th>
+                    <th colspan="2">Dasar Pengenaan & Tarif</th>
+                    <th rowspan="2" width="100">Pajak Terhutang</th>
+                    <th rowspan="2" width="100">Pembulatan</th>
+                    <th rowspan="2" width="120">Jumlah Dibayar (Rp)</th>
+                </tr>
+                <tr>
+                    <th width="100">Dasar Pengenaan</th>
+                    <th width="60">Tarif</th>
+                </tr>
+            </thead>
+            <tbody id="sptpd-tabel-self">
+                <tr>
+                    <td style="text-align: center;">1</td>
+                    <td id="sptpd-self-rek">4.1.1.06.01.01<br>Tanah Urug</td>
+                    <td style="text-align: right;" id="sptpd-self-dasar">675.000,00</td>
+                    <td style="text-align: center;" id="sptpd-self-rate">20 %</td>
+                    <td style="text-align: right;" id="sptpd-self-terhutang">135.000,00</td>
+                    <td style="text-align: right;">0,00</td>
+                    <td style="text-align: right;" id="sptpd-self-dibayar">135.000,00</td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="text-align: right; font-weight: bold;">Jumlah</td>
+                    <td style="text-align: right; font-weight: bold;" id="sptpd-self-total">135.000,00</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Section C -->
+        <div style="font-weight: bold; font-size: 10pt; margin-top: 15px; margin-bottom: 5px;">C. PERNYATAAN</div>
+        <div style="font-size: 10pt; text-align: justify; margin-bottom: 30px;">
+            Dengan menyadari sepenuhnya akan segala akibat termasuk sanksi-sanksi sesuai dengan
+            ketentuan perundang-undangan yang berlaku, saya atau yang saya beri kuasa menyatakan
+            apa yang telah kami beritahukan tersebut diatas beserta lampiran-lampirannya adalah benar, lengkap dan
+            jelas.
+        </div>
+
+        <!-- Tanda Tangan WP -->
+        <div style="display: flex; justify-content: flex-end;">
+            <div style="text-align: center; width: 40%;">
+                Tais, <span id="sptpd-tanggal">31 Oktober 2025</span><br>
+                Wajib Pajak / Penanggung Jawab<br><br><br><br>
+                (<span id="sptpd-ttd-nama" style="font-weight: bold; text-decoration: underline;">FUJI
+                    HARIYANTI</span>)<br>
+                Jabatan : Pemilik / Direktur
+            </div>
+        </div>
+
+        <!-- Section D -->
+        <div style="font-weight: bold; font-size: 10pt; margin-top: 30px; margin-bottom: 15px;">D. DIISI OLEH PETUGAS
+            PENERIMA</div>
+        <div style="display: grid; grid-template-columns: 60% 40%; gap: 20px; font-size: 10pt;">
+            <div>
+                <table style="width: 100%; border: none;">
+                    <tr>
+                        <td width="130">Diterima Tanggal</td>
+                        <td width="10">:</td>
+                        <td id="sptpd-diterima-tgl">31 Oktober 2025</td>
+                    </tr>
+                    <tr>
+                        <td>Nama Petugas</td>
+                        <td>:</td>
+                        <td id="sptpd-petugas">Administrator</td>
+                    </tr>
+                    <tr>
+                        <td>NIP</td>
+                        <td>:</td>
+                        <td id="sptpd-nip">-</td>
+                    </tr>
+                </table>
+            </div>
+            <div style="text-align: center;">
+                <br><br><br>
+                ( .................................................. )
+            </div>
+        </div>
+
+        <!-- Tanda Terima (Tear-off) -->
+        <div style="border-top: 1px dashed #000; margin-top: 40px; padding-top: 20px; position: relative;">
+            <div
+                style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: white; padding: 0 10px; font-style: italic; font-size: 9pt;">
+                Gunting di sini</div>
+
+            <div style="text-align: center; font-weight: bold; font-size: 12pt; margin-bottom: 15px;">TANDA TERIMA</div>
+            <div style="display: grid; grid-template-columns: 60% 40%; gap: 20px; font-size: 10pt;">
+                <div>
+                    <table style="width: 100%; border: none;">
+                        <tr>
+                            <td width="100">Nama</td>
+                            <td width="10">:</td>
+                            <td id="sptpd-tt-nama">FUJI. H (QUARI)</td>
+                        </tr>
+                        <tr>
+                            <td valign="top">Alamat</td>
+                            <td valign="top">:</td>
+                            <td id="sptpd-tt-alamat">Ds. Rantau Panjang...</td>
+                        </tr>
+                        <tr>
+                            <td>Nama Usaha</td>
+                            <td>:</td>
+                            <td id="sptpd-tt-usaha">FUJI.H (QUARI)</td>
+                        </tr>
+                        <tr>
+                            <td>No. Formulir</td>
+                            <td>:</td>
+                            <td id="sptpd-tt-no">003249/SPTPD/06/1/2025</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="text-align: center;">
+                    Tais, <span id="sptpd-tt-tanggal">31 Oktober 2025</span><br>
+                    Yang Menerima<br><br><br><br>
+                    ( .................................................. )
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+
+            if (id) {
+                const rekaps = JSON.parse(localStorage.getItem('mblb_rekap_bulanan') || '[]');
+                const rekap = rekaps.find(r => r.id === id);
+
+                if (rekap) {
+                    const wp = getWajibPajakById(rekap.wpId);
+                    const mineral = getJenisMineralById(rekap.jenisMineral);
+
+                    // Data WP
+                    document.getElementById('sptpd-npwpd').textContent = wp?.npwpd || '-';
+                    document.getElementById('sptpd-npwpd-label').textContent = wp?.namaUsaha || '';
+                    document.getElementById('sptpd-usaha').textContent = wp?.namaUsaha || '-';
+                    document.getElementById('sptpd-nama').textContent = wp?.nama || '-';
+                    document.getElementById('sptpd-keterangan').textContent =
+                        'PMBLB- AN."' + (wp?.namaUsaha || '') + '" UNTUK PEMBAYARAN PAJAK ' + (wp?.alamat || '').toUpperCase();
+
+                    // Tabel Section A
+                    document.getElementById('sptpd-jenis').innerHTML = `${mineral?.kodeRekening || '-'}<br><span style="font-weight: bold;">${mineral?.nama || rekap.jenisMineral}</span>`;
+                    document.getElementById('sptpd-volume').textContent = rekap.totalVolume + ' ' + (mineral?.satuan || 'm³');
+                    document.getElementById('sptpd-harga').textContent = 'Rp ' + (mineral?.tarif || 0).toLocaleString('id-ID');
+
+                    // Tabel Section B
+                    const config = JSON.parse(localStorage.getItem('mblb_konfigurasi') || JSON.stringify(KONFIGURASI_SISTEM));
+                    const rate = config.tarifPajakPersen || 20;
+
+                    const dasarPengenaan = rekap.totalVolume * (mineral?.tarif || 0);
+                    const pajakTerhutang = dasarPengenaan * (rate / 100);
+
+                    document.getElementById('sptpd-self-rate').textContent = rate + ' %';
+
+                    document.getElementById('sptpd-self-rek').innerHTML = `${mineral?.kodeRekening || '-'}<br>${mineral?.nama || rekap.jenisMineral}`;
+                    document.getElementById('sptpd-self-dasar').textContent = dasarPengenaan.toLocaleString('id-ID', { minimumFractionDigits: 2 });
+                    document.getElementById('sptpd-self-terhutang').textContent = pajakTerhutang.toLocaleString('id-ID', { minimumFractionDigits: 2 });
+                    document.getElementById('sptpd-self-dibayar').textContent = pajakTerhutang.toLocaleString('id-ID', { minimumFractionDigits: 2 });
+                    document.getElementById('sptpd-self-total').textContent = pajakTerhutang.toLocaleString('id-ID', { minimumFractionDigits: 2 });
+
+                    // Header
+                    const nomorSptpd = String(Math.floor(Math.random() * 9000) + 1000).padStart(6, '0');
+                    const tahun = rekap.periode.split('-')[0];
+                    const fullNomor = nomorSptpd + '/SPTPD/06/1/' + tahun;
+                    document.getElementById('sptpd-no').textContent = fullNomor;
+                    document.getElementById('sptpd-masa').textContent = rekap.periode;
+                    document.getElementById('sptpd-tahun').textContent = tahun;
+
+                    const tglInput = new Date(rekap.tanggalInput || new Date().toISOString().split('T')[0]);
+                    const tglFormat = formatDate(tglInput.toISOString().split('T')[0]);
+
+                    // Tanda tangan & Section D
+                    document.getElementById('sptpd-ttd-nama').textContent = (wp?.nama || '').toUpperCase();
+                    document.getElementById('sptpd-tanggal').textContent = tglFormat;
+                    document.getElementById('sptpd-diterima-tgl').textContent = tglFormat;
+
+                    // Tanda Terima
+                    document.getElementById('sptpd-tt-nama').textContent = wp?.nama || '-';
+                    document.getElementById('sptpd-tt-alamat').textContent = wp?.alamat || '-';
+                    document.getElementById('sptpd-tt-usaha').textContent = wp?.namaUsaha || '-';
+                    document.getElementById('sptpd-tt-no').textContent = fullNomor;
+                    document.getElementById('sptpd-tt-tanggal').textContent = tglFormat;
+                }
+            }
+            // Else: use hardcoded demo values already in HTML
+        });
+    </script>
+</body>
+
+</html>

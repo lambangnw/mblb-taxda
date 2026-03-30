@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hak Akses (RBAC) - Admin Sistem MBLB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+    <!-- Load shared.js which contains the Menu config -->
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <style>
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #e5e7eb; transition: .3s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
+        input:checked + .slider { background-color: #4f46e5; }
+        input:checked + .slider:before { transform: translateX(20px); }
+    </style>
+</head>
+
+<body class="bg-gray-50 flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="flex-shrink-0 z-40 w-64 h-screen bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto hidden lg:block">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-gear text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">MBLB</h2>
+                        <p class="text-xs text-indigo-200">Admin Sistem</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Dynamic Sidebar Container -->
+            <nav class="sidebar-menu space-y-2">
+                <!-- Dynamic sidebar populated by shared.js renderDynamicSidebar() -->
+            </nav>
+        </div>
+    </aside>
+
+    <div id="mainContent" class="flex-1 flex flex-col h-screen overflow-hidden transition-smooth">
+        <!-- Top Navbar -->
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 shadow-sm flex-shrink-0">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="document.getElementById('sidebar').classList.toggle('hidden')" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Hak Akses (Role Permissions)</h1>
+                        <p class="text-sm text-gray-500">Kustomisasi kewenangan menu pada setiap role sistem</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="saveRbac()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-all text-sm">
+                        <i class="fa-solid fa-floppy-disk mr-2"></i>Simpan Perubahan
+                    </button>
+                    <button onclick="resetRbac()" class="px-3 py-2 bg-red-50 text-red-600 rounded-lg font-semibold hover:bg-red-100 transition-all text-sm">
+                        <i class="fa-solid fa-rotate-left mr-2"></i>Default
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="flex-1 overflow-y-auto p-6 custom-scrollbar">
+            <!-- Warning Alert -->
+            <div class="mb-6 bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                <div class="flex items-start">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-1 mr-3"></i>
+                    <div>
+                        <h3 class="text-amber-800 font-bold">Instruksi RBAC</h3>
+                        <p class="text-amber-700 text-sm mt-1">Gunakan toggle di bawah ini untuk mengatur halaman mana saja yang bisa dilihat oleh setiap Role. Perubahan akan langsung terlihat di sidebar user pada login berikutnya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <!-- Tabs for Roles -->
+                <div class="flex overflow-x-auto border-b border-gray-100 custom-scrollbar" id="roleTabs">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Checkbox Grid per Role -->
+                <div class="p-6" id="rbacContent">
+                    <!-- Categorized Menus Populated by JS -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const ROLES = [
+            'Bidang Pendaftaran', 'Staff Lapangan', 'Admin Penetapan', 'Kabid Penetapan', 
+            'Bidang Penagihan', 'Kepala Dinas', 'Admin Sistem'
+        ];
+        
+        // Group Master Menus by Category
+        const menuByCategory = {};
+        MBLB_MENU_MASTER.forEach(m => {
+            if(!menuByCategory[m.cat]) menuByCategory[m.cat] = [];
+            menuByCategory[m.cat].push(m);
+        });
+
+        let currentActiveRole = 'Bidang Pendaftaran';
+        let customRbac = getRbacConfig();
+
+        function renderTabs() {
+            const tabsContainer = document.getElementById('roleTabs');
+            let tabsHtml = '';
+            ROLES.forEach(role => {
+                const isActive = role === currentActiveRole;
+                tabsHtml += `
+                    <button onclick="switchRole('${role}')" 
+                        class="px-6 py-4 text-sm font-semibold border-b-2 whitespace-nowrap transition-colors ${isActive ? 'border-indigo-600 text-indigo-600 bg-indigo-50/50' : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'}">
+                        ${role}
+                    </button>
+                `;
+            });
+            tabsContainer.innerHTML = tabsHtml;
+        }
+
+        function switchRole(role) {
+            currentActiveRole = role;
+            renderTabs();
+            renderContent();
+        }
+
+        function toggleMenuAccess(menuId) {
+            const activeRules = customRbac[currentActiveRole] || [];
+            if(activeRules.includes(menuId)) {
+                customRbac[currentActiveRole] = activeRules.filter(id => id !== menuId);
+            } else {
+                activeRules.push(menuId);
+                customRbac[currentActiveRole] = activeRules;
+            }
+            renderContent();
+        }
+
+        function renderContent() {
+            const container = document.getElementById('rbacContent');
+            const allowedMenus = customRbac[currentActiveRole] || [];
+            
+            let html = '';
+            
+            Object.keys(menuByCategory).forEach(cat => {
+                html += `
+                    <div class="mb-8 last:mb-0">
+                        <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">${cat}</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                `;
+
+                menuByCategory[cat].forEach(menu => {
+                    const isChecked = allowedMenus.includes(menu.id);
+                    html += `
+                        <div class="flex items-center justify-between p-4 rounded-xl border ${isChecked ? 'border-indigo-200 bg-indigo-50/30' : 'border-gray-100 bg-gray-50'} transition-all cursor-pointer hover:shadow-sm"
+                             onclick="toggleMenuAccess('${menu.id}')">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded bg-white shadow-sm flex items-center justify-center ${isChecked ? 'text-indigo-600' : 'text-gray-400'}">
+                                    <i class="fa-solid ${menu.icon}"></i>
+                                </div>
+                                <span class="text-sm font-semibold ${isChecked ? 'text-gray-900' : 'text-gray-500'}">${menu.label}</span>
+                            </div>
+                            <!-- Prevent double toggle on click by swallowing the event if they click the actual switch -->
+                            <div onclick="event.stopPropagation()">
+                                <label class="switch">
+                                    <input type="checkbox" onchange="toggleMenuAccess('${menu.id}')" ${isChecked ? 'checked' : ''}>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function saveRbac() {
+            localStorage.setItem('mblb_rbac', JSON.stringify(customRbac));
+            logActivity('Update RBAC', 'Mengubah konfigurasi Hak Akses menu (RBAC) pada sistem');
+            showToast('Konfigurasi Hak Akses berhasil disimpan!', 'success');
+            // Refresh dynamic sidebar to reflect new settings immediately if Admin changed their own role!
+            renderDynamicSidebar();
+        }
+
+        function resetRbac() {
+            if(confirm('Kembalikan semua pengaturan hak akses ke setelan pabrik?')) {
+                customRbac = JSON.parse(JSON.stringify(MBLB_DEFAULT_RBAC));
+                localStorage.setItem('mblb_rbac', JSON.stringify(customRbac));
+                logActivity('Reset RBAC', 'Mengembalikan Hak Akses (RBAC) ke Pengaturan Default');
+                renderContent();
+                showToast('Pengaturan berhasil di-reset', 'info');
+                renderDynamicSidebar();
+            }
+        }
+
+        // Init
+        setTimeout(() => {
+            renderTabs();
+            renderContent();
+        }, 100);
+    </script>
+</body>
+</html>

@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran - Front Office SIPAREK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50">
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-building text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">SIPAREK</h2>
+                        <p class="text-xs text-indigo-200">Front Office</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <a href="dashboard.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-home w-5 text-center"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Layanan Loket</p>
+                </div>
+                <a href="berkas-online.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-globe w-5 text-center"></i>
+                    <span class="font-medium">Berkas Online</span>
+                    <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">5</span>
+                </a>
+                <a href="antrian.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-users-line w-5 text-center"></i>
+                    <span class="font-medium">Antrian & Panggilan</span>
+                </a>
+                <a href="penerimaan-berkas.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-folder-plus w-5 text-center"></i>
+                    <span class="font-medium">Penerimaan Berkas</span>
+                </a>
+                <a href="pembayaran.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-cash-register w-5 text-center"></i>
+                    <span class="font-medium">Pembayaran & Kasir</span>
+                </a>
+                <div class="pt-4 pb-2">
+                    <p class="px-4 text-xs font-semibold text-indigo-300 uppercase">Laporan</p>
+                </div>
+                <a href="laporan-harian.html"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-indigo-700 transition-smooth">
+                    <i class="fa-solid fa-file-invoice-dollar w-5 text-center"></i>
+                    <span class="font-medium">Laporan Harian</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Pembayaran</h1>
+                        <p class="text-sm text-gray-500">Proses pembayaran pajak reklame</p>
+                    </div>
+                </div>
+                <div class="relative">
+                    <button onclick="toggleDropdown('profileDropdown')"
+                        class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                        <div
+                            class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">
+                            BS</div>
+                        <div class="hidden md:block text-left">
+                            <p class="text-sm font-semibold text-gray-900">Budi Santoso</p>
+                            <p class="text-xs text-gray-500">Front Office</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-sm text-gray-600"></i>
+                    </button>
+                    <div id="profileDropdown"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
+                        <button onclick="logout()"
+                            class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                            <i class="fa-solid fa-right-from-bracket w-4 text-center mr-2"></i>Keluar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="p-6">
+            <div class="max-w-4xl mx-auto">
+                <!-- Search Section -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-search text-indigo-600"></i>
+                        Cari Tagihan Wajib Pajak
+                    </h3>
+                    <div class="flex gap-4">
+                        <input type="text" id="searchnpwpd" placeholder="Masukkan npwpd (16 digit)"
+                            class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none"
+                            maxlength="16">
+                        <button onclick="searchTagihan()"
+                            class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-bold hover:shadow-lg transition-all">
+                            <i class="fa-solid fa-search mr-2"></i>Cari
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Result Section (Hidden by default) -->
+                <div id="resultSection" class="hidden">
+                    <!-- Taxpayer Info -->
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-user-circle text-indigo-600"></i>
+                            Data Wajib Pajak
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-sm text-gray-500">npwpd</p>
+                                <p class="font-semibold text-gray-900" id="npwpdDisplay">-</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">NIK</p>
+                                <p class="font-semibold text-gray-900">3201234567891234</p>
+                            </div>
+                            <div class="md:col-span-2">
+                                <p class="text-sm text-gray-500">Nama Lengkap</p>
+                                <p class="font-semibold text-gray-900" id="namaDisplay">-</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Unpaid Bills -->
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-file-invoice-dollar text-red-600"></i>
+                            Tagihan Belum Dibayar
+                        </h3>
+                        <div class="space-y-4" id="tagihanList">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Payment Method Selection -->
+                    <div id="paymentMethodSection"
+                        class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100 hidden">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-credit-card text-blue-600"></i>
+                            Metode Pembayaran
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <label onclick="selectMethod('tunai')"
+                                class="payment-method-card flex flex-col items-center gap-3 p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-green-500 hover:bg-green-50 transition-smooth">
+                                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-money-bill-wave text-3xl text-green-600"></i>
+                                </div>
+                                <div class="text-center">
+                                    <p class="font-bold text-gray-900">Tunai (Cash)</p>
+                                    <p class="text-xs text-gray-500">Bayar langsung di kantor</p>
+                                </div>
+                            </label>
+                            <label onclick="selectMethod('transfer')"
+                                class="payment-method-card flex flex-col items-center gap-3 p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-smooth">
+                                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-building-columns text-3xl text-blue-600"></i>
+                                </div>
+                                <div class="text-center">
+                                    <p class="font-bold text-gray-900">Transfer Bank</p>
+                                    <p class="text-xs text-gray-500">Via ATM/m-banking</p>
+                                </div>
+                            </label>
+                            <label onclick="selectMethod('qris')"
+                                class="payment-method-card flex flex-col items-center gap-3 p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-purple-500 hover:bg-purple-50 transition-smooth">
+                                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-qrcode text-3xl text-purple-600"></i>
+                                </div>
+                                <div class="text-center">
+                                    <p class="font-bold text-gray-900">QRIS</p>
+                                    <p class="text-xs text-gray-500">Scan dengan e-wallet</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Total Summary -->
+                        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg p-4 text-white">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-indigo-100">Total Pembayaran</p>
+                                    <p class="text-3xl font-bold" id="totalTagihan">Rp 0</p>
+                                </div>
+                                <i class="fa-solid fa-receipt text-4xl text-white/30"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cash Payment Form -->
+                    <div id="cashPaymentForm"
+                        class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100 hidden">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-money-bill text-green-600"></i>
+                            Pembayaran Tunai (Cash)
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Jumlah Uang Diterima
+                                    *</label>
+                                <input type="number" id="uangDiterima" placeholder="Masukkan jumlah uang"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none text-lg font-semibold"
+                                    oninput="hitungKembalian()">
+                            </div>
+                            <div class="bg-green-50 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-gray-600">Kembalian:</span>
+                                    <span class="text-2xl font-bold text-green-600" id="kembalian">Rp 0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transfer/QRIS Confirmation -->
+                    <div id="digitalPaymentForm"
+                        class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-100 hidden">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-check-circle text-blue-600"></i>
+                            Konfirmasi Pembayaran <span id="methodName"></span>
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                <p class="text-sm text-blue-900 mb-2">
+                                    <i class="fa-solid fa-info-circle mr-2"></i>Pastikan wajib pajak sudah melakukan
+                                    pembayaran
+                                </p>
+                                <ul class="text-sm text-blue-700 space-y-1 ml-6">
+                                    <li>• Cek bukti transfer/screenshot pembayaran</li>
+                                    <li>• Verifikasi nominal sesuai tagihan</li>
+                                    <li>• Konfirmasi nama pengirim</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Nomor Referensi/ID
+                                    Transaksi</label>
+                                <input type="text" id="refNumber" placeholder="Masukkan nomor referensi"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div id="actionButtons" class="hidden flex gap-4">
+                        <button onclick="batalBayar()"
+                            class="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-all">
+                            <i class="fa-solid fa-times mr-2"></i>Batal
+                        </button>
+                        <button onclick="prosesBayar()"
+                            class="flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-bold hover:shadow-lg transition-all">
+                            <i class="fa-solid fa-check mr-2"></i>Konfirmasi Pembayaran
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Reference Card -->
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <p class="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-gray-400"></i>
+                            Quick Reference
+                        </p>
+                        <span class="text-xs text-gray-500">Klik untuk auto-isi</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <!-- WP 1 -->
+                        <button onclick="autoFillnpwpd('1234567890120001')"
+                            class="bg-white border border-gray-200 rounded-lg p-3 text-left hover:border-indigo-400 hover:bg-indigo-50 transition-all group">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs font-mono text-gray-600">1234567890120001</span>
+                                <i
+                                    class="fa-solid fa-arrow-right text-gray-300 group-hover:text-indigo-500 transition-colors text-xs"></i>
+                            </div>
+                            <p class="font-semibold text-gray-900 text-sm">Ahmad Pratama</p>
+                            <p class="text-xs text-gray-500">2 Tagihan • Rp 189jt</p>
+                        </button>
+
+                        <!-- WP 2 -->
+                        <button onclick="autoFillnpwpd('1234567890120002')"
+                            class="bg-white border border-gray-200 rounded-lg p-3 text-left hover:border-indigo-400 hover:bg-indigo-50 transition-all group">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs font-mono text-gray-600">1234567890120002</span>
+                                <i
+                                    class="fa-solid fa-arrow-right text-gray-300 group-hover:text-indigo-500 transition-colors text-xs"></i>
+                            </div>
+                            <p class="font-semibold text-gray-900 text-sm">Siti Nurhaliza</p>
+                            <p class="text-xs text-gray-500">1 Tagihan • Rp 25jt</p>
+                        </button>
+
+                        <!-- WP 3 (Lunas) -->
+                        <button onclick="autoFillnpwpd('1234567890120003')"
+                            class="bg-white border border-green-200 rounded-lg p-3 text-left hover:border-green-400 hover:bg-green-50 transition-all group">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs font-mono text-green-700 font-bold">1234567890120003</span>
+                                <i class="fa-solid fa-check-circle text-green-500 text-xs"></i>
+                            </div>
+                            <p class="font-semibold text-gray-900 text-sm">Budi Santoso</p>
+                            <p class="text-xs text-green-600 font-medium">Lunas • Unduh SSPD</p>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Info Note -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-info-circle text-blue-600 text-xl mt-1"></i>
+                        <div>
+                            <p class="font-semibold text-blue-900 mb-1">Informasi Pembayaran</p>
+                            <ul class="text-sm text-blue-700 space-y-1">
+                                <li>• Bantu wajib pajak memproses pembayaran pajak reklame</li>
+                                <li>• Tersedia metode: Tunai, Transfer Bank, dan QRIS</li>
+                                <li>• Pastikan data dan nominal sudah benar sebelum konfirmasi</li>
+                                <li>• Cetak kwitansi setelah pembayaran berhasil</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Success Modal -->
+        <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all">
+                <div class="bg-gradient-to-r from-green-600 to-emerald-600 p-6 rounded-t-2xl">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa-solid fa-check text-green-600 text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Pembayaran Berhasil!</h3>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="text-center mb-6">
+                        <p class="text-gray-600 mb-2">Atas nama:</p>
+                        <p class="text-xl font-bold text-gray-900" id="modalNama"></p>
+                        <p class="text-gray-600 text-sm mt-1" id="modalnpwpd"></p>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-600">Total Dibayar:</span>
+                            <span class="text-xl font-bold text-green-600" id="modalTotal"></span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm" id="modalKembalian">
+                            <span class="text-gray-600">Kembalian:</span>
+                            <span class="font-semibold text-gray-900"></span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm mt-1">
+                            <span class="text-gray-600">Metode:</span>
+                            <span class="font-semibold text-gray-900" id="modalMetode"></span>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button onclick="closeModal()"
+                            class="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-all">
+                            <i class="fa-solid fa-times mr-2"></i>Tutup
+                        </button>
+                        <button onclick="cetakSSPD()"
+                            class="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-bold hover:shadow-lg transition-all">
+                            <i class="fa-solid fa-print mr-2"></i>Cetak SSPD
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../shared.js"></script>
+    <script>
+        // Get data from localStorage (populated by seed-data.js)
+        function getDemoData() {
+            const users = JSON.parse(localStorage.getItem('siparek_users') || '[]');
+            const tagihan = JSON.parse(localStorage.getItem('siparek_tagihan') || '[]');
+
+            // If no seed data, use fallback
+            if (users.length === 0) {
+                return {
+                    '1234567890120001': {
+                        nama: 'Ahmad Pratama',
+                        tagihan: [
+                            { id: 'SKR-001', objek: 'Videotron LED - Jl. Sudirman', nominal: 135000000, periode: 'Jan 2026', status: 'belum_bayar' },
+                            { id: 'SKR-045', objek: 'Billboard Outdoor - Jl. Raya', nominal: 54000000, periode: 'Feb 2026', status: 'belum_bayar' }
+                        ]
+                    },
+                    '1234567890120002': {
+                        nama: 'Siti Nurhaliza',
+                        tagihan: [
+                            { id: 'SKR-078', objek: 'Baliho - Jl. Gatot Subroto', nominal: 25000000, periode: 'Jan 2026', status: 'belum_bayar' }
+                        ]
+                    },
+                    '1234567890120003': {
+                        nama: 'Budi Santoso',
+                        tagihan: [
+                            {
+                                id: 'SKR-004',
+                                objek: 'Spanduk - Jl. Merdeka',
+                                nominal: 450000,
+                                periode: 'Feb 2026',
+                                status: 'lunas',
+                                tanggal_bayar: '2026-02-05'
+                            }
+                        ]
+                    }
+                };
+            }
+
+            // Build data from seed
+            const demoData = {};
+            users.forEach(user => {
+                if (user.npwpd) {
+                    // AMBIL SEMUA TAGIHAN (Lunas & Belum Bayar)
+                    const userTagihan = tagihan.filter(t => t.npwpd === user.npwpd);
+
+                    if (userTagihan.length > 0) {
+                        demoData[user.npwpd] = {
+                            nama: user.nama,
+                            tagihan: userTagihan.map(t => ({
+                                id: t.id,
+                                objek: t.objek,
+                                nominal: t.nominal,
+                                periode: t.periode,
+                                status: t.status || 'belum_bayar',
+                                tanggal_bayar: t.tanggal_bayar
+                            }))
+                        };
+                    }
+                }
+            });
+
+            // Add fallback if construction failed or empty
+            if (Object.keys(demoData).length === 0) {
+                return {
+                    '1234567890120001': {
+                        nama: 'Ahmad Pratama',
+                        tagihan: [
+                            { id: 'SKR-001', objek: 'Videotron LED - Jl. Sudirman', nominal: 135000000, periode: 'Jan 2026', status: 'belum_bayar' },
+                            { id: 'SKR-045', objek: 'Billboard Outdoor - Jl. Raya', nominal: 54000000, periode: 'Feb 2026', status: 'belum_bayar' }
+                        ]
+                    },
+                    '1234567890120002': {
+                        nama: 'Siti Nurhaliza',
+                        tagihan: [
+                            { id: 'SKR-078', objek: 'Baliho - Jl. Gatot Subroto', nominal: 25000000, periode: 'Jan 2026', status: 'belum_bayar' }
+                        ]
+                    },
+                    '1234567890120003': {
+                        nama: 'Budi Santoso',
+                        tagihan: [
+                            {
+                                id: 'SKR-004',
+                                objek: 'Spanduk - Jl. Merdeka',
+                                nominal: 450000,
+                                periode: 'Feb 2026',
+                                status: 'lunas',
+                                tanggal_bayar: '2026-02-05'
+                            }
+                        ]
+                    }
+                };
+            }
+
+            return demoData;
+        }
+
+        let selectedTagihan = [];
+        let totalBayar = 0;
+        let selectedMethod = '';
+
+        // Auto-fill npwpd for quick demo
+        function autoFillnpwpd(npwpd) {
+            document.getElementById('searchnpwpd').value = npwpd;
+            showToast('npwpd diisi otomatis! Klik "Cari" untuk melanjutkan', 'info');
+            // Auto search
+            setTimeout(() => {
+                searchTagihan();
+            }, 500);
+        }
+
+        function searchTagihan() {
+            console.log('Search initiated');
+            const npwpd = document.getElementById('searchnpwpd').value.trim();
+
+            if (!npwpd) {
+                showToast('Masukkan npwpd terlebih dahulu', 'error');
+                return;
+            }
+
+            if (npwpd.length !== 16) {
+                showToast('npwpd harus 16 digit', 'error');
+                return;
+            }
+
+            const demoData = getDemoData();
+            const data = demoData[npwpd];
+
+            if (!data) {
+                showToast('npwpd tidak ditemukan atau tidak memiliki tagihan', 'error');
+                document.getElementById('resultSection').classList.add('hidden');
+                return;
+            }
+
+            // Display taxpayer data
+            document.getElementById('npwpdDisplay').textContent = npwpd;
+            document.getElementById('namaDisplay').textContent = data.nama;
+
+            // Display unpaid bills
+            const tagihanList = document.getElementById('tagihanList');
+            tagihanList.innerHTML = '';
+
+            // Pisahkan tagihan belum bayar dan lunas
+            const tagihanBelumBayar = data.tagihan.filter(t => !t.status || t.status === 'belum_bayar');
+            const tagihanLunas = data.tagihan.filter(t => t.status === 'lunas');
+
+            // Show unpaid bills
+            if (tagihanBelumBayar.length > 0) {
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'mb-3';
+                headerDiv.innerHTML = `
+                    <h4 class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                        <i class="fa-solid fa-clock text-orange-600"></i>
+                        Tagihan Belum Dibayar
+                    </h4>
+                `;
+                tagihanList.appendChild(headerDiv);
+
+                tagihanBelumBayar.forEach(tagihan => {
+                    const div = document.createElement('div');
+                    div.className = 'flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 mb-2';
+                    div.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <input type="checkbox" 
+                                class="w-5 h-5 text-indigo-600 rounded" 
+                                onchange="toggleTagihan('${tagihan.id}', ${tagihan.nominal}, this.checked)">
+                            <div>
+                                <p class="font-semibold text-gray-900">${tagihan.objek}</p>
+                                <p class="text-sm text-gray-500">${tagihan.id} • ${tagihan.periode}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-bold text-red-600">Rp ${formatRupiah(tagihan.nominal)}</p>
+                        </div>
+                    `;
+                    tagihanList.appendChild(div);
+                });
+            }
+
+            // Show paid bills
+            if (tagihanLunas.length > 0) {
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'mb-3 mt-6';
+                headerDiv.innerHTML = `
+                    <h4 class="text-sm font-bold text-gray-700 flex items-center gap-2">
+                        <i class="fa-solid fa-check-circle text-green-600"></i>
+                        Tagihan Lunas
+                    </h4>
+                `;
+                tagihanList.appendChild(headerDiv);
+
+                tagihanLunas.forEach(tagihan => {
+                    const div = document.createElement('div');
+                    div.className = 'flex items-center justify-between p-4 border border-green-200 bg-green-50 rounded-lg mb-2';
+                    div.innerHTML = `
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <i class="fa-solid fa-check-circle text-green-600"></i>
+                                <p class="font-semibold text-gray-900">${tagihan.objek}</p>
+                            </div>
+                            <p class="text-sm text-gray-600">${tagihan.id} • ${tagihan.periode}</p>
+                            <p class="text-sm text-green-700 mt-1">
+                                <i class="fa-solid fa-calendar-check mr-1"></i>
+                                Dibayar: ${tagihan.tanggal_bayar || '-'}
+                            </p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-lg font-bold text-green-700 mb-2">Rp ${formatRupiah(tagihan.nominal)}</p>
+                            <button onclick="downloadSSPD('${tagihan.id}')" 
+                                class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition-all shadow-md">
+                                <i class="fa-solid fa-download mr-2"></i>Unduh SSPD
+                            </button>
+                        </div>
+                    `;
+                    tagihanList.appendChild(div);
+                });
+            }
+
+            if (tagihanBelumBayar.length === 0 && tagihanLunas.length === 0) {
+                tagihanList.innerHTML = '<p class="text-center text-gray-500 py-8">Tidak ada tagihan ditemukan</p>';
+            }
+
+            document.getElementById('resultSection').classList.remove('hidden');
+            showToast('Data ditemukan!', 'success');
+        }
+
+        function downloadSSPD(tagihanId) {
+            showToast('Mempersiapkan SSPD...', 'info');
+            setTimeout(() => {
+                window.open('../dokumen-resmi.html#sspd', '_blank');
+                showToast('SSPD dibuka di tab baru', 'success');
+            }, 500);
+        }
+
+        function toggleTagihan(id, nominal, checked) {
+            if (checked) {
+                selectedTagihan.push({ id, nominal });
+            } else {
+                selectedTagihan = selectedTagihan.filter(t => t.id !== id);
+            }
+
+            totalBayar = selectedTagihan.reduce((sum, t) => sum + t.nominal, 0);
+
+            if (selectedTagihan.length > 0) {
+                document.getElementById('paymentMethodSection').classList.remove('hidden');
+                document.getElementById('totalTagihan').textContent = 'Rp ' + formatRupiah(totalBayar);
+            } else {
+                document.getElementById('paymentMethodSection').classList.add('hidden');
+                document.getElementById('cashPaymentForm').classList.add('hidden');
+                document.getElementById('digitalPaymentForm').classList.add('hidden');
+                document.getElementById('actionButtons').classList.add('hidden');
+            }
+        }
+
+        function selectMethod(method) {
+            selectedMethod = method;
+
+            // Hide all forms first
+            document.getElementById('cashPaymentForm').classList.add('hidden');
+            document.getElementById('digitalPaymentForm').classList.add('hidden');
+
+            // Show relevant form
+            if (method === 'tunai') {
+                document.getElementById('cashPaymentForm').classList.remove('hidden');
+            } else {
+                const methodNames = {
+                    'transfer': 'Transfer Bank',
+                    'qris': 'QRIS'
+                };
+                document.getElementById('methodName').textContent = methodNames[method];
+                document.getElementById('digitalPaymentForm').classList.remove('hidden');
+            }
+
+            document.getElementById('actionButtons').classList.remove('hidden');
+            showToast(`Metode ${method === 'tunai' ? 'Tunai' : method === 'transfer' ? 'Transfer Bank' : 'QRIS'} dipilih`, 'info');
+        }
+
+        function hitungKembalian() {
+            const uangDiterima = parseInt(document.getElementById('uangDiterima').value) || 0;
+            const kembalian = uangDiterima - totalBayar;
+
+            if (kembalian >= 0) {
+                document.getElementById('kembalian').textContent = 'Rp ' + formatRupiah(kembalian);
+                document.getElementById('kembalian').className = 'text-2xl font-bold text-green-600';
+            } else {
+                document.getElementById('kembalian').textContent = 'Kurang: Rp ' + formatRupiah(Math.abs(kembalian));
+                document.getElementById('kembalian').className = 'text-2xl font-bold text-red-600';
+            }
+        }
+
+
+        let paymentData = {}; // Store payment data for SSPD
+
+        function prosesBayar() {
+            const nama = document.getElementById('namaDisplay').textContent;
+            const npwpd = document.getElementById('searchnpwpd').value.trim();
+
+            if (selectedTagihan.length === 0) {
+                showToast('Pilih tagihan terlebih dahulu', 'error');
+                return;
+            }
+
+            if (!selectedMethod) {
+                showToast('Pilih metode pembayaran', 'error');
+                return;
+            }
+
+            // Validate based on method
+            let kembalian = 0;
+            let refNumber = '';
+
+            if (selectedMethod === 'tunai') {
+                const uangDiterima = parseInt(document.getElementById('uangDiterima').value) || 0;
+                if (!uangDiterima) {
+                    showToast('Masukkan jumlah uang yang diterima', 'error');
+                    return;
+                }
+                if (uangDiterima < totalBayar) {
+                    showToast('Uang yang diterima kurang!', 'error');
+                    return;
+                }
+                kembalian = uangDiterima - totalBayar;
+            } else {
+                refNumber = document.getElementById('refNumber').value.trim();
+                if (!refNumber) {
+                    showToast('Masukkan nomor referensi transaksi', 'error');
+                    return;
+                }
+            }
+
+            // Store payment data
+            paymentData = {
+                nama: nama,
+                npwpd: npwpd,
+                tagihan: selectedTagihan,
+                total: totalBayar,
+                metode: selectedMethod,
+                kembalian: kembalian,
+                refNumber: refNumber,
+                tanggal: new Date().toLocaleString('id-ID', {
+                    dateStyle: 'long',
+                    timeStyle: 'short'
+                })
+            };
+
+            // Save to localStorage for SSPD
+            localStorage.setItem('siparek_last_payment', JSON.stringify(paymentData));
+
+            // Show success modal
+            document.getElementById('modalNama').textContent = nama;
+            document.getElementById('modalnpwpd').textContent = 'npwpd: ' + npwpd;
+            document.getElementById('modalTotal').textContent = 'Rp ' + formatRupiah(totalBayar);
+
+            const metodeText = selectedMethod === 'tunai' ? 'Tunai' :
+                selectedMethod === 'transfer' ? 'Transfer Bank' : 'QRIS';
+            document.getElementById('modalMetode').textContent = metodeText;
+
+            const kembalianEl = document.getElementById('modalKembalian');
+            if (selectedMethod === 'tunai' && kembalian > 0) {
+                kembalianEl.style.display = 'flex';
+                kembalianEl.querySelector('span:last-child').textContent = 'Rp ' + formatRupiah(kembalian);
+            } else {
+                kembalianEl.style.display = 'none';
+            }
+
+            document.getElementById('successModal').classList.remove('hidden');
+            document.getElementById('successModal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('successModal').classList.remove('flex');
+            window.location.reload();
+        }
+
+        function cetakSSPD() {
+            // Open SSPD document in new tab
+            window.open('../dokumen-resmi.html#sspd', '_blank');
+
+            // Optional: Close modal and reset
+            setTimeout(() => {
+                closeModal();
+            }, 500);
+        }
+
+        function batalBayar() {
+            // Reset
+            selectedMethod = '';
+            document.getElementById('cashPaymentForm').classList.add('hidden');
+            document.getElementById('digitalPaymentForm').classList.add('hidden');
+            document.getElementById('actionButtons').classList.add('hidden');
+            document.getElementById('uangDiterima').value = '';
+            document.getElementById('kembalian').textContent = 'Rp 0';
+            document.getElementById('refNumber').value = '';
+        }
+
+        function formatRupiah(angka) {
+            return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+    </script>
+</body>
+
+</html>

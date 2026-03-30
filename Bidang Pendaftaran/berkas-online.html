@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Berkas - Bidang Pendaftaran MBLB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50 flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-mountain text-2xl text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">MBLB</h2>
+                        <p class="text-xs text-indigo-200">Bidang Pendaftaran</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <!-- Dynamic sidebar populated by shared.js renderDynamicSidebar() -->
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="flex-1 flex flex-col min-w-0 overflow-hidden lg:ml-64 transition-smooth h-screen">
+        <!-- Top Navbar -->
+        <header class="bg-white shadow-sm z-10 sticky top-0">
+            <div class="flex items-center justify-between px-6 py-4">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Verifikasi Berkas</h1>
+                        <p class="text-sm text-gray-500">Antrian verifikasi pendaftaran Wajib Pajak baru</p>
+                    </div>
+                </div>
+                <!-- Profile -->
+                <div class="relative">
+                    <button onclick="toggleDropdown('profileDropdown')"
+                        class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                        <div
+                            class="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">
+                            FO</div>
+                    </button>
+                    <div id="profileDropdown"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
+                        <button onclick="logout()"
+                            class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <main class="flex-1 overflow-y-auto p-6 flex flex-col">
+            
+            <!-- Statistics Banner -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-100 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600">
+                        <i class="fa-solid fa-hourglass-half border-2 border-amber-600 rounded-full p-1 text-sm bg-amber-100 relative left-0.5"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Menunggu Verifikasi</p>
+                        <p class="text-2xl font-black text-gray-900" id="statMenunggu">0</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-100 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600">
+                        <i class="fa-solid fa-check text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Terverifikasi</p>
+                        <p class="text-2xl font-black text-gray-900" id="statTerverifikasi">0</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-100 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center text-red-600">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium">Ditolak</p>
+                        <p class="text-2xl font-black text-gray-900" id="statDitolak">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 flex-1 flex flex-col overflow-hidden">
+                <!-- Toolbar -->
+                <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="flex items-center gap-2">
+                        <div class="relative">
+                            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" id="searchInput" placeholder="Cari WP atau NPWPD..."
+                                class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none w-64 w-full sm:w-64"
+                                onkeyup="filterTableData()">
+                        </div>
+                        <select id="filterStatus" onchange="filterTableData()"
+                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-white">
+                            <option value="">Semua Status</option>
+                            <option value="Menunggu Verifikasi">Menunggu Verifikasi</option>
+                            <option value="Terverifikasi">Terverifikasi</option>
+                            <option value="Ditolak">Ditolak</option>
+                        </select>
+                    </div>
+                    <button onclick="renderTable()" class="p-2 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" data-tooltip="Refresh Data">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+
+                <!-- Table -->
+                <div class="overflow-x-auto flex-1">
+                    <table class="w-full text-left border-collapse" id="dataTable">
+                        <thead class="bg-gray-50 sticky top-0 z-10">
+                            <tr class="text-gray-500 text-xs uppercase tracking-wider border-b border-gray-200">
+                                <th class="px-6 py-4 font-semibold">Tgl Daftar</th>
+                                <th class="px-6 py-4 font-semibold">Nama Usaha / WP</th>
+                                <th class="px-6 py-4 font-semibold">No. HP / Kontak</th>
+                                <th class="px-6 py-4 font-semibold">Status Lengkap</th>
+                                <th class="px-6 py-4 font-semibold text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="divide-y divide-gray-100 text-sm">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                    <div id="emptyState" class="hidden p-12 text-center text-gray-400">
+                        <i class="fa-solid fa-folder-open text-5xl mb-4 text-gray-300"></i>
+                        <p class="text-lg font-medium text-gray-900">Tidak ada data pendaftaran</p>
+                        <p>Daftar WP yang masuk akan muncul di sini.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Verifikasi Modal -->
+    <div id="verifyModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity modal">
+        <div class="bg-white rounded-2xl max-w-2xl w-full flex flex-col max-h-[90vh] shadow-2xl">
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50 rounded-t-2xl">
+                <h3 class="font-bold text-gray-900 text-lg flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600">
+                        <i class="fa-solid fa-file-circle-check"></i>
+                    </div>
+                    Verifikasi Dokumen Pendaftaran
+                </h3>
+                <button onclick="closeModal('verifyModal')" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1 custom-scrollbar">
+                
+                <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 mb-6">
+                    <h4 class="text-xs font-bold text-indigo-800 uppercase tracking-wider mb-2">Informasi Wajib Pajak</h4>
+                    <div class="grid grid-cols-2 gap-y-3 text-sm">
+                        <div class="text-gray-500">Nama Usaha:</div>
+                        <div class="font-semibold text-gray-900" id="detailNamaUsaha">-</div>
+                        
+                        <div class="text-gray-500">Nama Pemilik:</div>
+                        <div class="font-semibold text-gray-900" id="detailNamaPemilik">-</div>
+                        
+                        <div class="text-gray-500">NPWPD (Generated):</div>
+                        <div class="font-mono font-bold text-indigo-600" id="detailNpwpd">-</div>
+                        
+                        <div class="text-gray-500">Alamat:</div>
+                        <div class="font-semibold text-gray-900" id="detailAlamat">-</div>
+                        
+                        <div class="text-gray-500">Kontak (HP/Email):</div>
+                        <div class="font-semibold text-gray-900" id="detailKontak">-</div>
+                    </div>
+                </div>
+
+                <h4 class="text-sm font-bold text-gray-800 mb-3 border-b border-gray-100 pb-2">Dokumen Pendukung</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <div class="border rounded-xl p-4 flex items-start gap-4 hover:border-indigo-300 transition-colors cursor-pointer group">
+                        <div class="w-10 h-10 rounded bg-red-100 flex items-center justify-center text-red-600 shrink-0 group-hover:bg-red-200 transition-colors">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800 text-sm">KTP Pemilik.pdf</p>
+                            <p class="text-xs text-gray-500">1.2 MB &bull; Diunggah hari ini</p>
+                            <button class="text-xs text-indigo-600 font-semibold mt-1 hover:underline">Lihat Dokumen</button>
+                        </div>
+                    </div>
+                    <div class="border rounded-xl p-4 flex items-start gap-4 hover:border-indigo-300 transition-colors cursor-pointer group">
+                        <div class="w-10 h-10 rounded bg-blue-100 flex items-center justify-center text-blue-600 shrink-0 group-hover:bg-blue-200 transition-colors">
+                            <i class="fa-solid fa-image"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800 text-sm">Surat_Izin_Tambang.jpg</p>
+                            <p class="text-xs text-gray-500">2.4 MB &bull; Diunggah hari ini</p>
+                            <button class="text-xs text-indigo-600 font-semibold mt-1 hover:underline">Lihat Dokumen</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Catatan Verifikasi (Opsional)</label>
+                    <textarea id="catatanVerifikasi" rows="2" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none text-sm transition-shadow" placeholder="Tambahkan catatan jika ada masalah atau perbaikan dokumen..."></textarea>
+                </div>
+
+            </div>
+            <div class="p-6 border-t border-gray-100 bg-gray-50 rounded-b-2xl flex justify-end gap-3 flex-shrink-0">
+                <button type="button" onclick="closeModal('verifyModal')" class="px-6 py-2.5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-xl font-bold transition-colors">
+                    Tutup
+                </button>
+                <button type="button" onclick="prosesVerifikasi('Ditolak')" class="px-6 py-2.5 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 rounded-xl font-bold transition-colors">
+                    Tolak Berkas
+                </button>
+                <button type="button" onclick="prosesVerifikasi('Terverifikasi')" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-colors shadow-lg shadow-indigo-200 flex items-center">
+                    <i class="fa-solid fa-check mr-2"></i>Setujui & Terbitkan NPWPD
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Output Modal -->
+    <div id="successModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity modal">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-8 text-center shadow-2xl">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fa-solid fa-check text-4xl text-green-600"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Terverifikasi!</h2>
+            <p class="text-gray-500 mb-6">Berkas pendaftaran berhasil diverifikasi dan Wajib Pajak diaktifkan.</p>
+            <button onclick="closeModal('successModal'); renderTable();" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-all">
+                Selesai
+            </button>
+        </div>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        let currentWpList = [];
+        let editingWpId = null;
+
+        function loadData() {
+            // Setup default random dates/status if empty in dummy data
+            let wps = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]');
+            
+            // Add status to seed data if they don't have it for demo purpose
+            let needsUpdate = false;
+            wps = wps.map(wp => {
+                if (!wp.statusRegistration) {
+                    wp.statusRegistration = Math.random() > 0.3 ? 'Terverifikasi' : 'Menunggu Verifikasi';
+                    wp.tanggalDaftar = new Date(Date.now() - Math.floor(Math.random() * 10) * 86400000).toISOString().split('T')[0];
+                    needsUpdate = true;
+                }
+                return wp;
+            });
+            
+            if (needsUpdate) {
+                localStorage.setItem('mblb_wajib_pajak', JSON.stringify(wps));
+            }
+            
+            currentWpList = wps;
+            
+            // Stats
+            document.getElementById('statMenunggu').textContent = wps.filter(w => w.statusRegistration === 'Menunggu Verifikasi').length;
+            document.getElementById('statTerverifikasi').textContent = wps.filter(w => w.statusRegistration === 'Terverifikasi').length;
+            document.getElementById('statDitolak').textContent = wps.filter(w => w.statusRegistration === 'Ditolak').length;
+        }
+
+        function renderTable(dataToRender = currentWpList) {
+            loadData(); // Re-fetch
+            dataToRender = currentWpList; // refresh with latest localstorage
+            
+            // Apply current filters implicitly if needed, or rely on filterTableData explicitly
+            const tbody = document.getElementById('tableBody');
+            const emptyState = document.getElementById('emptyState');
+
+            if (dataToRender.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            tbody.innerHTML = dataToRender.sort((a,b) => new Date(b.tanggalDaftar || 0) - new Date(a.tanggalDaftar || 0)).map(wp => {
+                const isVerified = wp.statusRegistration === 'Terverifikasi';
+                const isRejected = wp.statusRegistration === 'Ditolak';
+                
+                let bgeClass = 'bg-amber-50 text-amber-700 border-amber-200';
+                let iconClass = 'fa-clock';
+                if (isVerified) {
+                    bgeClass = 'bg-green-50 text-green-700 border-green-200';
+                    iconClass = 'fa-check-circle';
+                } else if (isRejected) {
+                    bgeClass = 'bg-red-50 text-red-700 border-red-200';
+                    iconClass = 'fa-xmark-circle';
+                }
+
+                return \`
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap text-gray-600">\${formatDate(wp.tanggalDaftar || new Date(), 'short')}</td>
+                        <td class="px-6 py-4">
+                            <div class="font-bold text-gray-900">\${wp.namaUsaha}</div>
+                            <div class="text-xs text-gray-500">\${wp.nama}</div>
+                        </td>
+                        <td class="px-6 py-4 text-gray-600">
+                            <div>\${wp.telepon || '-'}</div>
+                            <div class="text-xs">\${wp.email || '-'}</div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border \${bgeClass}">
+                                <i class="fa-solid \${iconClass}"></i> \${wp.statusRegistration}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            \${wp.statusRegistration === 'Menunggu Verifikasi' ? \`
+                                <button onclick="bukaModalVerifikasi('\${wp.id}')" class="px-4 py-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white rounded-lg font-bold text-xs transition-colors border border-indigo-100">
+                                    <i class="fa-solid fa-magnifying-glass mr-1"></i> Periksa
+                                </button>
+                            \` : \`
+                                <button onclick="bukaModalVerifikasi('\${wp.id}')" class="px-4 py-2 bg-gray-50 text-gray-600 hover:bg-gray-200 rounded-lg font-bold text-xs transition-colors border border-gray-100">
+                                    <i class="fa-solid fa-eye mr-1"></i> Detail
+                                </button>
+                            \`}
+                        </td>
+                    </tr>
+                \`;
+            }).join('');
+            
+            filterTableData(); // Apply text/status filters after rendering
+        }
+
+        function filterTableData() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('filterStatus').value;
+            const rows = document.getElementById('tableBody').getElementsByTagName('tr');
+
+            for (let row of rows) {
+                const text = row.textContent.toLowerCase();
+                const statusCell = row.cells[3].textContent.trim();
+                
+                const matchSearch = text.includes(searchInput);
+                const matchStatus = statusFilter === '' || statusCell.includes(statusFilter);
+
+                row.style.display = matchSearch && matchStatus ? '' : 'none';
+            }
+        }
+
+        function bukaModalVerifikasi(id) {
+            const wp = currentWpList.find(w => w.id === id);
+            if (!wp) return;
+            
+            editingWpId = id;
+            
+            document.getElementById('detailNamaUsaha').textContent = wp.namaUsaha;
+            document.getElementById('detailNamaPemilik').textContent = wp.nama;
+            document.getElementById('detailNpwpd').textContent = wp.npwpd || '-';
+            document.getElementById('detailAlamat').textContent = wp.alamat;
+            document.getElementById('detailKontak').textContent = \`\${wp.telepon || '-'} / \${wp.email || '-'}\`;
+            document.getElementById('catatanVerifikasi').value = '';
+
+            openModal('verifyModal');
+        }
+
+        function prosesVerifikasi(status) {
+            if (!editingWpId) return;
+            
+            const wps = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]');
+            const index = wps.findIndex(w => w.id === editingWpId);
+            
+            if (index !== -1) {
+                wps[index].statusRegistration = status;
+                localStorage.setItem('mblb_wajib_pajak', JSON.stringify(wps));
+                
+                closeModal('verifyModal');
+                
+                if (status === 'Terverifikasi') {
+                    openModal('successModal');
+                } else {
+                    showToast('Berkas Pendaftaran ditolak', 'warning');
+                    renderTable();
+                }
+            }
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTable();
+        });
+    </script>
+</body>
+
+</html>

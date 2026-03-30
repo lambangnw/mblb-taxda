@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Log - Admin Sistem MBLB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared.css">
+</head>
+
+<body class="bg-gray-50">
+    <aside id="sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0 bg-gradient-to-b from-indigo-900 to-indigo-800 text-white custom-scrollbar overflow-y-auto">
+        <div class="h-full px-3 py-4">
+            <div class="flex items-center justify-center mb-8 pb-4 border-b border-indigo-700">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                        <i class="fa-solid fa-gear text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-lg">MBLB</h2>
+                        <p class="text-xs text-indigo-200">Admin Sistem</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu space-y-2">
+                <!-- Dynamic sidebar populated by shared.js renderDynamicSidebar() -->
+            </nav>
+        </div>
+    </aside>
+
+    <div id="mainContent" class="lg:ml-64 transition-smooth">
+        <nav class="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-30 shadow-sm">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fa-solid fa-bars text-xl text-gray-600"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Audit Log</h1>
+                        <p class="text-sm text-gray-500">Riwayat aktivitas pengguna sistem</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <button onclick="toggleDropdown('profileDropdown')"
+                            class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                            <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">AD</div>
+                            <div class="hidden md:block text-left">
+                                <p class="text-sm font-semibold text-gray-900" id="currentUser">Administrator</p>
+                                <p class="text-xs text-gray-500">Admin Sistem</p>
+                            </div>
+                        </button>
+                        <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+                            <button onclick="logout()" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <i class="fa-solid fa-right-from-bracket w-4 text-center mr-2"></i>Keluar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="p-6">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                    <div class="flex gap-2">
+                        <input type="date" id="filterDate" class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm" onchange="loadLogs()">
+                        <select id="filterRole" class="px-3 py-1.5 border border-gray-300 rounded-lg text-sm" onchange="loadLogs()">
+                            <option value="all">Semua Role</option>
+                            <option value="Admin Sistem">Admin Sistem</option>
+                            <option value="Bidang Pendaftaran">Bidang Pendaftaran</option>
+                            <option value="Verifikator">Verifikator</option>
+                            <option value="Admin Penetapan">Admin Penetapan</option>
+                            <option value="Petugas Loket">Petugas Loket</option>
+                        </select>
+                    </div>
+                    <button onclick="clearLogs()" class="px-3 py-1.5 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100">
+                        <i class="fa-solid fa-trash mr-1"></i>Bersihkan Log
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Waktu</th>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">User</th>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Aktivitas</th>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logBody" class="divide-y divide-gray-100 text-sm">
+                            <!-- JS populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../seed-data.js"></script>
+    <script src="../shared.js"></script>
+    <script>
+        const user = getCurrentUser();
+        if (user.name) document.getElementById('currentUser').textContent = user.name;
+
+        function loadLogs() {
+            const logs = JSON.parse(localStorage.getItem('mblb_audit_log') || '[]');
+            const filterDate = document.getElementById('filterDate').value;
+            const filterRole = document.getElementById('filterRole').value;
+
+            // Sort newest first
+            logs.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            let html = '';
+            let count = 0;
+            
+            logs.forEach(log => {
+                const dateMatches = !filterDate || log.timestamp.startsWith(filterDate);
+                const roleMatches = filterRole === 'all' || log.role === filterRole;
+
+                if (dateMatches && roleMatches) {
+                    count++;
+                    const dt = new Date(log.timestamp);
+                    const timeStr = dt.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+                    const dateStr = formatDate(log.timestamp.split('T')[0]);
+                    
+                    let actionColor = 'bg-gray-100 text-gray-700';
+                    if (log.action.includes('Login')) actionColor = 'bg-blue-100 text-blue-700';
+                    else if (log.action.includes('Hapus') || log.action.includes('Delete')) actionColor = 'bg-red-100 text-red-700';
+                    else if (log.action.includes('Tambah') || log.action.includes('Create') || log.action.includes('Bayar')) actionColor = 'bg-green-100 text-green-700';
+                    else if (log.action.includes('Ubah') || log.action.includes('Update') || log.action.includes('Edit')) actionColor = 'bg-amber-100 text-amber-700';
+
+                    html += `
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="font-medium text-gray-900">${dateStr}</div>
+                                <div class="text-xs text-gray-500">${timeStr}</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="font-semibold text-gray-900">${log.user}</div>
+                                <div class="text-xs text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded inline-block mt-1">${log.role}</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2.5 py-1 rounded text-xs font-bold ${actionColor}">${log.action}</span>
+                            </td>
+                            <td class="px-6 py-4 text-gray-600">${log.details}</td>
+                        </tr>
+                    `;
+                }
+            });
+
+            if (count === 0) {
+                html = '<tr><td colspan="4" class="px-6 py-8 text-center text-gray-500">Tidak ada data audit log</td></tr>';
+            }
+
+            document.getElementById('logBody').innerHTML = html;
+        }
+
+        function clearLogs() {
+            if (confirm('Yakin ingin membersihkan semua audit log? Tindakan ini tidak dapat dibatalkan.')) {
+                localStorage.setItem('mblb_audit_log', '[]');
+                logActivity('Hapus Log', 'Membersihkan seluruh data audit log sistem');
+                loadLogs();
+            }
+        }
+
+        // Init config first check
+        if (!localStorage.getItem('mblb_audit_log')) {
+            localStorage.setItem('mblb_audit_log', JSON.stringify([]));
+            logActivity('Sistem Init', 'Inisialisasi sistem log pertama kali');
+        }
+
+        loadLogs();
+    </script>
+</body>
+</html>

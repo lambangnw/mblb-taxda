@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan & Estimasi Pajak Reklame - SIPAREK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+</head>
+
+<body class="bg-gray-50 overflow-x-hidden pt-20">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-xl shadow-sm z-50 transition-all duration-300 border-b border-gray-100"
+        id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.href='index.html'">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center transform hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-building text-xl text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-black text-gray-900">SIPAREK</h1>
+                        <p class="text-xs text-gray-500">Pajak Reklame Digital</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6">
+                    <a href="index.html"
+                        class="hidden md:block text-gray-700 hover:text-indigo-600 font-semibold transition-colors">Beranda</a>
+                    <a href="#alur"
+                        class="hidden md:block text-gray-700 hover:text-indigo-600 font-semibold transition-colors smooth-scroll">Alur</a>
+                    <a href="#syarat"
+                        class="hidden md:block text-gray-700 hover:text-indigo-600 font-semibold transition-colors smooth-scroll">Syarat</a>
+                    <a href="#detail"
+                        class="hidden md:block text-gray-700 hover:text-indigo-600 font-semibold transition-colors smooth-scroll">Detail</a>
+                    <a href="#tarif"
+                        class="hidden md:block text-gray-700 hover:text-indigo-600 font-semibold transition-colors smooth-scroll">Tarif</a>
+                    <a href="#kalkulator"
+                        class="hidden md:block text-gray-700 hover:text-indigo-600 font-semibold transition-colors smooth-scroll">Kalkulator</a>
+                    <a href="#faq"
+                        class="hidden md:block text-gray-700 hover:text-indigo-600 font-semibold transition-colors smooth-scroll">FAQ</a>
+                    <button onclick="window.location.href='portal.html'"
+                        class="px-5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-bold hover:shadow-lg transform hover:scale-105 transition-all text-sm">
+                        Masuk Portal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative bg-white pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute inset-y-0 left-0 w-1/2 bg-gray-50 rounded-r-full opacity-50"></div>
+        </div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto animate-fade-in-up">
+                <span class="text-indigo-600 font-bold tracking-wide uppercase text-sm">Pusat Informasi</span>
+                <h1 class="mt-3 text-4xl tracking-tight font-black text-gray-900 sm:text-5xl md:text-6xl mb-6">
+                    Panduan & Detail <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Pajak
+                        Reklame</span>
+                </h1>
+                <p class="mt-4 text-xl text-gray-500 mb-8 leading-relaxed">
+                    Pelajari seluk beluk perhitungan pajak reklame, tarif dasar, kategori objek, hingga estimasikan
+                    biaya pajak reklame Anda secara instan.
+                </p>
+                <div class="flex justify-center gap-4">
+                    <a href="#kalkulator"
+                        class="smooth-scroll px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold text-lg hover:shadow-xl transform hover:scale-105 transition-all">
+                        Hitung Estimasi <i class="fa-solid fa-calculator ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Detail Pajak Reklame -->
+    <section id="detail" class="py-20 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-3xl font-black text-gray-900 mb-4">Komponen Perhitungan Pajak</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Pajak reklame dihitung berdasarkan Nilai Sewa Reklame
+                    (NSR) yang dipengaruhi oleh beberapa faktor utama.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Kategori Card -->
+                <div
+                    class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all border border-gray-100 group">
+                    <div
+                        class="w-14 h-14 bg-indigo-100 rounded-xl flex items-center justify-center mb-6 text-indigo-600 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-layer-group text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Kategori Reklame</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">Jenis reklame menentukan tarif dasar per meter
+                        persegi.</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Videotron & Megatron</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Billboard</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Baliho</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Spanduk / Umbul-umbul</li>
+                    </ul>
+                </div>
+
+                <!-- Kelas Jalan Card -->
+                <div
+                    class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all border border-gray-100 group">
+                    <div
+                        class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6 text-purple-600 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-road text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Kelas Jalan</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">Lokasi pemasangan reklame dibagi berdasarkan
+                        nilai strategis jalan.</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Protokol A (Utama)</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Protokol B</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Ekonomi</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Lingkungan</li>
+                    </ul>
+                </div>
+
+                <!-- Faktor Pengali Card -->
+                <div
+                    class="bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all border border-gray-100 group">
+                    <div
+                        class="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center mb-6 text-pink-600 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-minimize text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Ukuran & Sisi</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">Semakin luas ukuran dan bertambahnya sisi muka
+                        yang tayang, tarif akan menyesuaikan.</p>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Luas = Panjang x Lebar</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>1 Sisi = 1x Tarif</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Lebih dari 1 Sisi = Faktor Multiplier
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Rumus Pajak Box -->
+            <div class="mt-12 bg-gray-900 rounded-2xl p-8 md:p-10 shadow-2xl overflow-hidden relative">
+                <div
+                    class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-indigo-500 rounded-full blur-3xl opacity-20">
+                </div>
+                <h3 class="text-xl font-bold text-white mb-6">Contoh Formula Perhitungan:</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10">
+                    <div>
+                        <div class="bg-gray-800 rounded-xl p-4 mb-4 border border-gray-700">
+                            <span class="text-indigo-400 font-mono text-sm block mb-1">1. Hitung NSR (Nilai Sewa
+                                Reklame)</span>
+                            <div class="text-white font-mono text-sm md:text-base">
+                                Luas (m²) × Tarif Dasar × Durasi × Faktor Sisi
+                            </div>
+                        </div>
+                        <div class="bg-gray-800 rounded-xl p-4 border border-gray-700">
+                            <span class="text-green-400 font-mono text-sm block mb-1">2. Hitung Pajak Terutang</span>
+                            <div class="text-white font-mono text-sm md:text-base">
+                                NSR × Tarif Pajak Daerah (25%)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-gray-400 text-sm leading-relaxed">
+                        <p class="mb-3"><strong class="text-white">Note:</strong> Terdapat tambahan (surcharge) khusus
+                            untuk reklame produk rokok dan minuman beralkohol sebesar 25% dari pokok pajak.</p>
+                        <p>Tarif Dasar sudah ditentukan melalui Peraturan Daerah dan tersimpan secara otomatis di sistem
+                            kami sesuai kategori dan letak kelas jalan reklame Anda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alur Pendaftaran Section -->
+    <section id="alur" class="py-20 bg-gray-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-pattern opacity-5"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 animate-fade-in">
+                <span class="text-indigo-400 font-bold tracking-wide uppercase text-sm">Flow SIPAREK</span>
+                <h2 class="text-3xl font-black text-white mb-4 mt-2">Alur Pendaftaran Pajak Reklame</h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">Proses digital end-to-end yang cepat, transparan, dan
+                    mudah dipantau.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="relative group">
+                    <div
+                        class="hidden md:block absolute top-1/4 left-1/2 w-full h-0.5 bg-gray-800 -z-10 group-hover:bg-indigo-500 transition-colors">
+                    </div>
+                    <div
+                        class="bg-gray-800 border border-gray-700 rounded-2xl p-6 text-center hover:border-indigo-500 transition-all transform hover:-translate-y-2">
+                        <div
+                            class="w-16 h-16 bg-gray-900 border-2 border-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-400 font-black text-xl shadow-lg shadow-indigo-500/20">
+                            1
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Registrasi / Login</h4>
+                        <p class="text-sm text-gray-400">Masuk portal Wajib Pajak untuk ajukan form pendaftaran baru /
+                            perpanjangan.</p>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="relative group">
+                    <div
+                        class="hidden md:block absolute top-1/4 left-1/2 w-full h-0.5 bg-gray-800 -z-10 group-hover:bg-purple-500 transition-colors">
+                    </div>
+                    <div
+                        class="bg-gray-800 border border-gray-700 rounded-2xl p-6 text-center hover:border-purple-500 transition-all transform hover:-translate-y-2">
+                        <div
+                            class="w-16 h-16 bg-gray-900 border-2 border-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-400 font-black text-xl shadow-lg shadow-purple-500/20">
+                            2
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Verifikasi & Survey</h4>
+                        <p class="text-sm text-gray-400">Pengecekan berkas oleh Front Office dan Survey lokasi oleh tim
+                            lapangan (jika perlu).</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="relative group">
+                    <div
+                        class="hidden md:block absolute top-1/4 left-1/2 w-full h-0.5 bg-gray-800 -z-10 group-hover:bg-pink-500 transition-colors">
+                    </div>
+                    <div
+                        class="bg-gray-800 border border-gray-700 rounded-2xl p-6 text-center hover:border-pink-500 transition-all transform hover:-translate-y-2">
+                        <div
+                            class="w-16 h-16 bg-gray-900 border-2 border-pink-500 rounded-full flex items-center justify-center mx-auto mb-4 text-pink-400 font-black text-xl shadow-lg shadow-pink-500/20">
+                            3
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Penetapan SKPD</h4>
+                        <p class="text-sm text-gray-400">Sistem menerbitkan Nota Perhitungan dan SKPD setelah
+                            direkomendasikan & di-approve.</p>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="relative group">
+                    <div
+                        class="bg-gray-800 border border-gray-700 rounded-2xl p-6 text-center hover:border-green-500 transition-all transform hover:-translate-y-2">
+                        <div
+                            class="w-16 h-16 bg-gray-900 border-2 border-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-green-400 font-black text-xl shadow-lg shadow-green-500/20">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">Pembayaran</h4>
+                        <p class="text-sm text-gray-400">Bayar pajak via QRIS/Transfer/Loket. Status rekonsiliasi
+                            otomatis. Cetak SSPD.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="alur-dokumen.html"
+                    class="inline-flex items-center text-indigo-400 hover:text-indigo-300 font-bold transition-colors">Lihat
+                    Diagram Alur Selengkapnya <i class="fa-solid fa-arrow-right ml-2"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Syarat & Dokumen Section -->
+    <section id="syarat" class="py-20 bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 animate-fade-in">
+                <h2 class="text-3xl font-black text-gray-900 mb-4">Syarat & Dokumen Pendaftaran</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Dokumen yang perlu disiapkan sebelum mendaftarkan
+                    objek reklame Anda ke SIPAREK.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Pajak Baru -->
+                <div class="bg-gray-50 rounded-2xl p-8 shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div
+                            class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600">
+                            <i class="fa-solid fa-file-circle-plus text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Pendaftaran Baru</h3>
+                    </div>
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-green-500 mt-1"></i> Scan
+                            KTP / Identitas Diri Pemohon</li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-green-500 mt-1"></i> NPWPD
+                            (Nomor Pokok Wajib Pajak Daerah)</li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-green-500 mt-1"></i> File
+                            Desain Reklame Muka (JPG/PNG/PDF)</li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-green-500 mt-1"></i> Foto
+                            Lokasi Pemasangan (Tampak Depan & Samping)</li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-green-500 mt-1"></i> Surat
+                            Kuasa bermeterai (Jika pendaftaran diwakilkan)</li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-green-500 mt-1"></i> Salinan
+                            Izin Mendirikan Bangunan (IMB) khusus untuk jenis reklame permanen
+                            (Billboard/Baliho/Videotron)</li>
+                    </ul>
+                </div>
+                <!-- Perpanjangan -->
+                <div class="bg-gray-50 rounded-2xl p-8 shadow-sm border border-gray-100">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div
+                            class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600">
+                            <i class="fa-solid fa-file-signature text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Perpanjangan Penayangan</h3>
+                    </div>
+                    <ul class="space-y-4 text-gray-600">
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-green-500 mt-1"></i> Scan
+                            KTP / Identitas Diri Pemohon</li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-green-500 mt-1"></i> Salinan
+                            SKPD (Surat Ketetapan Pajak Daerah) Lama yang telah diterbitkan sebelumnya</li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-green-500 mt-1"></i> Bukti
+                            Pembayaran Pajak (SSPD) Sebelumnya untuk memastikan tidak ada tunggakan</li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-green-500 mt-1"></i> Foto
+                            Reklame Terkini (Membuktikan reklame masih terpasang dan dalam kondisi baik di lokasi yang
+                            sama)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 p-4 bg-indigo-50 border border-indigo-100 rounded-xl flex gap-3">
+                <i class="fa-solid fa-circle-info text-indigo-600 mt-1"></i>
+                <p class="text-sm text-indigo-900">Seluruh dokumen harap di-scan dengan jelas dan dapat diunggah dalam
+                    format digital (JPG, PNG, atau PDF) melalui portal aplikasi Wajib Pajak saat proses input formulir
+                    pendaftaran.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tabel Tarif Dasar -->
+    <section id="tarif" class="py-20 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-black text-gray-900 mb-4">Tabel Tarif Dasar (NSR)</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Tarif sewa reklame per meter persegi (m²) per bulan
+                    berdasarkan lokasi (Kelas Jalan) dan jenis kategori objek reklame.</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-gray-600">
+                        <thead class="bg-indigo-50 text-indigo-900 uppercase font-bold text-xs">
+                            <tr>
+                                <th class="px-6 py-4">Kategori Reklame</th>
+                                <th class="px-6 py-4">Protokol A (Utama)</th>
+                                <th class="px-6 py-4">Protokol B</th>
+                                <th class="px-6 py-4">Jalan Lingkungan</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 font-semibold text-gray-900 flex items-center gap-2">
+                                    <div
+                                        class="w-8 h-8 rounded bg-blue-100 text-blue-600 flex justify-center items-center">
+                                        <i class="fa-solid fa-tv"></i></div> Videotron / Megatron
+                                </td>
+                                <td class="px-6 py-4">Rp 2.700.000</td>
+                                <td class="px-6 py-4">Rp 2.160.000</td>
+                                <td class="px-6 py-4">Rp 1.620.000</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 font-semibold text-gray-900 flex items-center gap-2">
+                                    <div
+                                        class="w-8 h-8 rounded bg-teal-100 text-teal-600 flex justify-center items-center">
+                                        <i class="fa-solid fa-chalkboard"></i></div> Billboard
+                                </td>
+                                <td class="px-6 py-4">Rp 1.687.500</td>
+                                <td class="px-6 py-4">Rp 1.350.000</td>
+                                <td class="px-6 py-4">Rp 1.012.500</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 font-semibold text-gray-900 flex items-center gap-2">
+                                    <div
+                                        class="w-8 h-8 rounded bg-orange-100 text-orange-600 flex justify-center items-center">
+                                        <i class="fa-solid fa-image"></i></div> Baliho
+                                </td>
+                                <td class="px-6 py-4">Rp 1.388.888</td>
+                                <td class="px-6 py-4">Rp 1.111.111</td>
+                                <td class="px-6 py-4">Rp 833.333</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 font-semibold text-gray-900 flex items-center gap-2">
+                                    <div
+                                        class="w-8 h-8 rounded bg-yellow-100 text-yellow-600 flex justify-center items-center">
+                                        <i class="fa-solid fa-flag"></i></div> Spanduk / Umbul-umbul
+                                </td>
+                                <td class="px-6 py-4">Rp 45.000</td>
+                                <td class="px-6 py-4">Rp 36.000</td>
+                                <td class="px-6 py-4">Rp 27.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 text-xs text-gray-500">
+                    <i class="fa-solid fa-circle-info mr-1 text-indigo-500"></i> Nilai dalam tabel merupakan komponen
+                    Nilai Sewa Reklame (NSR). Pajak Terutang dihitung 25% dari total NSR akhir setelah dikalikan luas,
+                    durasi, dan pengali jumlah muka/sisi reklame.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-white border-t border-gray-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-black text-gray-900 mb-4">Pertanyaan Seputar Pajak Reklame</h2>
+            </div>
+
+            <div class="space-y-4">
+                <details
+                    class="group bg-gray-50 rounded-xl border border-gray-200 [&_summary::-webkit-details-marker]:hidden">
+                    <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-gray-900">
+                        <h2 class="font-bold text-lg">Bagaimana cara memperpanjang penayangan pajak reklame saya?</h2>
+                        <span
+                            class="relative size-5 shrink-0 bg-white rounded-full border border-gray-300 flex items-center justify-center group-open:-rotate-180 transition-transform">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600 leading-relaxed">
+                        Anda bisa masuk ke dalam <a href="portal.html"
+                            class="text-indigo-600 font-bold hover:underline">portal Wajib Pajak</a>. Pada menu "Daftar
+                        Reklame", pilih aksi opsi "Perpanjangan" pada baris reklame Anda yang masa pakainya hampir habis
+                        atau sudah jatuh tempo. Sistem akan secara otomatis menyalin detail objek sebelumnya agar Anda
+                        hanya perlu melampirkan foto terkini tanpa mengisi form dari nol.
+                    </div>
+                </details>
+
+                <details
+                    class="group bg-gray-50 rounded-xl border border-gray-200 [&_summary::-webkit-details-marker]:hidden">
+                    <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-gray-900">
+                        <h2 class="font-bold text-lg">Apakah saya perlu datang fisik ke kantor Badan Pendapatan Daerah?
+                        </h2>
+                        <span
+                            class="relative size-5 shrink-0 bg-white rounded-full border border-gray-300 flex items-center justify-center group-open:-rotate-180 transition-transform">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600 leading-relaxed">
+                        Secara prinsip, <strong>Tidak perlu</strong>. Melalui platform digital <strong>SIPAREK</strong>,
+                        semua proses dari input pendaftaran, tracking progres via dashboard, unggah berkas, penetapan
+                        SKPD cetak mandiri, hingga pembayaran secara online. Namun, bila diperlukan pengecekan khusus
+                        oleh aparat gabungan, Anda mungkin akan diminta hadir ke lapangan bersama tim Surveyor.
+                    </div>
+                </details>
+
+                <details
+                    class="group bg-gray-50 rounded-xl border border-gray-200 [&_summary::-webkit-details-marker]:hidden">
+                    <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-gray-900">
+                        <h2 class="font-bold text-lg">Berapa biaya telat denda / sanksi administrasi keterlambatan?</h2>
+                        <span
+                            class="relative size-5 shrink-0 bg-white rounded-full border border-gray-300 flex items-center justify-center group-open:-rotate-180 transition-transform">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600 leading-relaxed">
+                        Jika pembayaran melewati tanggal jatuh tempo dari kalender berjalan, sistem akan secara otomatis
+                        mengenakan sanksi administrasi denda keterlambatan sebesar <strong>2% per bulan</strong> dari
+                        total pokok pajak tertunggak (maksimal 24 bulan), yang akan terakumulasi ke dalam tagihan STPD
+                        berikutnya.
+                    </div>
+                </details>
+
+                <details
+                    class="group bg-gray-50 rounded-xl border border-gray-200 [&_summary::-webkit-details-marker]:hidden"
+                    open>
+                    <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-gray-900">
+                        <h2 class="font-bold text-lg">Bagaimana hitungan pajak reklame neon box yang memiliki 2 muka?
+                        </h2>
+                        <span
+                            class="relative size-5 shrink-0 bg-white rounded-full border border-gray-300 flex items-center justify-center group-open:-rotate-180 transition-transform">
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-gray-600 leading-relaxed">
+                        Berdasarkan Perda yang berlaku di platform ini, bila objek reklame Anda menayangkan visual di
+                        lebih dari satu sisi (misalnya 2 muka bolak-balik), akan dikenakan <strong>Faktor Sisi</strong>.
+                        Untuk muka pertama dihitung 1x tarif NSR, sedangkan untuk muka/sisi tambahan akan dikalikan
+                        sesuai faktor margin. Sistem kalkulator kami otomatis menjumlahkannya bila Anda teliti memilih
+                        "2 Sisi Tayang."
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kalkulator Section -->
+    <section id="kalkulator" class="py-20 bg-white border-t border-gray-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-black text-gray-900 mb-4">Kalkulator Estimasi Pajak</h2>
+                <p class="text-lg text-gray-600">Hitung perkiraan biaya pajak reklame Anda dengan mudah. Perhitungan ini
+                    adalah estimasi dan dapat berbeda saat penetapan resmi.</p>
+            </div>
+
+            <div
+                class="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden flex flex-col md:flex-row">
+                <!-- Form Input -->
+                <div class="p-8 md:w-3/5 bg-gray-50 border-r border-gray-200">
+                    <form id="calcForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Kategori -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Kategori Reklame</label>
+                                <select id="calc_kategori"
+                                    class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
+                                    <option value="" disabled selected>Pilih Kategori</option>
+                                </select>
+                            </div>
+                            <!-- Kelas Jalan -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Kelas Jalan</label>
+                                <select id="calc_kelas_jalan"
+                                    class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
+                                    <option value="" disabled selected>Pilih Kelas Jalan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6">
+                            <!-- Panjang -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Panjang (Meter)</label>
+                                <div class="relative">
+                                    <input type="number" id="calc_panjang" min="0.1" step="0.1"
+                                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                        placeholder="0" required>
+                                    <span
+                                        class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">m</span>
+                                </div>
+                            </div>
+                            <!-- Lebar -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Lebar (Meter)</label>
+                                <div class="relative">
+                                    <input type="number" id="calc_lebar" min="0.1" step="0.1"
+                                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                        placeholder="0" required>
+                                    <span
+                                        class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">m</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6">
+                            <!-- Sisi Tayang -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Sisi Tayang</label>
+                                <select id="calc_sisi"
+                                    class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
+                                    <option value="1">1 Sisi (Papan)</option>
+                                    <option value="2">2 Sisi (Bolak-balik)</option>
+                                    <option value="3">3 Sisi (Segitiga)</option>
+                                    <option value="4">4 Sisi (Kotak)</option>
+                                </select>
+                            </div>
+                            <!-- Waktu Tayang -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Lama Tayang
+                                    (Bulan)</label>
+                                <div class="relative">
+                                    <input type="number" id="calc_waktu" min="1" step="1" value="12"
+                                        class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                        placeholder="A" required>
+                                    <span
+                                        class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">bln</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Opsi Tambahan -->
+                        <div class="pt-4 border-t border-gray-200">
+                            <label
+                                class="flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+                                <input type="checkbox" id="calc_is_rokok"
+                                    class="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold text-gray-900">Produk Rokok / Alkohol</p>
+                                    <p class="text-xs text-gray-500">Dikenakan tambahan biaya 25%</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        <button type="button" onclick="hitungPajak()"
+                            class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold hover:shadow-lg transform hover:-translate-y-0.5 transition-all text-lg">
+                            <i class="fa-solid fa-calculator mr-2"></i> Hitung Estimasi
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Hasil Kalkulasi -->
+                <div class="p-8 md:w-2/5 bg-gray-900 text-white flex flex-col justify-center relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/20 rounded-bl-full filter blur-xl"></div>
+                    <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/20 rounded-tr-full filter blur-xl">
+                    </div>
+
+                    <div class="relative z-10">
+                        <h3 class="text-indigo-400 font-bold uppercase tracking-wider text-sm mb-6">Hasil Estimasi</h3>
+
+                        <div class="space-y-4 mb-8">
+                            <div class="flex justify-between items-end border-b border-gray-700 pb-2">
+                                <span class="text-gray-400 text-sm">Luas Bidang</span>
+                                <span class="font-mono text-lg" id="res_luas">0 m²</span>
+                            </div>
+                            <div class="flex justify-between items-end border-b border-gray-700 pb-2">
+                                <span class="text-gray-400 text-sm">Tarif Dasar / m²</span>
+                                <span class="font-mono text-lg" id="res_tarif">Rp 0</span>
+                            </div>
+                            <div class="flex justify-between items-end border-b border-gray-700 pb-2">
+                                <span class="text-gray-400 text-sm">Nilai Sewa Reklame</span>
+                                <span class="font-mono text-lg" id="res_nsr">Rp 0</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-gray-400 text-sm mb-2">Estimasi Pajak Utama (25%)</p>
+                            <div class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 break-all"
+                                id="res_pajak">
+                                Rp 0
+                            </div>
+                        </div>
+
+                        <div id="res_surcharge_container"
+                            class="mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg hidden">
+                            <p class="text-red-400 text-xs font-bold mb-1">Tambahan Rokok/Alkohol (25%)</p>
+                            <p class="font-mono text-red-300" id="res_surcharge">Rp 0</p>
+                        </div>
+
+                        <div class="mt-6 p-4 bg-indigo-500/10 rounded-xl border border-indigo-500/20">
+                            <p class="text-xs text-indigo-200 leading-relaxed text-center">
+                                Ingat, ini hanyalah alat hitung estimasi. Nilai pajak sesungguhnya akan diterbitkan pada
+                                SKPD resmi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-400">
+            <p>&copy; 2026 SIPAREK. Portal Demo Pajak Reklame.</p>
+        </div>
+    </footer>
+
+    <script src="seed-data.js"></script>
+    <script src="shared.js"></script>
+
+    <script>
+        // Smooth scroll for nav links
+        document.querySelectorAll('.smooth-scroll').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const dst = document.querySelector(this.getAttribute('href'));
+                if (dst) {
+                    dst.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Initialize Data
+        function initKalkulator() {
+            // Re-seed data to ensure localstorage is filled for demo purposes
+            if (typeof seedData === 'function') {
+                seedData();
+            }
+
+            const kategoriList = JSON.parse(localStorage.getItem('siparek_kategori_reklame')) || SEED_DATA.kategori_reklame;
+            const kelasJalanList = JSON.parse(localStorage.getItem('siparek_kelas_jalan')) || SEED_DATA.kelas_jalan;
+
+            const calcKategori = document.getElementById('calc_kategori');
+            const calcKelas = document.getElementById('calc_kelas_jalan');
+
+            calcKategori.innerHTML = '<option value="" disabled selected>Pilih Kategori</option>';
+            kategoriList.forEach(k => {
+                calcKategori.innerHTML += `<option value="${k.nama}">${k.nama}</option>`;
+            });
+
+            calcKelas.innerHTML = '<option value="" disabled selected>Pilih Kelas Jalan</option>';
+            kelasJalanList.forEach(kj => {
+                calcKelas.innerHTML += `<option value="${kj.id}">${kj.nama}</option>`;
+            });
+        }
+
+        // Calculation Function
+        function hitungPajak() {
+            const form = document.getElementById('calcForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const kategori = document.getElementById('calc_kategori').value;
+            const kelasJalan = document.getElementById('calc_kelas_jalan').value;
+            const panjang = parseFloat(document.getElementById('calc_panjang').value) || 0;
+            const lebar = parseFloat(document.getElementById('calc_lebar').value) || 0;
+            const sisi = parseInt(document.getElementById('calc_sisi').value) || 1;
+            const waktu = parseInt(document.getElementById('calc_waktu').value) || 0;
+            const isRokok = document.getElementById('calc_is_rokok').checked;
+
+            const luas = panjang * lebar;
+            const tarifDasar = getTarif(kategori, kelasJalan);
+
+            // Factor config logic matching shared.js
+            const config = JSON.parse(localStorage.getItem('siparek_config')) || {};
+            const faktorSisi = parseFloat(config.nsr?.faktorSisi || 1.0);
+            const multiplier = 1 + ((Math.max(1, sisi) - 1) * faktorSisi);
+
+            const nsr = luas * tarifDasar * waktu * multiplier;
+
+            // Tax calculation
+            const tarifPajak = 0.25; // Default 25%
+            let pokokPajak = nsr * tarifPajak;
+            let surchargeAmount = 0;
+
+            if (isRokok) {
+                const surchargePercent = 0.25;
+                surchargeAmount = pokokPajak * surchargePercent;
+            }
+
+            const totalPajak = pokokPajak + surchargeAmount;
+
+            // Display Results
+            document.getElementById('res_luas').textContent = formatCurrency(luas).replace('Rp', '').trim() + ' m²';
+            document.getElementById('res_tarif').textContent = formatCurrency(tarifDasar);
+            document.getElementById('res_nsr').textContent = formatCurrency(nsr);
+            document.getElementById('res_pajak').textContent = formatCurrency(totalPajak);
+
+            const surchargeEl = document.getElementById('res_surcharge_container');
+            if (isRokok && surchargeAmount > 0) {
+                surchargeEl.classList.remove('hidden');
+                document.getElementById('res_surcharge').textContent = formatCurrency(surchargeAmount);
+            } else {
+                surchargeEl.classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initKalkulator);
+    </script>
+</body>
+
+</html>
