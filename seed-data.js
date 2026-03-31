@@ -134,51 +134,28 @@ const RIWAYAT_PAD = [
 // ========================================
 
 const WAJIB_PAJAK = [
-    {
-        id: 'WP001',
-        npwpd: 'P.1.0002818.13.16',
-        nama: 'Widia Asahara',
-        namaUsaha: 'Uwah Store (Quarry Pasir)',
-        alamat: 'Desa Gunung Mesir, Kec. Seluma',
-        telepon: '081234567890',
-        email: 'widia@uwahstore.com'
-    },
-    {
-        id: 'WP002',
-        npwpd: 'P.1.0002819.13.16',
-        nama: 'Ahmad Yani',
-        namaUsaha: 'CV Batu Jaya (Quarry Batu Belah)',
-        alamat: 'Desa Tais, Kec. Seluma',
-        telepon: '081234567891',
-        email: 'ahmad@batujaya.com'
-    },
-    {
-        id: 'WP003',
-        npwpd: 'P.1.0002820.13.16',
-        nama: 'Siti Nurhaliza',
-        namaUsaha: 'UD Pasir Putih',
-        alamat: 'Desa Air Periukan, Kec. Seluma',
-        telepon: '081234567892',
-        email: 'siti@pasirputih.com'
-    },
-    {
-        id: 'WP004',
-        npwpd: 'P.1.0002821.13.16',
-        nama: 'H. Sudirman',
-        namaUsaha: 'PT Seluma Makmur (Tanah Urug)',
-        alamat: 'Kec. Sukaraja, Seluma',
-        telepon: '081234567893',
-        email: 'sudirman@selumamakmur.com'
-    },
-    {
-        id: 'WP005',
-        npwpd: 'P.1.0002822.13.16',
-        nama: 'Indra Gunawan',
-        namaUsaha: 'CV Fajar Timur (Sirtu)',
-        alamat: 'Kec. Talo, Seluma',
-        telepon: '081234567894',
-        email: 'indra@fajartimur.com'
-    }
+    // EXISTING ACTIVE DATA (Master Data)
+    { id: 'WP-M-001', npwpd: 'P.1.0001201.13.16', nama: 'Budi Santoso', namaUsaha: 'CV Karya Seluma (Kuarsit)', alamat: 'Jl. Raya Tais No. 45', telepon: '081211112222', email: 'budi@karyaseluma.com', statusRegistration: 'Terverifikasi', tanggalDaftar: '2023-01-15' },
+    { id: 'WP-M-002', npwpd: 'P.1.0001505.13.16', nama: 'H. Ahmad', namaUsaha: 'PT Seluma Berjaya (Batu Belah)', alamat: 'Ds. Pasar Seluma', telepon: '081299998888', email: 'ahmad@selumaberjaya.com', statusRegistration: 'Terverifikasi', tanggalDaftar: '2023-06-20' },
+    { id: 'WP-M-003', npwpd: 'P.1.0002100.13.16', nama: 'Indah Permata', namaUsaha: 'Toko Batu Alam', alamat: 'Kec. Sukaraja', telepon: '085277776666', email: 'indah@batualam.com', statusRegistration: 'Terverifikasi', tanggalDaftar: '2024-03-10' },
+    { id: 'WP-M-004', npwpd: 'P.1.0002250.13.16', nama: 'Rudi Hartono', namaUsaha: 'Galian C Makmur', alamat: 'Ds. Air Periukan', telepon: '081344445555', email: 'rudi@galianc.com', statusRegistration: 'Terverifikasi', tanggalDaftar: '2024-05-15' },
+    { id: 'WP001', npwpd: 'P.1.0002818.13.16', nama: 'Widia Asahara', namaUsaha: 'Uwah Store (Quarry Pasir)', alamat: 'Desa Gunung Mesir, Kec. Seluma', telepon: '081234567890', email: 'widia@uwahstore.com', statusRegistration: 'Terverifikasi', tanggalDaftar: '2026-03-01' },
+    { id: 'WP002', npwpd: 'P.1.0002819.13.16', nama: 'Ahmad Yani', namaUsaha: 'CV Batu Jaya (Quarry Batu Belah)', alamat: 'Desa Tais, Kec. Seluma', telepon: '081234567891', email: 'ahmad@batujaya.com', statusRegistration: 'Terverifikasi', tanggalDaftar: '2026-03-05' },
+    { id: 'WP005', npwpd: 'P.1.0002822.13.16', nama: 'Indra Gunawan', namaUsaha: 'CV Fajar Timur (Sirtu)', alamat: 'Kec. Talo, Seluma', telepon: '081234567894', email: 'indra@fajartimur.com', statusRegistration: 'Terverifikasi', tanggalDaftar: '2026-03-10' },
+    { id: 'WP008', npwpd: 'P.1.0002825.13.16', nama: 'Rudi Hartono', namaUsaha: 'Galian C Makmur', alamat: 'Kec. Air Periukan', telepon: '081234567897', email: 'rudi@galian.com', statusRegistration: 'Terverifikasi', tanggalDaftar: '2026-03-02' },
+    { id: 'WP010', npwpd: 'P.1.0002827.13.16', nama: 'Dedi Kurniawan', namaUsaha: 'Batu Alam Lestari', alamat: 'Kec. Seluma Utara', telepon: '081234567899', email: 'dedi@batualam.com', statusRegistration: 'Terverifikasi', tanggalDaftar: '2026-03-08' },
+    { id: 'WP013', npwpd: 'P.1.0002830.13.16', nama: 'Fajar Shidiq', namaUsaha: 'Logam Mulia Tambang', alamat: 'Kec. Ulu Talo', telepon: '085234567802', email: 'fajar@logammulia.com', statusRegistration: 'Terverifikasi', tanggalDaftar: '2026-03-11' },
+    { id: 'WP015', npwpd: 'P.1.0002832.13.16', nama: 'Hendra Wijaya', namaUsaha: 'Batu Kali Sejahtera', alamat: 'Kec. Lubuk Sandi', telepon: '085234567804', email: 'hendra@batukali.com', statusRegistration: 'Terverifikasi', tanggalDaftar: '2026-03-14' },
+
+    // NEW REGISTRATIONS (Pendaftaran Baru)
+    { id: 'WP003', npwpd: '-', nama: 'Siti Nurhaliza', namaUsaha: 'UD Pasir Putih', alamat: 'Desa Air Periukan, Kec. Seluma', telepon: '081234567892', email: 'siti@pasirputih.com', statusRegistration: 'Menunggu Verifikasi', tanggalDaftar: '2026-03-25' },
+    { id: 'WP004', npwpd: '-', nama: 'H. Sudirman', namaUsaha: 'PT Seluma Makmur (Tanah Urug)', alamat: 'Kec. Sukaraja, Seluma', telepon: '081234567893', email: 'sudirman@selumamakmur.com', statusRegistration: 'Menunggu Verifikasi', tanggalDaftar: '2026-03-28' },
+    { id: 'WP006', npwpd: '-', nama: 'Budi Raharjo', namaUsaha: 'Quarry Seluma Mandiri', alamat: 'Desa Lubuk Gilang', telepon: '081234567895', email: 'budi@quarry.com', statusRegistration: 'Menunggu Verifikasi', tanggalDaftar: '2026-03-29' },
+    { id: 'WP007', npwpd: '-', nama: 'Santi Wijaya', namaUsaha: 'Toko Bangunan Jaya', alamat: 'Jl. Merdeka No. 10', telepon: '081234567896', email: 'santi@jaya.com', statusRegistration: 'Ditolak', tanggalDaftar: '2026-03-15' },
+    { id: 'WP009', npwpd: '-', nama: 'Ani Maryani', namaUsaha: 'Pasir Mas Seluma', alamat: 'Desa Rimbo Kedui', telepon: '081234567898', email: 'ani@pasirmas.com', statusRegistration: 'Menunggu Verifikasi', tanggalDaftar: '2026-03-30' },
+    { id: 'WP011', npwpd: '-', nama: 'Eko Prasetyo', namaUsaha: 'Tanah Subur Quarry', alamat: 'Desa Taba', telepon: '085234567800', email: 'eko@tanahsubur.com', statusRegistration: 'Menunggu Verifikasi', tanggalDaftar: '2026-03-31' },
+    { id: 'WP012', npwpd: '-', nama: 'Lusi Anggraini', namaUsaha: 'Sirtu Indah Talo', alamat: 'Kec. Talo Kecil', telepon: '085234567801', email: 'lusi@sirtuindah.com', statusRegistration: 'Ditolak', tanggalDaftar: '2026-03-18' },
+    { id: 'WP014', npwpd: '-', nama: 'Gina Puspita', namaUsaha: 'Pasir Sungai Seluma', alamat: 'Desa Pasar Ngalam', telepon: '085234567803', email: 'gina@pasirsungai.com', statusRegistration: 'Menunggu Verifikasi', tanggalDaftar: '2026-03-31' }
 ];
 
 // ========================================
@@ -302,7 +279,15 @@ const PENUGASAN = [
 // ========================================
 
 function initializeSeedData() {
-    if (!localStorage.getItem('mblb_init_v10')) {
+    // Force re-init to v15 to fix display issues and clear everything
+    if (!localStorage.getItem('mblb_init_v15')) {
+        console.log('🔄 Re-initializing MBLB data to v15 (Force Master View)...');
+        
+        // Clear all mblb keys first
+        Object.keys(localStorage).forEach(key => {
+            if (key.startsWith('mblb_')) localStorage.removeItem(key);
+        });
+
         localStorage.setItem('mblb_users', JSON.stringify(USERS));
         localStorage.setItem('mblb_jenis_mineral', JSON.stringify(JENIS_MINERAL));
         localStorage.setItem('mblb_wajib_pajak', JSON.stringify(WAJIB_PAJAK));
@@ -313,9 +298,9 @@ function initializeSeedData() {
         localStorage.setItem('mblb_penugasan', JSON.stringify(PENUGASAN));
         localStorage.setItem('mblb_konfigurasi', JSON.stringify(KONFIGURASI_SISTEM));
         localStorage.setItem('mblb_riwayat_pad', JSON.stringify(RIWAYAT_PAD));
-        localStorage.setItem('mblb_init_v10', 'true');
-
-        console.log('✅ MBLB seed data initialized (v10) - ' + REKAP_BULANAN.length + ' recaps.');
+        localStorage.setItem('mblb_init_v15', 'true');
+        
+        console.log('✅ MBLB seed data reset successfully (v15)');
     }
 }
 

@@ -372,14 +372,18 @@ function logout() {
 }
 
 function resetPrototypeData() {
-    if (confirm('Hapus semua data inputan dan reset ke data dummy v7?')) {
+    if (confirm('Hapus semua data dan reset ke Data Dummy v14 (Terbaru)?')) {
         // Clear all mblb_ storage
         Object.keys(localStorage).forEach(key => {
             if (key.startsWith('mblb_')) {
                 localStorage.removeItem(key);
             }
         });
-        showToast('Data direset. Me-reload halaman...', 'success');
+        
+        // Explicitly clear any old init keys
+        for(let i=0; i<=20; i++) localStorage.removeItem('mblb_init_v' + i);
+
+        showToast('Data direset ke v14. Me-reload halaman...', 'success');
         setTimeout(() => {
             window.location.reload();
         }, 1000);
@@ -585,6 +589,7 @@ const MBLB_MENU_MASTER = [
     { id: 'lapangan_riwayat', label: 'Riwayat Laporan', icon: 'fa-clock-rotate-left', url: 'Staff Lapangan/riwayat-laporan.html', cat: 'Lapangan' },
 
     { id: 'penetapan_dashboard', label: 'Dashboard Admin Penetapan', icon: 'fa-gauge-high', url: 'Admin Penetapan/dashboard.html', cat: 'Penetapan' },
+    { id: 'penetapan_input_sptpd', label: 'Input Draft SPTPD', icon: 'fa-file-medical', url: 'Admin Penetapan/input-sptpd.html', cat: 'Penetapan' },
     { id: 'penetapan_nota', label: 'Data SPTPD', icon: 'fa-file-invoice-dollar', url: 'Admin Penetapan/draft-sptpd.html', cat: 'Penetapan' },
     { id: 'penetapan_rekap', label: 'Rekapitulasi Bulanan', icon: 'fa-chart-bar', url: 'Admin Penetapan/rekapitulasi-bulanan.html', cat: 'Penetapan' },
     { id: 'penagihan_teguran', label: 'Surat Teguran', icon: 'fa-envelope-open-text', url: 'Bidang Penagihan/surat-teguran.html', cat: 'Penagihan' },
@@ -595,6 +600,7 @@ const MBLB_MENU_MASTER = [
 
     { id: 'penagihan_dashboard', label: 'Dashboard Penagihan', icon: 'fa-gauge-high', url: 'Bidang Penagihan/dashboard.html', cat: 'Penagihan' },
     { id: 'penagihan_billing', label: 'Daftar Tagihan (Billing)', icon: 'fa-list', url: 'Bidang Penagihan/billing-list.html', cat: 'Penagihan' },
+    { id: 'penagihan_input_pembayaran', label: 'Input Pembayaran', icon: 'fa-cash-register', url: 'Bidang Penagihan/input-pembayaran.html', cat: 'Penagihan' },
     { id: 'penagihan_sspd', label: 'Penerimaan SSPD', icon: 'fa-file-invoice-dollar', url: 'Bidang Penagihan/penerimaan-sspd.html', cat: 'Penagihan' },
     { id: 'penagihan_laporan', label: 'Laporan Realisasi', icon: 'fa-chart-bar', url: 'Bidang Penagihan/laporan-realisasi.html', cat: 'Penagihan' },
 
@@ -613,9 +619,9 @@ const MBLB_MENU_MASTER = [
 const MBLB_DEFAULT_RBAC = {
     'Bidang Pendaftaran': ['pendaftaran_dashboard', 'pendaftaran_terima_berkas', 'pendaftaran_berkas_online'],
     'Staff Lapangan': ['lapangan_dashboard', 'lapangan_input', 'lapangan_riwayat'],
-    'Admin Penetapan': ['penetapan_dashboard', 'penetapan_nota', 'penetapan_rekap'],
+    'Admin Penetapan': ['penetapan_dashboard', 'penetapan_input_sptpd', 'penetapan_nota', 'penetapan_rekap'],
     'Kabid Penetapan': ['kabid_dashboard', 'kabid_penugasan', 'kabid_monitoring'],
-    'Bidang Penagihan': ['penagihan_dashboard', 'penagihan_billing', 'penagihan_sspd', 'penagihan_laporan', 'penagihan_teguran'],
+    'Bidang Penagihan': ['penagihan_dashboard', 'penagihan_input_pembayaran', 'penagihan_billing', 'penagihan_sspd', 'penagihan_laporan', 'penagihan_teguran'],
     'Kepala Dinas': ['kadis_dashboard', 'kadis_laporan'],
     'Admin Sistem': ['admin_dashboard', 'admin_master', 'admin_user', 'admin_config', 'admin_hak_akses', 'admin_laporan', 'admin_log']
 };

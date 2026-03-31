@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verifikasi Berkas - Bidang Pendaftaran MBLB</title>
+    <title>Master Data & Verifikasi Wajib Pajak - MBLB</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../shared.css">
@@ -42,8 +42,8 @@
                         <i class="fa-solid fa-bars text-xl text-gray-600"></i>
                     </button>
                     <div>
-                        <h1 class="text-xl font-bold text-gray-900">Verifikasi Berkas</h1>
-                        <p class="text-sm text-gray-500">Antrian verifikasi pendaftaran Wajib Pajak baru</p>
+                        <h1 class="text-xl font-bold text-gray-900">Master Data & Verifikasi</h1>
+                        <p class="text-sm text-gray-500">Database Wajib Pajak dan Antrian Pendaftaran Baru</p>
                     </div>
                 </div>
                 <!-- Profile -->
@@ -107,6 +107,12 @@
                                 class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none w-64 w-full sm:w-64"
                                 onkeyup="filterTableData()">
                         </div>
+                        <select id="filterTipe" onchange="filterTableData()"
+                            class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-white font-bold text-indigo-700">
+                            <option value="">Semua Tipe Data</option>
+                            <option value="Pendaftaran Baru">Pendaftaran Baru</option>
+                            <option value="Data Master Aktif">Data Master Aktif</option>
+                        </select>
                         <select id="filterStatus" onchange="filterTableData()"
                             class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-white">
                             <option value="">Semua Status</option>
@@ -126,9 +132,10 @@
                         <thead class="bg-gray-50 sticky top-0 z-10">
                             <tr class="text-gray-500 text-xs uppercase tracking-wider border-b border-gray-200">
                                 <th class="px-6 py-4 font-semibold">Tgl Daftar</th>
+                                <th class="px-6 py-4 font-semibold">Tipe</th>
                                 <th class="px-6 py-4 font-semibold">Nama Usaha / WP</th>
                                 <th class="px-6 py-4 font-semibold">No. HP / Kontak</th>
-                                <th class="px-6 py-4 font-semibold">Status Lengkap</th>
+                                <th class="px-6 py-4 font-semibold">Status</th>
                                 <th class="px-6 py-4 font-semibold text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -247,43 +254,28 @@
         let editingWpId = null;
 
         function loadData() {
-            // Setup default random dates/status if empty in dummy data
-            let wps = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]');
-            
-            // Add status to seed data if they don't have it for demo purpose
-            let needsUpdate = false;
-            wps = wps.map(wp => {
-                if (!wp.statusRegistration) {
-                    wp.statusRegistration = Math.random() > 0.3 ? 'Terverifikasi' : 'Menunggu Verifikasi';
-                    wp.tanggalDaftar = new Date(Date.now() - Math.floor(Math.random() * 10) * 86400000).toISOString().split('T')[0];
-                    needsUpdate = true;
-                }
-                return wp;
-            });
-            
-            if (needsUpdate) {
-                localStorage.setItem('mblb_wajib_pajak', JSON.stringify(wps));
-            }
-            
+            // Fetch from localStorage (source: seed-data.js v15)
+            const wps = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]');
             currentWpList = wps;
             
-            // Stats
+            // Stats (Master Data totals)
             document.getElementById('statMenunggu').textContent = wps.filter(w => w.statusRegistration === 'Menunggu Verifikasi').length;
             document.getElementById('statTerverifikasi').textContent = wps.filter(w => w.statusRegistration === 'Terverifikasi').length;
             document.getElementById('statDitolak').textContent = wps.filter(w => w.statusRegistration === 'Ditolak').length;
         }
 
         function renderTable(dataToRender = currentWpList) {
+            console.log('🔄 Rendering Table with ' + dataToRender.length + ' items...');
             loadData(); // Re-fetch
             dataToRender = currentWpList; // refresh with latest localstorage
             
-            // Apply current filters implicitly if needed, or rely on filterTableData explicitly
             const tbody = document.getElementById('tableBody');
             const emptyState = document.getElementById('emptyState');
 
             if (dataToRender.length === 0) {
                 tbody.innerHTML = '';
                 emptyState.classList.remove('hidden');
+                console.warn('⚠️ No data found to render.');
                 return;
             }
             emptyState.classList.add('hidden');
@@ -292,6 +284,11 @@
                 const isVerified = wp.statusRegistration === 'Terverifikasi';
                 const isRejected = wp.statusRegistration === 'Ditolak';
                 
+                // Tipe Logic
+                const tipeLabel = isVerified ? 'Data Master Aktif' : 'Pendaftaran Baru';
+                const tipeClass = isVerified ? 'bg-indigo-50 text-indigo-700 border-indigo-200' : 'bg-orange-50 text-orange-700 border-orange-200';
+                const tipeIcon = isVerified ? 'fa-database' : 'fa-file-circle-plus';
+
                 let bgeClass = 'bg-amber-50 text-amber-700 border-amber-200';
                 let iconClass = 'fa-clock';
                 if (isVerified) {
@@ -302,53 +299,67 @@
                     iconClass = 'fa-xmark-circle';
                 }
 
-                return \`
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-600">\${formatDate(wp.tanggalDaftar || new Date(), 'short')}</td>
-                        <td class="px-6 py-4">
-                            <div class="font-bold text-gray-900">\${wp.namaUsaha}</div>
-                            <div class="text-xs text-gray-500">\${wp.nama}</div>
-                        </td>
-                        <td class="px-6 py-4 text-gray-600">
-                            <div>\${wp.telepon || '-'}</div>
-                            <div class="text-xs">\${wp.email || '-'}</div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border \${bgeClass}">
-                                <i class="fa-solid \${iconClass}"></i> \${wp.statusRegistration}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            \${wp.statusRegistration === 'Menunggu Verifikasi' ? \`
-                                <button onclick="bukaModalVerifikasi('\${wp.id}')" class="px-4 py-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white rounded-lg font-bold text-xs transition-colors border border-indigo-100">
-                                    <i class="fa-solid fa-magnifying-glass mr-1"></i> Periksa
-                                </button>
-                            \` : \`
-                                <button onclick="bukaModalVerifikasi('\${wp.id}')" class="px-4 py-2 bg-gray-50 text-gray-600 hover:bg-gray-200 rounded-lg font-bold text-xs transition-colors border border-gray-100">
-                                    <i class="fa-solid fa-eye mr-1"></i> Detail
-                                </button>
-                            \`}
-                        </td>
-                    </tr>
-                \`;
+                let html = '<tr class="hover:bg-gray-50 transition-colors">';
+                html += '<td class="px-6 py-4 whitespace-nowrap text-gray-600">' + formatDate(wp.tanggalDaftar || new Date(), 'short') + '</td>';
+                
+                // Tipe Column
+                html += '<td class="px-6 py-4 whitespace-nowrap">';
+                html += '<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-wider border ' + tipeClass + '">';
+                html += '<i class="fa-solid ' + tipeIcon + '"></i> ' + tipeLabel;
+                html += '</span></td>';
+
+                html += '<td class="px-6 py-4">';
+                html += '<div class="font-bold text-gray-900">' + wp.namaUsaha + '</div>';
+                html += '<div class="text-xs text-gray-500">' + wp.nama + '</div>';
+                html += '</td>';
+                html += '<td class="px-6 py-4 text-gray-600">';
+                html += '<div>' + (wp.telepon || '-') + '</div>';
+                html += '<div class="text-xs">' + (wp.email || '-') + '</div>';
+                html += '</td>';
+                html += '<td class="px-6 py-4">';
+                html += '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ' + bgeClass + '">';
+                html += '<i class="fa-solid ' + iconClass + '"></i> ' + wp.statusRegistration;
+                html += '</span>';
+                html += '</td>';
+                html += '<td class="px-6 py-4 text-center">';
+                
+                if (wp.statusRegistration === 'Menunggu Verifikasi') {
+                    html += '<button onclick="bukaModalVerifikasi(\'' + wp.id + '\')" class="px-4 py-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white rounded-lg font-bold text-xs transition-colors border border-indigo-100">';
+                    html += '<i class="fa-solid fa-magnifying-glass mr-1"></i> Periksa</button>';
+                } else {
+                    html += '<button onclick="bukaModalVerifikasi(\'' + wp.id + '\')" class="px-4 py-2 bg-gray-50 text-gray-600 hover:bg-gray-200 rounded-lg font-bold text-xs transition-colors border border-gray-100">';
+                    html += '<i class="fa-solid fa-eye mr-1"></i> Detail</button>';
+                }
+                
+                html += '</td></tr>';
+                return html;
             }).join('');
             
+            // Stats Update
+            document.getElementById('statMenunggu').textContent = currentWpList.filter(w => w.statusRegistration === 'Menunggu Verifikasi').length;
+            document.getElementById('statTerverifikasi').textContent = currentWpList.filter(w => w.statusRegistration === 'Terverifikasi').length;
+            document.getElementById('statDitolak').textContent = currentWpList.filter(w => w.statusRegistration === 'Ditolak').length;
+
+            console.log('✅ Table Rendered. Total: ' + currentWpList.length);
             filterTableData(); // Apply text/status filters after rendering
         }
 
         function filterTableData() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
             const statusFilter = document.getElementById('filterStatus').value;
+            const tipeFilter = document.getElementById('filterTipe').value;
             const rows = document.getElementById('tableBody').getElementsByTagName('tr');
 
             for (let row of rows) {
                 const text = row.textContent.toLowerCase();
-                const statusCell = row.cells[3].textContent.trim();
+                const tipeCell = row.cells[1].textContent.trim();
+                const statusCell = row.cells[4].textContent.trim();
                 
                 const matchSearch = text.includes(searchInput);
                 const matchStatus = statusFilter === '' || statusCell.includes(statusFilter);
+                const matchTipe = tipeFilter === '' || tipeCell.includes(tipeFilter);
 
-                row.style.display = matchSearch && matchStatus ? '' : 'none';
+                row.style.display = (matchSearch && matchStatus && matchTipe) ? '' : 'none';
             }
         }
 
@@ -362,7 +373,7 @@
             document.getElementById('detailNamaPemilik').textContent = wp.nama;
             document.getElementById('detailNpwpd').textContent = wp.npwpd || '-';
             document.getElementById('detailAlamat').textContent = wp.alamat;
-            document.getElementById('detailKontak').textContent = \`\${wp.telepon || '-'} / \${wp.email || '-'}\`;
+            document.getElementById('detailKontak').textContent = (wp.telepon || '-') + ' / ' + (wp.email || '-');
             document.getElementById('catatanVerifikasi').value = '';
 
             openModal('verifyModal');
@@ -391,6 +402,9 @@
 
         // Init
         document.addEventListener('DOMContentLoaded', () => {
+            if (typeof initializeSeedData === 'function') {
+                initializeSeedData();
+            }
             renderTable();
         });
     </script>

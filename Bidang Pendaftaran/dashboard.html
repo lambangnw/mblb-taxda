@@ -86,15 +86,14 @@
 
                 <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 card-hover">
                     <div class="flex items-center justify-between mb-4">
-                        <div class="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
-                            <i class="fa-solid fa-receipt text-2xl text-emerald-600"></i>
+                        <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-file-circle-exclamation text-2xl text-amber-600"></i>
                         </div>
-                        <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">Hari
-                            Ini</span>
+                        <span class="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-1 rounded-full">Antrian</span>
                     </div>
                     <div class="flex flex-col">
-                        <span class="text-gray-500 text-sm font-medium">SSPD Pendaftaran</span>
-                        <span class="text-3xl font-black text-gray-900 mt-1" id="statSspdCount">0</span>
+                        <span class="text-gray-500 text-sm font-medium">Verifikasi Berkas</span>
+                        <span class="text-3xl font-black text-gray-900 mt-1" id="statVerifCount">0</span>
                     </div>
                 </div>
 
@@ -188,11 +187,10 @@
 
         function loadDashboardStats() {
             const wps = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]');
-            const sptpd = JSON.parse(localStorage.getItem('mblb_sptpd') || '[]');
 
             // Stats
             document.getElementById('statTotalWp').textContent = wps.length;
-            document.getElementById('statSspdCount').textContent = sptpd.length; // Simplified for demo
+            document.getElementById('statVerifCount').textContent = wps.filter(w => w.statusRegistration === 'Menunggu Verifikasi').length;
 
             // Table
             const container = document.getElementById('recentWpTableBody');
