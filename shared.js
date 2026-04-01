@@ -595,7 +595,7 @@ const MBLB_DEFAULT_RBAC = {
     'Staff Lapangan': ['lapangan_dashboard', 'lapangan_input', 'lapangan_riwayat'],
     'Admin Penetapan': ['penetapan_dashboard', 'penetapan_rekap', 'penetapan_nota', 'penetapan_laporan'],
     'Kabid Penetapan': ['kabid_dashboard', 'kabid_penugasan', 'kabid_monitoring'],
-    'Bidang Penagihan': ['penagihan_dashboard', 'penagihan_input_pembayaran', 'penagihan_billing', 'penagihan_laporan', 'penagihan_teguran'],
+    'Bidang Penagihan': ['penagihan_dashboard', 'penagihan_input_pembayaran', 'penagihan_billing', 'penagihan_laporan'],
     'Kepala Dinas': ['kadis_dashboard', 'kadis_laporan'],
     'Admin Sistem': ['admin_dashboard', 'admin_master', 'admin_user', 'admin_config', 'admin_hak_akses', 'admin_laporan', 'admin_log']
 };
