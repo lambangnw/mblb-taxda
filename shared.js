@@ -567,8 +567,6 @@ const MBLB_MENU_MASTER = [
     { id: 'penetapan_rekap', label: 'Rekapitulasi Bulanan', icon: 'fa-chart-bar', url: 'Admin Penetapan/rekapitulasi-bulanan.html', cat: 'Penetapan' },
     { id: 'penetapan_nota', label: 'Data SPTPD', icon: 'fa-file-invoice-dollar', url: 'Admin Penetapan/draft-sptpd.html', cat: 'Penetapan' },
     { id: 'penetapan_laporan', label: 'Laporan Penetapan', icon: 'fa-chart-line', url: 'Admin Penetapan/laporan.html', cat: 'Penetapan' },
-    { id: 'penagihan_teguran', label: 'Surat Teguran', icon: 'fa-envelope-open-text', url: 'Bidang Penagihan/surat-teguran.html', cat: 'Penagihan' },
-
     { id: 'kabid_dashboard', label: 'Dashboard', icon: 'fa-gauge-high', url: 'Kabid Penetapan/dashboard.html', cat: 'Kabid Penetapan' },
     { id: 'kabid_penugasan', label: 'Penugasan Survey', icon: 'fa-clipboard-user', url: 'Kabid Penetapan/penugasan.html', cat: 'Kabid Penetapan' },
     { id: 'kabid_monitoring', label: 'Penetapan & Monitoring', icon: 'fa-desktop', url: 'Kabid Penetapan/monitoring-sptpd.html', cat: 'Kabid Penetapan' },
