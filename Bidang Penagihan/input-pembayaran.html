@@ -216,18 +216,16 @@
     </div>
 
     <!-- Success Modal -->
-    <div id="successModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-6 text-center">
-        <div class="absolute inset-0 bg-indigo-950/80 backdrop-blur-sm"></div>
-        <div class="bg-white rounded-[40px] p-10 max-w-sm w-full animate-scale-up border border-white/20">
-            <div
-                class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl text-green-600">
+    <div id="successModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 text-center">
+        <div class="absolute inset-0 bg-indigo-950/80 backdrop-blur-md"></div>
+        <div class="bg-white rounded-[2.5rem] p-10 max-w-sm w-full animate-scale-up border border-white/20 relative z-10 shadow-2xl">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl text-green-600 shadow-inner">
                 <i class="fa-solid fa-check"></i>
             </div>
-            <h2 class="text-2xl font-black text-indigo-950 mb-2">BAYAR SUKSES!</h2>
-            <p class="text-xs text-gray-400 font-bold uppercase tracking-widest mb-8">SPTPD Telah Terupdate Menjadi Lunas
-            </p>
+            <h2 class="text-2xl font-black text-indigo-950 mb-2">PEMBAYARAN BERHASIL!</h2>
+            <p class="text-xs text-gray-400 font-bold uppercase tracking-widest mb-8">SPTPD Telah Terupdate Menjadi Lunas</p>
             <button onclick="window.location.href='dashboard.html'"
-                class="w-full py-4 bg-indigo-600 text-white font-black rounded-2xl shadow-lg">Kembali</button>
+                class="w-full py-4 bg-indigo-600 text-white font-black rounded-2xl shadow-lg hover:bg-indigo-700 transition-all">KEMBALI KE DASHBOARD</button>
         </div>
     </div>
 
@@ -356,39 +354,47 @@
         }
 
         function handlePayment() {
-            if (selectedSkpds.length === 0) {
-                showToast('Pilih minimal satu tagihan!', 'error');
-                return;
-            }
+            try {
+                if (selectedSkpds.length === 0) {
+                    showToast('Pilih minimal satu tagihan!', 'error');
+                    return;
+                }
 
-            const method = document.querySelector('input[name="method"]:checked').value;
+                const methodEl = document.querySelector('input[name="method"]:checked');
+                const method = methodEl ? methodEl.value : 'tunai';
 
-            // 1. Mark SKPDs as Paid
-            skpds = skpds.map(s => selectedSkpds.includes(s.id) ? { ...s, status: 'paid' } : s);
-            localStorage.setItem('mblb_draft_sptpd', JSON.stringify(skpds));
+                // 1. Mark SKPDs as Paid
+                skpds = skpds.map(s => selectedSkpds.includes(s.id) ? { ...s, status: 'paid' } : s);
+                localStorage.setItem('mblb_draft_sptpd', JSON.stringify(skpds));
 
-            // 2. Create SSPDs
-            const existingSspds = JSON.parse(localStorage.getItem('mblb_sspd') || '[]');
-            selectedSkpds.forEach(skpdId => {
-                const skpd = skpds.find(s => s.id === skpdId);
-                const sanksi = hitungBunga(skpd.nilaiPajak || skpd.total, skpd.jatuhTempo);
+                // 2. Create SSPDs
+                const existingSspds = JSON.parse(localStorage.getItem('mblb_sspd') || '[]');
+                selectedSkpds.forEach(skpdId => {
+                    const skpd = skpds.find(s => s.id === skpdId);
+                    if (!skpd) return;
+                    
+                    const sanksi = hitungBunga(skpd.nilaiPajak || skpd.total, skpd.jatuhTempo);
 
-                existingSspds.push({
-                    id: 'SSPD' + Date.now() + Math.random(),
-                    nomor: generateDocNumber('SSPD', '04'),
-                    tanggal: new Date().toISOString().split('T')[0],
-                    wpId: skpd.wpId,
-                    skpdId: skpdId,
-                    pokokPajak: skpd.nilaiPajak || skpd.total,
-                    denda: sanksi.nominalBunga,
-                    jumlah: (skpd.nilaiPajak || skpd.total) + sanksi.nominalBunga,
-                    status: 'verified',
-                    caraBayar: method.charAt(0).toUpperCase() + method.slice(1)
+                    existingSspds.push({
+                        id: 'SSPD-' + Date.now() + Math.random().toString(36).substr(2, 5),
+                        nomor: generateDocNumber('SSPD', '04'),
+                        tanggal: new Date().toISOString().split('T')[0],
+                        wpId: skpd.wpId,
+                        skpdId: skpdId,
+                        pokokPajak: skpd.nilaiPajak || skpd.total,
+                        denda: sanksi.nominalBunga,
+                        jumlah: (skpd.nilaiPajak || skpd.total) + sanksi.nominalBunga,
+                        status: 'verified',
+                        caraBayar: method.charAt(0).toUpperCase() + method.slice(1)
+                    });
                 });
-            });
-            localStorage.setItem('mblb_sspd', JSON.stringify(existingSspds));
+                localStorage.setItem('mblb_sspd', JSON.stringify(existingSspds));
 
-            openModal('successModal');
+                openModal('successModal');
+            } catch (err) {
+                console.error('Payment Error:', err);
+                showToast('Terjadi kesalahan saat memproses pembayaran', 'error');
+            }
         }
 
         function copyToSearch(val) {
@@ -402,6 +408,29 @@
 
         // Auto-run search if NPWPD in URL (optional refinement)
         window.onload = () => {
+            // Check for intent from billing list
+            const intent = localStorage.getItem('mblb_payment_intent');
+            if (intent) {
+                const skpd = skpds.find(s => s.id === intent);
+                if (skpd) {
+                    const wp = wps.find(w => w.id === skpd.wpId);
+                    if (wp) {
+                        document.getElementById('searchNpwpd').value = wp.npwpd;
+                        searchTagihan();
+                        // Pre-select the intended SKPD
+                        setTimeout(() => {
+                            const cb = document.querySelector(`input[value="${intent}"]`);
+                            if (cb) {
+                                cb.checked = true;
+                                updateTotal();
+                            }
+                        }, 500);
+                    }
+                }
+                localStorage.removeItem('mblb_payment_intent');
+                return;
+            }
+
             const urlParams = new URLSearchParams(window.location.search);
             const npwpd = urlParams.get('npwpd');
             if (npwpd) {

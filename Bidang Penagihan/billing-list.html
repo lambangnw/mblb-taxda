@@ -71,8 +71,31 @@
                         placeholder="Cari NPWPD atau Nama WP..."
                         class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-indigo-500/20">
                 </div>
-                <select id="statusFilter" onchange="renderSkpdList()"
+                <select id="monthFilter" onchange="renderSkpdList()"
                     class="px-6 py-3 bg-gray-50 border border-gray-100 rounded-2xl font-black text-xs uppercase tracking-widest outline-none cursor-pointer">
+                    <option value="all">Semua Bulan</option>
+                    <option value="01">Januari</option>
+                    <option value="02">Februari</option>
+                    <option value="03">Maret</option>
+                    <option value="04">April</option>
+                    <option value="05">Mei</option>
+                    <option value="06">Juni</option>
+                    <option value="07">Juli</option>
+                    <option value="08">Agustus</option>
+                    <option value="09">September</option>
+                    <option value="10">Oktober</option>
+                    <option value="11">November</option>
+                    <option value="12">Desember</option>
+                </select>
+                <select id="yearFilter" onchange="renderSkpdList()"
+                    class="px-6 py-3 bg-gray-50 border border-gray-100 rounded-2xl font-black text-xs uppercase tracking-widest outline-none cursor-pointer">
+                    <option value="all">Semua Tahun</option>
+                    <option value="2026">2026</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                </select>
+                <select id="statusFilter" onchange="renderSkpdList()"
+                    class="px-6 py-3 bg-gray-50 border border-gray-100 rounded-2xl font-black text-xs uppercase tracking-widest outline-none cursor-pointer text-indigo-600 border-indigo-100">
                     <option value="all">Semua Status</option>
                     <option value="approved">Belum Bayar</option>
                     <option value="paid">Sudah Lunas</option>
@@ -196,7 +219,16 @@
                 const wp = getWajibPajakById(s.wpId);
                 const matchesSearch = wp?.namaUsaha.toLowerCase().includes(term) || wp?.npwpd.toLowerCase().includes(term) || s.nomor.toLowerCase().includes(term);
                 const matchesStatus = status === 'all' || s.status === status;
-                return matchesSearch && matchesStatus;
+                
+                // Month/Year Filtering
+                const month = document.getElementById('monthFilter').value;
+                const year = document.getElementById('yearFilter').value;
+                const [sYear, sMonth] = s.tanggal.split('-');
+                
+                const matchesMonth = month === 'all' || sMonth === month;
+                const matchesYear = year === 'all' || sYear === year;
+                
+                return matchesSearch && matchesStatus && matchesMonth && matchesYear;
             });
 
             if (filtered.length === 0) {
@@ -292,7 +324,7 @@
 
         function goToPayment(skpdId) {
             localStorage.setItem('mblb_payment_intent', skpdId);
-            window.location.href = 'penerimaan-sspd.html';
+            window.location.href = 'input-pembayaran.html';
         }
 
         renderSkpdList();

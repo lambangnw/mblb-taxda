@@ -46,8 +46,8 @@
                         <i class="fa-solid fa-bars text-xl text-gray-600"></i>
                     </button>
                     <div>
-                        <h1 class="text-xl font-bold text-gray-900">Data SPTPD</h1>
-                        <p class="text-sm text-gray-500">Kumpulan Dokumen SPTPD Wajib Pajak MBLB</p>
+                        <h1 class="text-xl font-bold text-gray-900 tracking-tight text-indigo-600">Dokumen Penetapan</h1>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Kumpulan Hasil Nota Perhitungan & Draft SPTPD</p>
                     </div>
                 </div>
                 <div class="relative">
@@ -78,6 +78,45 @@
                         <button onclick="filterStatus('pending', this)" class="filter-btn px-4 py-2 text-sm font-semibold rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 transition-colors whitespace-nowrap">Menunggu Verifikasi</button>
                         <button onclick="filterStatus('approved', this)" class="filter-btn px-4 py-2 text-sm font-semibold rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 transition-colors whitespace-nowrap">Approved / SKPD Official</button>
                         <button onclick="filterStatus('rejected', this)" class="filter-btn px-4 py-2 text-sm font-semibold rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 transition-colors whitespace-nowrap">Ditolak</button>
+                    </div>
+                </div>
+
+                <!-- NEW: Integrated Search & Period Filters -->
+                <div class="px-6 py-4 border-b border-gray-100 flex flex-col md:flex-row gap-4 items-center bg-white">
+                    <div class="relative w-full md:w-80">
+                        <input type="text" id="wpSearch" placeholder="Cari Nama Wajib Pajak / Usaha..." 
+                            class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 transition-all"
+                            onkeyup="loadNota()">
+                        <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    
+                    <div class="flex items-center gap-3 w-full md:w-auto ml-auto">
+                        <div class="flex items-center gap-2">
+                            <label class="text-xs font-bold text-gray-400 uppercase">Bulan:</label>
+                            <select id="bulanFilter" onchange="loadNota()" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-indigo-500">
+                                <option value="all">Semua Bulan</option>
+                                <option value="Januari">Januari</option>
+                                <option value="Februari">Februari</option>
+                                <option value="Maret">Maret</option>
+                                <option value="April">April</option>
+                                <option value="Mei">Mei</option>
+                                <option value="Juni">Juni</option>
+                                <option value="Juli">Juli</option>
+                                <option value="Agustus">Agustus</option>
+                                <option value="September">September</option>
+                                <option value="Oktober">Oktober</option>
+                                <option value="November">November</option>
+                                <option value="Desember">Desember</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label class="text-xs font-bold text-gray-400 uppercase">Tahun:</label>
+                            <select id="tahunFilter" onchange="loadNota()" class="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-indigo-500">
+                                <option value="all">Semua Tahun</option>
+                                <option value="2026">2026</option>
+                                <option value="2025">2025</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -129,13 +168,35 @@
         function loadNota() {
             let notas = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]').reverse();
             
-            // Apply filtering logic
+            const wpSearch = document.getElementById('wpSearch').value.toLowerCase();
+            const bulan = document.getElementById('bulanFilter').value;
+            const tahun = document.getElementById('tahunFilter').value;
+
+            // Apply Status Filter
             if (currentFilter !== 'all') {
                 if(currentFilter === 'approved') {
                     notas = notas.filter(n => n.status === 'approved' || n.status === 'paid' || n.status === 'unpaid');
                 } else {
                     notas = notas.filter(n => n.status === currentFilter);
                 }
+            }
+
+            // Apply WP Search Filter
+            if (wpSearch) {
+                notas = notas.filter(n => {
+                    const wp = getWajibPajakById(n.wpId);
+                    return (wp && (wp.namaUsaha.toLowerCase().includes(wpSearch) || wp.nama.toLowerCase().includes(wpSearch)));
+                });
+            }
+
+            // Apply Month Filter
+            if (bulan !== 'all') {
+                notas = notas.filter(n => n.masaPajak.includes(bulan));
+            }
+
+            // Apply Year Filter
+            if (tahun !== 'all') {
+                notas = notas.filter(n => n.tahunPajak === tahun || (n.masaPajak && n.masaPajak.includes(tahun)));
             }
 
             const tbody = document.getElementById('notaTableBody');
@@ -175,7 +236,7 @@
                         </button>
                     `;
                 } else {
-                    statusBadge = `<span class="badge badge-warning border border-yellow-200"><i class="fa-solid fa-hourglass-half mr-1"></i>Pending</span>`;
+                    statusBadge = `<span class="badge badge-warning border border-amber-200 bg-amber-50 text-amber-700 shadow-sm"><i class="fa-solid fa-calculator mr-1"></i>Draft Nota Hitung</span>`;
                     actions = `
                         <button onclick="window.location.href='detail-sptpd.html?id=${n.id}'" class="px-4 py-1.5 bg-white border border-gray-300 shadow-sm text-indigo-700 rounded-lg text-xs font-bold hover:bg-indigo-50 hover:border-indigo-300 transition-colors whitespace-nowrap">
                             <i class="fa-solid fa-eye mr-1"></i> Detail
@@ -187,7 +248,7 @@
                     <tr class="hover:bg-indigo-50/30 transition-colors">
                         <td class="px-4 py-4">
                             <div class="font-mono text-gray-900 font-bold tracking-tight">${n.nomor}</div>
-                            ${(n.status==='approved'||n.status==='paid'||n.status==='unpaid') ? '<div class="text-[10px] uppercase font-bold text-green-600 mt-1 tracking-widest">Resmi SKPD</div>' : '<div class="text-[10px] uppercase font-bold text-gray-400 mt-1 tracking-widest">Self Assessed Draft</div>'}
+                            ${(n.status==='approved'||n.status==='paid'||n.status==='unpaid') ? '<div class="text-[10px] uppercase font-bold text-green-600 mt-1 tracking-widest">Resmi SKPD</div>' : '<div class="text-[10px] uppercase font-bold text-amber-600 mt-1 tracking-widest"><i class="fa-solid fa-calculator mr-1"></i>Draft Nota Hitung</div>'}
                         </td>
                         <td class="px-4 py-4 font-bold text-gray-900">
                             ${wp?.namaUsaha || 'Unknown'}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Admin Penetapan</title>
+    <title>Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
@@ -51,7 +51,7 @@
                         <i class="fa-solid fa-bars text-xl text-gray-600"></i>
                     </button>
                     <div>
-                        <h1 class="text-xl font-black text-gray-900 tracking-tight">Dashboard Overview</h1>
+                        <h1 class="text-xl font-black text-gray-900 tracking-tight">Dashboard</h1>
                         <p class="text-xs text-gray-500 font-medium">Selamat Datang, <span id="userGreeting" class="text-indigo-600">Petugas Penetapan</span></p>
                     </div>
                 </div>
@@ -104,15 +104,15 @@
 
             <!-- Quick Actions -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <a href="input-sptpd.html"
+                <a href="rekapitulasi-bulanan.html"
                     class="group relative overflow-hidden bg-gradient-to-r from-indigo-600 to-indigo-800 rounded-2xl p-5 shadow-lg text-white transition-all hover:-translate-y-1 hover:shadow-indigo-200">
                     <div class="relative z-10 flex items-center justify-between">
                         <div>
-                            <h3 class="text-sm font-black mb-1">Buat Draft SPTPD</h3>
-                            <p class="text-indigo-200 text-[10px] font-bold">Generate dari data lapangan</p>
+                            <h3 class="text-sm font-black mb-1">Generate SPTPD</h3>
+                            <p class="text-indigo-200 text-[10px] font-bold">Proses rekap bulanan otomatis</p>
                         </div>
                         <div class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:bg-white group-hover:text-indigo-600 transition-colors">
-                            <i class="fa-solid fa-file-circle-plus text-lg"></i>
+                            <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
                         </div>
                     </div>
                 </a>
@@ -128,9 +128,18 @@
                         </div>
                     </div>
                 </a>
-                <div class="bg-indigo-50 border-2 border-indigo-100 border-dashed rounded-2xl p-5 flex items-center justify-center text-indigo-400">
-                    <p class="text-[10px] font-black uppercase tracking-widest italic opacity-50">Assisted Self-Assessment Mode</p>
-                </div>
+                <a href="rekapitulasi-bulanan.html?filter=pending"
+                    class="group relative overflow-hidden bg-white border-2 border-indigo-100 border-dashed rounded-2xl p-5 flex flex-col justify-center transition-all hover:border-indigo-600 hover:bg-indigo-50 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 id="readyToDraftCount" class="text-2xl font-black text-indigo-600">0</h3>
+                            <p class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Siap Generate SPTPD</p>
+                        </div>
+                        <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-file-circle-plus text-lg"></i>
+                        </div>
+                    </div>
+                </a>
             </div>
 
             <!-- Stats Grid -->
@@ -144,10 +153,10 @@
                             </div>
                             <span class="badge badge-info">STAFF</span>
                         </div>
-                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Laporan Staff Baru</h3>
+                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Perlu Verifikasi</h3>
                         <p class="text-3xl font-black text-gray-900" id="newRecapCount">0</p>
-                        <a href="input-sptpd.html" class="mt-4 flex items-center gap-1 text-[10px] text-indigo-600 font-bold hover:underline">
-                            <i class="fa-solid fa-arrow-right"></i> PROSES NOTA
+                        <a href="rekapitulasi-bulanan.html" class="mt-4 flex items-center gap-1 text-[10px] text-indigo-600 font-bold hover:underline">
+                            <i class="fa-solid fa-arrow-right"></i> CEK LAPORAN STAFF
                         </a>
                     </div>
                 </div>
@@ -161,9 +170,9 @@
                             </div>
                             <span class="badge badge-warning">DRAFT</span>
                         </div>
-                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Nota Perhitungan</h3>
+                        <h3 class="text-gray-500 text-xs font-bold uppercase tracking-widest mb-1">Review Nota</h3>
                         <p class="text-3xl font-black text-gray-900" id="draftNotaCount">0</p>
-                        <p class="text-[10px] text-gray-400 font-medium mt-4 italic">Perlu verifikasi muatan</p>
+                        <p class="text-[10px] text-gray-400 font-medium mt-4 italic">Draft dalam antrian Kabid</p>
                     </div>
                 </div>
 
@@ -218,32 +227,6 @@
                     </div>
                 </div>
 
-                <!-- Calendar Heatmap -->
-                <div class="bg-white rounded-3xl shadow-sm p-6 border border-gray-100 card-hover">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="font-black text-gray-900 text-lg">Agenda Penting</h3>
-                        <div class="w-8 h-8 bg-indigo-50 rounded-lg flex items-center justify-center text-indigo-600">
-                            <i class="fa-solid fa-calendar-day"></i>
-                        </div>
-                    </div>
-                    <div id="activityCalendar"></div>
-                    <div class="mt-6 space-y-3">
-                        <div class="flex items-center gap-3 p-3 bg-red-50 rounded-2xl border border-red-100">
-                            <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-                            <div>
-                                <p class="text-[11px] font-black text-red-700">Deadline SPTPD</p>
-                                <p class="text-[10px] text-red-500 font-semibold">15 Februari 2026</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 bg-indigo-50 rounded-2xl border border-indigo-100">
-                            <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
-                            <div>
-                                <p class="text-[11px] font-black text-indigo-700">Audit Verifikasi Bulanan</p>
-                                <p class="text-[10px] text-indigo-500 font-semibold">22 Februari 2026</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Activity Table -->
@@ -261,7 +244,7 @@
                             <tr class="bg-gray-50/50 text-gray-400 text-[10px] uppercase font-black tracking-[0.15em]">
                                 <th class="px-8 py-5">Tanggal</th>
                                 <th class="px-8 py-5">Subjek / WP</th>
-                                <th class="px-8 py-5">Dokumen</th>
+                                <th class="px-8 py-5">Identitas Dokumen</th>
                                 <th class="px-8 py-5 text-center">Status</th>
                                 <th class="px-8 py-5"></th>
                             </tr>
@@ -295,7 +278,6 @@
             </td>
             <td class="px-8 py-6">
                 <div class="flex flex-col">
-                    <span class="text-indigo-600 font-black text-xs underline decoration-indigo-200" data-doc-type>SPTPD TERBIT</span>
                     <span class="text-[10px] text-gray-400 font-bold" data-doc-no>#2026/02/0001</span>
                 </div>
             </td>
@@ -327,11 +309,20 @@
             const skpd = JSON.parse(localStorage.getItem('mblb_skpd') || '[]');
 
             // Update Counters with dynamic fallback logic
-            document.getElementById('newRecapCount').textContent = rekap.filter(r => r.status === 'pending').length || '12';
-            document.getElementById('draftNotaCount').textContent = nota.filter(n => n.status === 'pending').length || '5';
-            document.getElementById('skpdIssuedCount').textContent = (rekap.length + skpd.length) || '24';
+            const draftRekapIds = nota.map(n => n.rekapId);
+            
+            // Perlu Verifikasi: Rekap yang masih pending_verification
+            const perluVerif = rekap.filter(r => r.status === 'pending_verification').length;
+            
+            // Siap Generate: Rekap yang sudah approved tapi belum ada di mblb_draft_sptpd
+            const siapGenerate = rekap.filter(r => r.status === 'approved' && !draftRekapIds.includes(r.id)).length;
+            
+            document.getElementById('newRecapCount').textContent = perluVerif;
+            document.getElementById('draftNotaCount').textContent = nota.filter(n => n.status === 'pending').length || '0';
+            document.getElementById('skpdIssuedCount').textContent = nota.filter(n => n.status === 'approved').length || '0';
+            document.getElementById('readyToDraftCount').textContent = siapGenerate;
 
-            const totalPotential = rekap.reduce((acc, curr) => acc + (curr.pajak || 0), 0) || 125450000;
+            const totalPotential = rekap.reduce((acc, curr) => acc + (curr.pajak || 0), 0);
             document.getElementById('potentialPad').textContent = formatCurrency(totalPotential);
 
             // Chart Configuration: Target vs Realisasi
@@ -388,22 +379,6 @@
                 }
             });
 
-            // Calendar Configuration
-            const calendarEl = document.getElementById('activityCalendar');
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                locale: 'id',
-                headerToolbar: { left: 'prev', center: 'title', right: 'next' },
-                events: [
-                    { title: 'Deadline SPTPD', start: '2026-02-15', color: '#ef4444' },
-                    { title: 'Verifikasi PT MM', start: '2026-02-12', color: '#6366f1' },
-                    { title: 'Audit Internal', start: '2026-02-22', color: '#10b981' }
-                ],
-                height: 'auto',
-                contentHeight: 320
-            });
-            calendar.render();
-
             // Populate Recent Activity Table
             populateRecentActivity();
         }
@@ -411,27 +386,59 @@
         function populateRecentActivity() {
             const container = document.getElementById('recentActivityTable');
             const template = document.getElementById('activityRowTemplate');
+            if (!container || !template) return;
             
-                // Dummy table data for premium demo
-                const activities = [
-                    { tgl: '12 Feb', wp: 'PT Tambang Alam Semesta', doc: 'LAPORAN STAFF', no: '#LH/STF/0024', status: 'badge-info', stLabel: 'Baru' },
-                    { tgl: '11 Feb', wp: 'CV Pasir Mandiri Utama', doc: 'NOTA HITUNG', no: '#NH/2026/02-045', status: 'badge-warning', stLabel: 'Pending' },
-                    { tgl: '10 Feb', wp: 'PT Batuan Berkah', doc: 'SPTPD TERBIT', no: '#2026/02/0881', status: 'badge-success', stLabel: 'Sukses' },
-                    { tgl: '09 Feb', wp: 'PT Minerba Abadi', doc: 'LAPORAN STAFF', no: '#LH/STF/0021', status: 'badge-info', stLabel: 'Baru' },
-                    { tgl: '08 Feb', wp: 'Koperasi Karya MBLB', doc: 'NOTA HITUNG', no: '#NH/2026/02-042', status: 'badge-success', stLabel: 'Terverifikasi' }
-                ];
+            const rekap = JSON.parse(localStorage.getItem('mblb_rekap_bulanan') || '[]');
+            const nota = JSON.parse(localStorage.getItem('mblb_draft_sptpd') || '[]');
+            const wps = JSON.parse(localStorage.getItem('mblb_wajib_pajak') || '[]');
+
+            // 1. Get Pending Recaps (Laporan Staff Perlu Verifikasi)
+            const pendingRecaps = rekap.filter(r => r.status === 'pending_verification').map(r => ({
+                tgl: r.periode.split('-')[1] === '04' ? '1 Apr' : (r.periode.split('-')[1] === '03' ? '31 Mar' : 'Feb'),
+                wpId: r.wpId,
+                no: `Masa Pajak: ${r.periode}`,
+                html: `<span class="badge badge-info shadow-sm border border-indigo-200"><i class="fa-solid fa-list-check mr-1.5"></i>Perlu Verifikasi</span>`
+            }));
+
+            // 2. Get Pending SPTPDs (Nota Perlu Review)
+            const pendingNotas = nota.filter(n => n.status === 'pending').map(n => {
+                let displayDate = 'N/A';
+                try {
+                    const d = new Date(n.tanggal);
+                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+                    displayDate = `${d.getDate()} ${months[d.getMonth()]}`;
+                } catch(e) {}
+                
+                return {
+                    tgl: displayDate,
+                    wpId: n.wpId,
+                    doc: 'REVIEW NOTA',
+                    no: n.nomor,
+                    html: `<span class="badge badge-warning border border-amber-200 bg-amber-50 text-amber-700 shadow-sm"><i class="fa-solid fa-calculator mr-1.5"></i>Draft Nota Hitung</span>`
+                };
+            });
+
+            // Combine and limit to 5
+            const activities = [...pendingRecaps, ...pendingNotas].slice(0, 5);
 
             container.innerHTML = '';
+            if (activities.length === 0) {
+                container.innerHTML = '<tr><td colspan="5" class="px-8 py-12 text-center text-gray-400 italic font-medium">Semua tugas sudah terverifikasi. Tidak ada antrian saat ini.</td></tr>';
+                return;
+            }
+
             activities.forEach(act => {
+                const wp = wps.find(w => w.id === act.wpId);
                 const clone = template.content.cloneNode(true);
                 clone.querySelector('[data-tgl]').textContent = act.tgl;
-                clone.querySelector('[data-wp-name]').textContent = act.wp;
-                clone.querySelector('[data-avatar]').textContent = act.wp.split(' ').map(w => w[0]).join('').substring(0,2);
-                clone.querySelector('[data-doc-type]').textContent = act.doc;
+                clone.querySelector('[data-wp-name]').textContent = wp ? wp.namaUsaha : 'Unknown WP';
+                clone.querySelector('[data-avatar]').textContent = wp ? wp.namaUsaha.split(' ').map(w => w[0]).join('').substring(0,2) : '??';
                 clone.querySelector('[data-doc-no]').textContent = act.no;
-                const badgespan = clone.querySelector('[data-status]');
-                badgespan.className = `badge ${act.status}`;
-                badgespan.textContent = act.stLabel;
+                
+                // Replace the entire span content with our standardized badge HTML
+                const badgeContainer = clone.querySelector('[data-status]');
+                badgeContainer.outerHTML = act.html;
+                
                 container.appendChild(clone);
             });
         }

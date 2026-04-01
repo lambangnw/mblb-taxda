@@ -338,31 +338,6 @@ function getWajibPajakById(id) {
     return wps.find(w => w.id === id) || null;
 }
 
-function hitungBunga(pokok, jatuhTempoDesc, paymentDateStr = null) {
-    if (!jatuhTempoDesc || !pokok) return { bulanTelat: 0, persenTotal: 0, nominalBunga: 0 };
-    const jatuhTempo = new Date(jatuhTempoDesc);
-    const payDate = paymentDateStr ? new Date(paymentDateStr) : new Date();
-    if (payDate <= jatuhTempo) return { bulanTelat: 0, persenTotal: 0, nominalBunga: 0 };
-
-    let months = (payDate.getFullYear() - jatuhTempo.getFullYear()) * 12;
-    months -= jatuhTempo.getMonth();
-    months += payDate.getMonth();
-    
-    if (payDate.getDate() > jatuhTempo.getDate()) {
-        months++;
-    }
-
-    if (months <= 0) months = 1;
-    if (months > 24) months = 24;
-
-    const config = JSON.parse(localStorage.getItem('mblb_konfigurasi') || '{}');
-    const dendaBungaPersen = config.dendaBungaPersen || 2;
-    
-    const persenTotal = months * dendaBungaPersen;
-    const nominalBunga = Math.floor(pokok * (persenTotal / 100));
-    
-    return { bulanTelat: months, persenTotal, nominalBunga };
-}
 
 function logout() {
     if (confirm('Apakah Anda yakin ingin keluar?')) {
@@ -580,28 +555,27 @@ function logActivity(action, details) {
 
 // --- DYNAMIC RBAC SYSTEM ---
 const MBLB_MENU_MASTER = [
-    { id: 'pendaftaran_dashboard', label: 'Dashboard Pendaftaran', icon: 'fa-gauge-high', url: 'Bidang Pendaftaran/dashboard.html', cat: 'Pendaftaran' },
+    { id: 'pendaftaran_dashboard', label: 'Dashboard', icon: 'fa-gauge-high', url: 'Bidang Pendaftaran/dashboard.html', cat: 'Pendaftaran' },
     { id: 'pendaftaran_terima_berkas', label: 'Registrasi Wajib Pajak', icon: 'fa-file-signature', url: 'Bidang Pendaftaran/penerimaan-berkas.html', cat: 'Pendaftaran' },
     { id: 'pendaftaran_berkas_online', label: 'Verifikasi Berkas', icon: 'fa-cloud-arrow-down', url: 'Bidang Pendaftaran/berkas-online.html', cat: 'Pendaftaran' },
 
-    { id: 'lapangan_dashboard', label: 'Dashboard Lapangan', icon: 'fa-gauge-high', url: 'Staff Lapangan/dashboard.html', cat: 'Lapangan' },
+    { id: 'lapangan_dashboard', label: 'Dashboard', icon: 'fa-gauge-high', url: 'Staff Lapangan/dashboard.html', cat: 'Lapangan' },
     { id: 'lapangan_input', label: 'Input Survey Laporan', icon: 'fa-clipboard-check', url: 'Staff Lapangan/input-laporan.html', cat: 'Lapangan' },
     { id: 'lapangan_riwayat', label: 'Riwayat Laporan', icon: 'fa-clock-rotate-left', url: 'Staff Lapangan/riwayat-laporan.html', cat: 'Lapangan' },
 
-    { id: 'penetapan_dashboard', label: 'Dashboard Admin Penetapan', icon: 'fa-gauge-high', url: 'Admin Penetapan/dashboard.html', cat: 'Penetapan' },
-    { id: 'penetapan_input_sptpd', label: 'Input Draft SPTPD', icon: 'fa-file-medical', url: 'Admin Penetapan/input-sptpd.html', cat: 'Penetapan' },
-    { id: 'penetapan_nota', label: 'Data SPTPD', icon: 'fa-file-invoice-dollar', url: 'Admin Penetapan/draft-sptpd.html', cat: 'Penetapan' },
+    { id: 'penetapan_dashboard', label: 'Dashboard', icon: 'fa-gauge-high', url: 'Admin Penetapan/dashboard.html', cat: 'Penetapan' },
     { id: 'penetapan_rekap', label: 'Rekapitulasi Bulanan', icon: 'fa-chart-bar', url: 'Admin Penetapan/rekapitulasi-bulanan.html', cat: 'Penetapan' },
+    { id: 'penetapan_nota', label: 'Data SPTPD', icon: 'fa-file-invoice-dollar', url: 'Admin Penetapan/draft-sptpd.html', cat: 'Penetapan' },
+    { id: 'penetapan_laporan', label: 'Laporan Penetapan', icon: 'fa-chart-line', url: 'Admin Penetapan/laporan.html', cat: 'Penetapan' },
     { id: 'penagihan_teguran', label: 'Surat Teguran', icon: 'fa-envelope-open-text', url: 'Bidang Penagihan/surat-teguran.html', cat: 'Penagihan' },
 
-    { id: 'kabid_dashboard', label: 'Dashboard Kabid', icon: 'fa-gauge-high', url: 'Kabid Penetapan/dashboard.html', cat: 'Kabid Penetapan' },
+    { id: 'kabid_dashboard', label: 'Dashboard', icon: 'fa-gauge-high', url: 'Kabid Penetapan/dashboard.html', cat: 'Kabid Penetapan' },
     { id: 'kabid_penugasan', label: 'Penugasan Survey', icon: 'fa-clipboard-user', url: 'Kabid Penetapan/penugasan.html', cat: 'Kabid Penetapan' },
     { id: 'kabid_monitoring', label: 'Penetapan & Monitoring', icon: 'fa-desktop', url: 'Kabid Penetapan/monitoring-sptpd.html', cat: 'Kabid Penetapan' },
 
     { id: 'penagihan_dashboard', label: 'Dashboard Penagihan', icon: 'fa-gauge-high', url: 'Bidang Penagihan/dashboard.html', cat: 'Penagihan' },
     { id: 'penagihan_billing', label: 'Daftar Tagihan (Billing)', icon: 'fa-list', url: 'Bidang Penagihan/billing-list.html', cat: 'Penagihan' },
     { id: 'penagihan_input_pembayaran', label: 'Input Pembayaran', icon: 'fa-cash-register', url: 'Bidang Penagihan/input-pembayaran.html', cat: 'Penagihan' },
-    { id: 'penagihan_sspd', label: 'Penerimaan SSPD', icon: 'fa-file-invoice-dollar', url: 'Bidang Penagihan/penerimaan-sspd.html', cat: 'Penagihan' },
     { id: 'penagihan_laporan', label: 'Laporan Realisasi', icon: 'fa-chart-bar', url: 'Bidang Penagihan/laporan-realisasi.html', cat: 'Penagihan' },
 
     { id: 'kadis_dashboard', label: 'Dashboard Eksekutif', icon: 'fa-chart-line', url: 'Kepala Dinas/dashboard.html', cat: 'Kepala Dinas' },
@@ -619,9 +593,9 @@ const MBLB_MENU_MASTER = [
 const MBLB_DEFAULT_RBAC = {
     'Bidang Pendaftaran': ['pendaftaran_dashboard', 'pendaftaran_terima_berkas', 'pendaftaran_berkas_online'],
     'Staff Lapangan': ['lapangan_dashboard', 'lapangan_input', 'lapangan_riwayat'],
-    'Admin Penetapan': ['penetapan_dashboard', 'penetapan_input_sptpd', 'penetapan_nota', 'penetapan_rekap'],
+    'Admin Penetapan': ['penetapan_dashboard', 'penetapan_rekap', 'penetapan_nota', 'penetapan_laporan'],
     'Kabid Penetapan': ['kabid_dashboard', 'kabid_penugasan', 'kabid_monitoring'],
-    'Bidang Penagihan': ['penagihan_dashboard', 'penagihan_input_pembayaran', 'penagihan_billing', 'penagihan_sspd', 'penagihan_laporan', 'penagihan_teguran'],
+    'Bidang Penagihan': ['penagihan_dashboard', 'penagihan_input_pembayaran', 'penagihan_billing', 'penagihan_laporan', 'penagihan_teguran'],
     'Kepala Dinas': ['kadis_dashboard', 'kadis_laporan'],
     'Admin Sistem': ['admin_dashboard', 'admin_master', 'admin_user', 'admin_config', 'admin_hak_akses', 'admin_laporan', 'admin_log']
 };

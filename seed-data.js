@@ -189,7 +189,12 @@ const LAPORAN_HARIAN = [
     { id: 'LH012', tanggal: '2026-03-26', wpId: 'WP003', lokasi: 'Tambang Air Periukan', foto: 'truck-14.jpg', staffId: 'staff', status: 'verified', items: [{ id: 'pasir', nama: 'Pasir', volume: 60, satuan: 'm³' }] },
     { id: 'LH013', tanggal: '2026-03-05', wpId: 'WP005', lokasi: 'Kec. Talo, Seluma', foto: 'truck-15.jpg', staffId: 'staff', status: 'verified', items: [{ id: 'sirtu', nama: 'Sirtu', volume: 120, satuan: 'm³' }, { id: 'pasir', nama: 'Pasir', volume: 50, satuan: 'm³' }] },
     { id: 'LH014', tanggal: '2026-03-12', wpId: 'WP005', lokasi: 'Kec. Talo, Seluma', foto: 'truck-16.jpg', staffId: 'staff', status: 'verified', items: [{ id: 'sirtu', nama: 'Sirtu', volume: 200, satuan: 'm³' }] },
-    { id: 'LH015', tanggal: '2026-03-25', wpId: 'WP005', lokasi: 'Kec. Talo, Seluma', foto: 'truck-17.jpg', staffId: 'staff', status: 'verified', items: [{ id: 'sirtu', nama: 'Sirtu', volume: 180, satuan: 'm³' }] }
+    { id: 'LH015', tanggal: '2026-03-25', wpId: 'WP005', lokasi: 'Kec. Talo, Seluma', foto: 'truck-17.jpg', staffId: 'staff', status: 'verified', items: [{ id: 'sirtu', nama: 'Sirtu', volume: 180, satuan: 'm³' }] },
+
+    // APRIL 2026 RECORDS (To show data on default load today: 2026-04-01)
+    { id: 'LH_APR_01', tanggal: '2026-04-01', wpId: 'WP001', lokasi: 'Area Tambang Pasir, Desa Gunung Mesir', foto: 'truck-apr1.jpg', staffId: 'staff', status: 'verified', items: [{ id: 'pasir', nama: 'Pasir', volume: 200, satuan: 'm³' }] },
+    { id: 'LH_APR_02', tanggal: '2026-04-01', wpId: 'WP002', lokasi: 'Bukit Batu, Tais', foto: 'truck-apr2.jpg', staffId: 'staff', status: 'verified', items: [{ id: 'batu-belah', nama: 'Batu Belah', volume: 300, satuan: 'm³' }] },
+    { id: 'LH_APR_03', tanggal: '2026-04-01', wpId: 'WP004', lokasi: 'Lahan Pembangunan Sukaraja', foto: 'truck-apr3.jpg', staffId: 'staff', status: 'verified', items: [{ id: 'tanah-urug', nama: 'Tanah Urug', volume: 400, satuan: 'm³' }] }
 ];
 
 // ========================================
@@ -205,7 +210,12 @@ const REKAP_BULANAN = [
     { id: 'RB_MAR_02', periode: '2026-03', wpId: 'WP002', jenisMineral: 'batu-belah', totalVolume: 64, tarif: 25000, nilaiJual: 1600000, pajak: 320000, status: 'approved' },
     { id: 'RB_MAR_03', periode: '2026-03', wpId: 'WP004', jenisMineral: 'tanah-urug', totalVolume: 150, tarif: 15000, nilaiJual: 2250000, pajak: 450000, status: 'pending_verification' },
     { id: 'RB_MAR_04', periode: '2026-03', wpId: 'WP003', jenisMineral: 'pasir', totalVolume: 190, tarif: 20000, nilaiJual: 3800000, pajak: 760000, status: 'pending_verification' },
-    { id: 'RB_MAR_05', periode: '2026-03', wpId: 'WP005', jenisMineral: 'multi', totalVolume: 550, tarif: 0, nilaiJual: 11000000, pajak: 2200000, status: 'pending_verification' }
+    { id: 'RB_MAR_05', periode: '2026-03', wpId: 'WP005', jenisMineral: 'multi', totalVolume: 550, tarif: 0, nilaiJual: 11000000, pajak: 2200000, status: 'pending_verification' },
+    { id: 'RB_APR_01', periode: '2026-04', wpId: 'WP001', jenisMineral: 'pasir', totalVolume: 200, tarif: 20000, nilaiJual: 4000000, pajak: 800000, status: 'pending_verification' },
+    { id: 'RB_APR_02', periode: '2026-04', wpId: 'WP002', jenisMineral: 'batu-belah', totalVolume: 300, tarif: 25000, nilaiJual: 7500000, pajak: 1500000, status: 'pending_verification' },
+    { id: 'RB_APR_03', periode: '2026-04', wpId: 'WP004', jenisMineral: 'tanah-urug', totalVolume: 400, tarif: 15000, nilaiJual: 6000000, pajak: 1200000, status: 'pending_verification' },
+    { id: 'RB_APR_04', periode: '2026-04', wpId: 'WP003', jenisMineral: 'pasir', totalVolume: 250, tarif: 20000, nilaiJual: 5000000, pajak: 1000000, status: 'pending_verification' },
+    { id: 'RB_APR_05', periode: '2026-04', wpId: 'WP005', jenisMineral: 'sirtu', totalVolume: 600, tarif: 22000, nilaiJual: 13200000, pajak: 2640000, status: 'pending_verification' }
 ];
 
 // ========================================
@@ -279,9 +289,9 @@ const PENUGASAN = [
 // ========================================
 
 function initializeSeedData() {
-    // Force re-init to v15 to fix display issues and clear everything
-    if (!localStorage.getItem('mblb_init_v15')) {
-        console.log('🔄 Re-initializing MBLB data to v15 (Force Master View)...');
+    // Force re-init to v17 to fix display issues and clear everything
+    if (!localStorage.getItem('mblb_init_v17')) {
+        console.log('🔄 Re-initializing MBLB data to v17 (April Sync + Unprocessed)...');
         
         // Clear all mblb keys first
         Object.keys(localStorage).forEach(key => {
@@ -298,9 +308,9 @@ function initializeSeedData() {
         localStorage.setItem('mblb_penugasan', JSON.stringify(PENUGASAN));
         localStorage.setItem('mblb_konfigurasi', JSON.stringify(KONFIGURASI_SISTEM));
         localStorage.setItem('mblb_riwayat_pad', JSON.stringify(RIWAYAT_PAD));
-        localStorage.setItem('mblb_init_v15', 'true');
+        localStorage.setItem('mblb_init_v17', 'true');
         
-        console.log('✅ MBLB seed data reset successfully (v15)');
+        console.log('✅ MBLB seed data reset successfully (v17)');
     }
 }
 
